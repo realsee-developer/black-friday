@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { geoPath, geoMercator } from "d3-geo";
+import { useInView } from "react-intersection-observer";
+import CountUp from "react-countup";
 import { GLOBAL_STATS } from "@/lib/constants";
 import { useWorldMapStore } from "@/store/useWorldMapStore";
 
@@ -85,33 +87,20 @@ interface WorldMapProps {
 }
 
 export function WorldMap({ className }: WorldMapProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  // 使用 react-intersection-observer 检测可见性
+  const { ref: inViewRef, inView } = useInView({
+    threshold: 0.3,
+    triggerOnce: false, // 每次进入都触发
+  });
   
-  // ✅ 使用 selector 只订阅需要渲染的状态
-  const isVisible = useWorldMapStore((state) => state.isVisible);
   const worldGeoJSON = useWorldMapStore((state) => state.worldGeoJSON);
   const loading = useWorldMapStore((state) => state.loading);
   const hoveredCountry = useWorldMapStore((state) => state.hoveredCountry);
-  const getCount = useWorldMapStore((state) => state.getCount);
 
   useEffect(() => {
-    const { initializeIntersectionObserver, loadWorldMapData, cleanup } = useWorldMapStore.getState();
-    if (containerRef.current) {
-      initializeIntersectionObserver(containerRef.current);
-    }
+    const { loadWorldMapData } = useWorldMapStore.getState();
     loadWorldMapData();
-    return () => cleanup();
   }, []);
-
-  // 当地图变为可见时,启动所有统计数字的动画
-  useEffect(() => {
-    if (isVisible) {
-      const { startCountUp } = useWorldMapStore.getState();
-      GLOBAL_STATS.forEach((stat) => {
-        startCountUp(stat.label, stat.value, 2000);
-      });
-    }
-  }, [isVisible]);
 
   // 创建地图投影 - 向北移动中心点，裁剪南极洲
   const width = 1200;
@@ -124,7 +113,7 @@ export function WorldMap({ className }: WorldMapProps) {
   const pathGenerator = geoPath().projection(projection);
 
   return (
-    <div ref={containerRef} className={`relative w-full ${className || ""}`}>
+    <div ref={inViewRef} className={`relative w-full ${className || ""}`}>
       <div className="relative w-full bg-black overflow-hidden">
         {loading && (
           <div className="absolute inset-0 flex items-center justify-center z-10">
@@ -207,7 +196,7 @@ export function WorldMap({ className }: WorldMapProps) {
                     filter={isCovered ? (isHovered ? "url(#strong-glow)" : "url(#glow)") : "none"}
                     className="country-path transition-all duration-300"
                     style={{
-                      animation: isVisible && isCovered
+                      animation: inView && isCovered
                         ? `fadeIn 0.8s ease ${(index % 20) * 0.05}s forwards`
                         : "none",
                       cursor: isCovered ? "pointer" : "default",
@@ -226,25 +215,36 @@ export function WorldMap({ className }: WorldMapProps) {
           <div className="max-w-5xl w-full px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {GLOBAL_STATS.map((stat, index) => {
-                const count = getCount(stat.label);
-                const displayValue =
-                  stat.label === "Spaces Scanned"
-                    ? `${Math.floor(count / 1000000)}M`
-                    : count.toLocaleString();
-
+                // Spaces Scanned 显示为百万单位
+                const isSpacesScanned = stat.label === "Spaces Scanned";
+                const endValue = isSpacesScanned ? stat.value / 1000000 : stat.value;
+                const suffix = isSpacesScanned ? "M" : (stat.suffix || "");
+                
                 return (
                   <div
                     key={stat.label}
                     className="pointer-events-auto backdrop-blur-md bg-black/70 border border-cyber-brand-500/40 rounded-lg p-6 text-center hover:bg-black/85 hover:border-cyber-brand-500/60 transition-all duration-300"
                     style={{
-                      opacity: isVisible ? 1 : 0,
-                      transform: isVisible ? "translateY(0)" : "translateY(20px)",
+                      opacity: inView ? 1 : 0,
+                      transform: inView ? "translateY(0)" : "translateY(20px)",
                       transition: `all 0.6s ease ${index * 0.1}s`,
                     }}
                   >
                     <div className="text-4xl md:text-5xl font-bold mb-2" style={{ color: '#ffffff' }}>
-                      {displayValue}
-                      {stat.suffix || ""}
+                      {inView ? (
+                        <CountUp
+                          key={`${stat.label}-${inView}`}
+                          start={0}
+                          end={endValue}
+                          duration={2.5}
+                          separator=","
+                          suffix={suffix}
+                          decimals={0}
+                          useEasing={true}
+                        />
+                      ) : (
+                        `0${suffix}`
+                      )}
                     </div>
                     <div className="text-sm md:text-base text-cyber-gray-300 font-medium">
                       {stat.label}
