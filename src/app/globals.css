@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  exclude: properties;
+}
 
 /* Tailwind CSS v4 主题配置 */
 @theme {
