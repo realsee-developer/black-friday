@@ -9,10 +9,22 @@ import { SiteFooter } from "@/components/custom/SiteFooter";
 import { SiteHeader } from "@/components/custom/SiteHeader";
 import { TestimonialSection } from "@/components/custom/TestimonialSection";
 import { ToursShowcase } from "@/components/custom/ToursShowcase";
+import { getAllStructuredData } from "@/lib/structured-data";
 
 export default function Home() {
+  const structuredData = getAllStructuredData();
+
   return (
     <div className="relative">
+      {/* Structured Data for SEO */}
+      {structuredData.map((schema, index) => (
+        <script
+          key={index}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
+
       {/* Header - Fixed */}
       <SiteHeader />
 

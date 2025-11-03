@@ -41,20 +41,86 @@ export function ContactForm() {
     "Other",
   ];
 
+  // Extended country codes with mapping
   const countryCodes = [
-    { code: "+1", country: "United States / Canada" },
-    { code: "+44", country: "United Kingdom" },
-    { code: "+86", country: "China" },
-    { code: "+852", country: "Hong Kong, China" },
-    { code: "+853", country: "Macau, China" },
-    { code: "+886", country: "Taiwan, China" },
-    { code: "+81", country: "Japan" },
-    { code: "+82", country: "Korea" },
-    { code: "+65", country: "Singapore" },
-    { code: "+61", country: "Australia" },
-    { code: "+49", country: "Germany" },
-    { code: "+33", country: "France" },
+    // North America
+    { code: "+1", country: "United States", region: "Americas" },
+    { code: "+1", country: "Canada", region: "Americas" },
+    // Europe
+    { code: "+44", country: "United Kingdom", region: "Europe" },
+    { code: "+49", country: "Germany", region: "Europe" },
+    { code: "+33", country: "France", region: "Europe" },
+    { code: "+39", country: "Italy", region: "Europe" },
+    { code: "+34", country: "Spain", region: "Europe" },
+    { code: "+31", country: "Netherlands", region: "Europe" },
+    { code: "+32", country: "Belgium", region: "Europe" },
+    { code: "+41", country: "Switzerland", region: "Europe" },
+    { code: "+43", country: "Austria", region: "Europe" },
+    { code: "+46", country: "Sweden", region: "Europe" },
+    { code: "+47", country: "Norway", region: "Europe" },
+    { code: "+45", country: "Denmark", region: "Europe" },
+    { code: "+48", country: "Poland", region: "Europe" },
+    { code: "+7", country: "Russia", region: "Europe" },
+    // Asia-Pacific
+    { code: "+86", country: "China", region: "Asia" },
+    { code: "+852", country: "Hong Kong", region: "Asia" },
+    { code: "+853", country: "Macau", region: "Asia" },
+    { code: "+886", country: "Taiwan", region: "Asia" },
+    { code: "+81", country: "Japan", region: "Asia" },
+    { code: "+82", country: "South Korea", region: "Asia" },
+    { code: "+65", country: "Singapore", region: "Asia" },
+    { code: "+60", country: "Malaysia", region: "Asia" },
+    { code: "+66", country: "Thailand", region: "Asia" },
+    { code: "+84", country: "Vietnam", region: "Asia" },
+    { code: "+63", country: "Philippines", region: "Asia" },
+    { code: "+62", country: "Indonesia", region: "Asia" },
+    { code: "+91", country: "India", region: "Asia" },
+    { code: "+61", country: "Australia", region: "Oceania" },
+    { code: "+64", country: "New Zealand", region: "Oceania" },
+    // Middle East
+    { code: "+971", country: "United Arab Emirates", region: "Middle East" },
+    { code: "+966", country: "Saudi Arabia", region: "Middle East" },
+    { code: "+974", country: "Qatar", region: "Middle East" },
+    { code: "+965", country: "Kuwait", region: "Middle East" },
+    { code: "+972", country: "Israel", region: "Middle East" },
+    { code: "+90", country: "Turkey", region: "Middle East" },
+    // South America
+    { code: "+55", country: "Brazil", region: "Americas" },
+    { code: "+54", country: "Argentina", region: "Americas" },
+    { code: "+56", country: "Chile", region: "Americas" },
+    { code: "+57", country: "Colombia", region: "Americas" },
+    { code: "+52", country: "Mexico", region: "Americas" },
+    // Africa
+    { code: "+27", country: "South Africa", region: "Africa" },
+    { code: "+20", country: "Egypt", region: "Africa" },
+    { code: "+234", country: "Nigeria", region: "Africa" },
+    { code: "+254", country: "Kenya", region: "Africa" },
   ];
+
+  // Create unique country list for dropdown
+  const countries = Array.from(new Set(countryCodes.map(c => c.country))).sort();
+
+  // Handler for country change - updates country code
+  const handleCountryChange = (selectedCountry: string) => {
+    const countryData = countryCodes.find(c => c.country === selectedCountry);
+    if (countryData) {
+      setFormData({
+        ...formData,
+        country: selectedCountry,
+        countryCode: countryData.code,
+      });
+    }
+  };
+
+  // Handler for country code change - updates country
+  const handleCountryCodeChange = (selectedCode: string) => {
+    const countryData = countryCodes.find(c => c.code === selectedCode);
+    setFormData({
+      ...formData,
+      countryCode: selectedCode,
+      country: countryData?.country || "",
+    });
+  };
 
   const validateForm = (): boolean => {
     const newErrors: Partial<Record<keyof ContactFormData, string>> = {};
@@ -140,7 +206,7 @@ export function ContactForm() {
         id="contact"
         className="relative overflow-hidden bg-gradient-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 py-20 sm:py-28"
       >
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+        <div className="container mx-auto px-6 max-w-3xl">
           <div className="cyber-card-neon p-12 text-center">
             <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
               <Icon
@@ -178,7 +244,7 @@ export function ContactForm() {
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-cyber-brand-500/10 blur-[150px]" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-3xl">
+      <div className="container mx-auto px-6 max-w-3xl">
         {/* Section header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
@@ -251,14 +317,17 @@ export function ContactForm() {
             <div className="flex gap-2">
               <select
                 value={formData.countryCode}
-                onChange={(e) => handleChange("countryCode", e.target.value)}
-                className="px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors"
+                onChange={(e) => handleCountryCodeChange(e.target.value)}
+                className="px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors min-w-[120px]"
               >
-                {countryCodes.map((item) => (
-                  <option key={item.code} value={item.code}>
-                    {item.code} {item.country}
-                  </option>
-                ))}
+                {Array.from(new Set(countryCodes.map(c => c.code))).map((code) => {
+                  const country = countryCodes.find(c => c.code === code);
+                  return (
+                    <option key={code} value={code}>
+                      {code}
+                    </option>
+                  );
+                })}
               </select>
               <input
                 type="tel"
@@ -276,22 +345,32 @@ export function ContactForm() {
             )}
           </div>
 
-          {/* Country (optional) */}
+          {/* Country (optional) - Linked with country code */}
           <div>
             <label
               htmlFor="country"
               className="block text-sm font-medium text-cyber-gray-200 mb-2"
             >
               Country/Region
+              {formData.country && (
+                <span className="ml-2 text-xs text-cyber-brand-500">
+                  (Country code: {formData.countryCode})
+                </span>
+              )}
             </label>
-            <input
-              type="text"
+            <select
               id="country"
               value={formData.country}
-              onChange={(e) => handleChange("country", e.target.value)}
+              onChange={(e) => handleCountryChange(e.target.value)}
               className="w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors"
-              placeholder="Your country or region"
-            />
+            >
+              <option value="">Select your country or region</option>
+              {countries.map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Industry */}

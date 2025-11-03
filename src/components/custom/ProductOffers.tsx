@@ -1,7 +1,8 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { useState } from "react";
+import Image from "next/image";
+import { useState, useEffect } from "react";
 import { PRODUCTS } from "@/lib/constants";
 import { getButtonText } from "@/lib/time";
 import { formatPrice } from "@/lib/utils";
@@ -11,6 +12,12 @@ export function ProductOffers() {
   const [showMobileDetails, setShowMobileDetails] = useState<string | null>(
     null,
   );
+  const [mounted, setMounted] = useState(false);
+
+  // 避免水合错误：只在客户端挂载后计算时间相关的内容
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const toggleExpand = (productId: string) => {
     setExpandedProduct(expandedProduct === productId ? null : productId);
@@ -27,6 +34,7 @@ export function ProductOffers() {
   return (
     <section
       id="offers"
+      aria-label="Black Friday Product Offers"
       className="relative overflow-hidden bg-gradient-to-b from-cyber-gray-800 via-cyber-gray-900 to-cyber-gray-900 py-20 sm:py-28"
     >
       {/* Background effects */}
@@ -36,7 +44,7 @@ export function ProductOffers() {
         <div className="absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full bg-cyber-neon-cyan/10 blur-[140px]" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <div className="container mx-auto px-6">
         {/* Section header */}
         <div className="text-center mb-16 sm:mb-20">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
@@ -51,12 +59,15 @@ export function ProductOffers() {
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {PRODUCTS.map((product) => {
             const isExpanded = expandedProduct === product.id;
-            const buttonText = getButtonText(product.availableFrom);
+            // 服务器端渲染时使用默认值，避免水合错误
+            const buttonText = mounted ? getButtonText(product.availableFrom) : "Contact Us";
 
             return (
-              <div
+              <article
                 key={product.id}
-                className={`cyber-card-neon p-6 sm:p-8 flex flex-col transition-all duration-300 ${
+                itemScope
+                itemType="https://schema.org/Product"
+                className={`relative cyber-card-neon p-6 sm:p-8 flex flex-col transition-all duration-300 ${
                   product.featured
                     ? "ring-2 ring-cyber-brand-500 shadow-[0_0_30px_rgba(51,102,255,0.3)]"
                     : ""
@@ -64,36 +75,48 @@ export function ProductOffers() {
               >
                 {/* Featured badge */}
                 {product.featured && (
-                  <div className="absolute -top-3 -right-3 bg-gradient-to-r from-cyber-brand-500 to-cyber-neon-cyan text-white px-4 py-1 rounded-full text-sm font-bold shadow-lg">
-                    ⭐ Recommended
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                    <div className="relative">
+                      {/* Glow effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyber-brand-500 to-cyber-neon-cyan blur-md opacity-60 rounded-full" />
+                      {/* Badge */}
+                      <div className="relative bg-gradient-to-r from-cyber-brand-500 via-cyber-brand-400 to-cyber-neon-cyan text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-xl flex items-center gap-2 animate-pulse-slow">
+                        <Icon icon="lucide:star" className="w-4 h-4 fill-current" />
+                        <span>RECOMMENDED</span>
+                        <Icon icon="lucide:star" className="w-4 h-4 fill-current" />
+                      </div>
+                    </div>
                   </div>
                 )}
 
                 {/* Product image */}
-                <div className="relative aspect-[4/3] rounded-lg overflow-hidden mb-6 bg-cyber-gray-800/50">
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center space-y-2">
-                      <div className="w-24 h-24 mx-auto rounded-full bg-cyber-brand-500/20 flex items-center justify-center">
-                        <span className="text-5xl">📦</span>
-                      </div>
-                      <p className="text-cyber-gray-400 text-xs">
-                        Product Image
-                      </p>
-                    </div>
-                  </div>
+                <div className="relative -mx-6 sm:-mx-8 -mt-6 sm:-mt-8 mb-6 overflow-hidden rounded-t-lg bg-cyber-gray-800/50">
+                  <Image
+                    src={product.image}
+                    alt={`${product.name} - ${product.subtitle} - Black Friday Special Offer`}
+                    width={800}
+                    height={600}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="w-full h-auto object-cover"
+                    priority={product.featured}
+                    itemProp="image"
+                  />
                 </div>
 
                 {/* Product info */}
                 <div className="flex-1 space-y-4">
                   <div>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-cyber-gray-100 mb-2">
+                    <h3 className="text-2xl sm:text-3xl font-bold text-cyber-gray-100 mb-2" itemProp="name">
                       {product.name}
                     </h3>
-                    <p className="text-cyber-gray-400">{product.subtitle}</p>
+                    <p className="text-cyber-gray-400" itemProp="description">{product.subtitle}</p>
                   </div>
 
                   {/* Pricing */}
-                  <div className="space-y-2">
+                  <div className="space-y-2" itemProp="offers" itemScope itemType="https://schema.org/Offer">
+                    <meta itemProp="priceCurrency" content="USD" />
+                    <meta itemProp="price" content={product.discountedPrice.toString()} />
+                    <meta itemProp="availability" content="https://schema.org/InStock" />
                     <div className="flex items-baseline gap-3">
                       <span className="text-3xl sm:text-4xl font-bold text-cyber-brand-500">
                         {formatPrice(product.discountedPrice)}
@@ -118,7 +141,7 @@ export function ProductOffers() {
                   <div className="hidden md:block">
                     <button
                       onClick={() => toggleExpand(product.id)}
-                      className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-cyber-gray-300 hover:text-cyber-gray-100"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-cyber-gray-300 hover:text-cyber-gray-100"
                     >
                       <span className="font-medium">What's Included</span>
                       <Icon
@@ -188,7 +211,7 @@ export function ProductOffers() {
                         ? "noopener noreferrer"
                         : undefined
                     }
-                    className={`block w-full text-center px-6 py-4 rounded-lg font-bold text-lg transition-all duration-300 hover:scale-105 ${
+                    className={`flex items-center justify-center w-full text-center px-10 py-6 rounded-2xl font-bold text-2xl transition-all duration-300 hover:scale-105 ${
                       product.featured
                         ? "cyber-btn-primary"
                         : "cyber-btn-secondary"
@@ -197,7 +220,7 @@ export function ProductOffers() {
                     {buttonText}
                   </a>
                 </div>
-              </div>
+              </article>
             );
           })}
         </div>

@@ -289,6 +289,22 @@
   will-change: transform;
 }
 
+/* 3D Parallax effect for Hero */
+@keyframes hero-3d-float {
+  0% {
+    transform: translateY(0) rotateY(0deg) rotateX(0deg);
+  }
+  33% {
+    transform: translateY(-10px) rotateY(2deg) rotateX(1deg);
+  }
+  66% {
+    transform: translateY(5px) rotateY(-2deg) rotateX(-1deg);
+  }
+  100% {
+    transform: translateY(0) rotateY(0deg) rotateX(0deg);
+  }
+}
+
 /* Scroll hint mouse */
 .scroll-mouse {
   width: 22px;
@@ -1121,6 +1137,11 @@ body {
   overscroll-behavior-x: none;
   scrollbar-gutter: stable;
 }
+
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
 /* Firefox: 默认细滚动条透明，悬停时着色（作用于 html 与 body） */
 html,
 body {
@@ -1294,24 +1315,82 @@ body::-webkit-scrollbar-thumb:hover {
   /* 赛博朋克霓虹按钮系统 */
   .cyber-btn-primary {
     @apply btn btn-primary;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #3366ff 0%, #5577ff 100%);
+    border: none;
     box-shadow:
-      0 0 12px rgba(51, 102, 255, 0.35),
-      inset 0 0 0 rgba(51, 102, 255, 0);
+      0 0 20px rgba(51, 102, 255, 0.5),
+      0 0 40px rgba(51, 102, 255, 0.3),
+      inset 0 0 20px rgba(51, 102, 255, 0.1);
+    animation: btn-breathe 3s ease-in-out infinite;
     transition:
-      box-shadow 0.3s ease,
-      transform 0.3s ease;
+      all 0.3s ease;
+  }
+
+  .cyber-btn-primary::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.3) 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg);
+    animation: btn-shine 3s ease-in-out infinite;
+  }
+
+  .cyber-btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(
+      45deg,
+      #3366ff,
+      #00ffff,
+      #5577ff,
+      #00ffff,
+      #3366ff
+    );
+    background-size: 400% 400%;
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    animation: btn-gradient-border 3s ease infinite;
+    transition: opacity 0.3s ease;
   }
 
   .cyber-btn-primary:hover {
     box-shadow:
-      0 0 8px rgba(51, 102, 255, 0.45),
-      0 0 18px rgba(51, 102, 255, 0.35),
-      inset 0 0 14px rgba(51, 102, 255, 0.25);
-    transform: translateY(-1px);
+      0 0 30px rgba(51, 102, 255, 0.6),
+      0 0 60px rgba(51, 102, 255, 0.4),
+      inset 0 0 30px rgba(51, 102, 255, 0.2);
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .cyber-btn-primary:hover::after {
+    opacity: 1;
   }
 
   .cyber-btn-secondary {
-    @apply btn btn-outline btn-secondary;
+    @apply btn;
+    background: transparent;
+    border: 2px solid rgba(51, 102, 255, 0.5);
+    color: #5577ff;
+    box-shadow: none;
+    transition: all 0.3s ease;
+  }
+
+  .cyber-btn-secondary:hover {
+    background: rgba(51, 102, 255, 0.1);
+    border-color: rgba(51, 102, 255, 0.8);
+    color: #7799ff;
+    box-shadow: 0 0 10px rgba(51, 102, 255, 0.2);
   }
 
   .cyber-btn-danger {
@@ -1332,13 +1411,13 @@ body::-webkit-scrollbar-thumb:hover {
 
   /* 赛博朋克卡片系统 */
   .cyber-card {
-    @apply bg-base-200 border border-base-300 rounded-lg p-4;
+    @apply bg-cyber-gray-800 border border-cyber-gray-700 rounded-lg p-4;
     @apply hover:border-primary;
     @apply transition-all duration-300;
   }
 
   .cyber-card-neon {
-    @apply bg-base-200 border border-base-300 rounded-lg p-4;
+    @apply bg-cyber-gray-800 border border-cyber-gray-700 rounded-lg p-4;
     @apply hover:border-primary;
     @apply transition-all duration-300;
     box-shadow:
@@ -1525,6 +1604,22 @@ body::-webkit-scrollbar-thumb:hover {
       0 0 2px rgba(51, 102, 255, 0.3),
       0 0 4px rgba(51, 102, 255, 0.1);
   }
+}
+
+@keyframes pulse-slow {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.02);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
 }
 
 /* 高对比模式适配 */
@@ -1845,8 +1940,199 @@ body::-webkit-scrollbar-thumb:hover {
   }
 }
 
+/* 3D Transform utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-gpu {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.animate-hero-3d {
+  animation: hero-3d-float 8s ease-in-out infinite;
+}
+
+/* 按钮动画 */
+@keyframes btn-breathe {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(51, 102, 255, 0.5),
+      0 0 40px rgba(51, 102, 255, 0.3),
+      inset 0 0 20px rgba(51, 102, 255, 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(51, 102, 255, 0.6),
+      0 0 60px rgba(51, 102, 255, 0.4),
+      inset 0 0 30px rgba(51, 102, 255, 0.15);
+  }
+}
+
+@keyframes btn-shine {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) translateY(100%) rotate(45deg);
+  }
+}
+
+@keyframes btn-gradient-border {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* 倒计时区域扫描线动画 */
+@keyframes scan-down {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-scan-down {
+  animation: scan-down 3s ease-in-out infinite;
+}
+
+@keyframes scan-vertical {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.animate-scan-vertical {
+  animation: scan-vertical 2s ease-in-out infinite;
+}
+
+/* ===================================
+   YouTube 视频轮播样式
+   =================================== */
+
+/* YouTube iframe 轮播卡片 */
+.youtube-iframe-card {
+  position: relative;
+  transition: all 0.3s ease;
+  background: var(--color-cyber-gray-800);
+}
+
+.youtube-iframe-card:hover {
+  box-shadow: 
+    0 0 30px rgba(51, 102, 255, 0.3),
+    0 0 60px rgba(51, 102, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* 轮播容器 */
+.youtube-carousel-container {
+  position: relative;
+  overflow: visible;
+  padding: 0 60px;
+}
+
+@media (max-width: 768px) {
+  .youtube-carousel-container {
+    padding: 0 48px;
+  }
+}
+
+/* 轮播导航按钮增强 */
+.carousel-nav-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(51, 102, 255, 0.2);
+  border: 2px solid rgba(51, 102, 255, 0.5);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.carousel-nav-btn:hover:not(:disabled) {
+  background: rgba(51, 102, 255, 0.4);
+  border-color: rgba(51, 102, 255, 0.8);
+  box-shadow: 
+    0 0 20px rgba(51, 102, 255, 0.4),
+    0 4px 16px rgba(0, 0, 0, 0.4);
+  transform: scale(1.05);
+}
+
+.carousel-nav-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.carousel-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  border-color: rgba(153, 153, 153, 0.3);
+  background: rgba(153, 153, 153, 0.1);
+}
+
+@media (max-width: 768px) {
+  .carousel-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* iframe 加载占位符动画 */
+.youtube-iframe-card iframe {
+  display: block;
+}
+
+/* 轮播平滑过渡 */
+.youtube-carousel-container .overflow-hidden {
+  border-radius: 0;
+}
+
+/* 分页指示器增强 */
+.youtube-carousel-container + div button {
+  position: relative;
+  overflow: hidden;
+}
+
+.youtube-carousel-container + div button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(51, 102, 255, 0.5), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.youtube-carousel-container + div button:hover::after {
+  transform: translateX(100%);
+}
+
 /* 黑五减少动画 */
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  
   .countdown-digit {
     animation: none;
   }
@@ -1859,5 +2145,276 @@ body::-webkit-scrollbar-thumb:hover {
   .world-map-region {
     animation: none;
     opacity: 1;
+  }
+  .animate-hero-3d {
+    animation: none;
+  }
+  .animate-kenburns-breathe {
+    animation: none;
+  }
+  .cyber-btn-primary {
+    animation: none;
+  }
+  .cyber-btn-primary::before {
+    animation: none;
+  }
+  .cyber-btn-primary::after {
+    animation: none;
+  }
+  .animate-scan-down {
+    animation: none;
+  }
+  .animate-scan-vertical {
+    animation: none;
+  }
+  
+  /* 轮播动画禁用 */
+  .youtube-carousel-container .flex {
+    transition: none !important;
+  }
+  .youtube-iframe-card {
+    transition: none !important;
+  }
+  .carousel-nav-btn {
+    transition: none !important;
+  }
+}
+
+/* ===================================
+   Cyber Video Player (Plyr) 主题
+   =================================== */
+
+.cyber-video-player {
+  --plyr-color-main: #3366ff;
+  --plyr-video-background: #0a0a0a;
+  --plyr-menu-background: rgba(26, 26, 26, 0.95);
+  --plyr-menu-color: #f5f5f5;
+  --plyr-menu-border-color: #2a2a2a;
+  --plyr-menu-border-shadow-color: rgba(51, 102, 255, 0.2);
+  
+  /* 控制栏背景 */
+  --plyr-control-background-hover: rgba(51, 102, 255, 0.2);
+  --plyr-control-spacing: 4px;
+  --plyr-control-padding: 5px;
+  
+  /* 进度条 */
+  --plyr-range-track-height: 4px;
+  --plyr-range-thumb-height: 12px;
+  --plyr-range-thumb-active-shadow-width: 3px;
+  --plyr-range-fill-background: linear-gradient(90deg, #3366ff, #5577ff);
+  
+  /* 字体 */
+  --plyr-font-family: var(--font-inter), system-ui, sans-serif;
+  --plyr-font-size-base: 14px;
+  --plyr-font-size-small: 12px;
+}
+
+/* 控制栏样式 */
+.cyber-video-player .plyr__controls {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.3) 30%,
+    transparent 100%
+  );
+  backdrop-filter: blur(4px);
+  padding: 4px 10px 6px;
+  border: none;
+  gap: 6px;
+}
+
+/* 强制控制栏内容紧凑 */
+.cyber-video-player .plyr__controls > * {
+  margin: 0 !important;
+}
+
+/* 按钮样式 */
+.cyber-video-player .plyr__control {
+  color: #f5f5f5;
+  transition: all 0.2s ease;
+  padding: 5px !important;
+}
+
+.cyber-video-player .plyr__control:hover {
+  background: rgba(51, 102, 255, 0.3);
+  color: #ffffff;
+}
+
+.cyber-video-player .plyr__control.plyr__tab-focus {
+  box-shadow: 0 0 0 2px rgba(51, 102, 255, 0.5);
+}
+
+/* 进度条容器紧凑 */
+.cyber-video-player .plyr__progress {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 时间显示紧凑 */
+.cyber-video-player .plyr__time {
+  padding: 0 4px !important;
+}
+
+/* 播放按钮 */
+.cyber-video-player .plyr__control--overlaid {
+  background: rgba(51, 102, 255, 0.9);
+  border: 2px solid rgba(51, 102, 255, 0.5);
+  box-shadow: 
+    0 0 20px rgba(51, 102, 255, 0.5),
+    0 0 40px rgba(51, 102, 255, 0.3),
+    inset 0 0 20px rgba(51, 102, 255, 0.1);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+
+.cyber-video-player .plyr__control--overlaid:hover {
+  background: rgba(51, 102, 255, 1);
+  box-shadow: 
+    0 0 30px rgba(51, 102, 255, 0.6),
+    0 0 60px rgba(51, 102, 255, 0.4),
+    inset 0 0 30px rgba(51, 102, 255, 0.2);
+  transform: scale(1.05);
+}
+
+/* 进度条样式 */
+.cyber-video-player .plyr__progress input[type="range"] {
+  color: #3366ff;
+}
+
+.cyber-video-player .plyr__progress__buffer {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* 进度条轨道 */
+.cyber-video-player input[type="range"]::-webkit-slider-runnable-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  height: 4px;
+}
+
+.cyber-video-player input[type="range"]::-moz-range-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  height: 4px;
+}
+
+/* 进度条填充 */
+.cyber-video-player input[type="range"]::-webkit-slider-thumb {
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(51, 102, 255, 0.8);
+  border: none;
+}
+
+.cyber-video-player input[type="range"]::-moz-range-thumb {
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(51, 102, 255, 0.8);
+  border: none;
+}
+
+.cyber-video-player input[type="range"]:active::-webkit-slider-thumb {
+  box-shadow: 0 0 15px rgba(51, 102, 255, 1);
+  transform: scale(1.2);
+}
+
+/* 音量滑块 */
+.cyber-video-player .plyr__volume input[type="range"] {
+  color: #3366ff;
+}
+
+/* Tooltip 样式 */
+.cyber-video-player .plyr__tooltip {
+  background: rgba(26, 26, 26, 0.95);
+  color: #f5f5f5;
+  border: 1px solid rgba(51, 102, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* 菜单样式 */
+.cyber-video-player .plyr__menu__container {
+  background: rgba(26, 26, 26, 0.95);
+  border: 1px solid rgba(51, 102, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+}
+
+.cyber-video-player .plyr__menu__container [role="menu"] {
+  padding: 8px;
+}
+
+.cyber-video-player .plyr__menu__container [role="menuitem"] {
+  color: #f5f5f5;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.cyber-video-player .plyr__menu__container [role="menuitem"]:hover {
+  background: rgba(51, 102, 255, 0.2);
+  color: #ffffff;
+}
+
+.cyber-video-player .plyr__menu__container [role="menuitem"][aria-checked="true"] {
+  color: #3366ff;
+  background: rgba(51, 102, 255, 0.1);
+}
+
+.cyber-video-player .plyr__menu__container [role="menuitem"][aria-checked="true"]::before {
+  background: #3366ff;
+}
+
+/* 时间显示 */
+.cyber-video-player .plyr__time {
+  color: #f5f5f5;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Loading 状态 */
+.cyber-video-player .plyr--loading .plyr__control--overlaid {
+  background: rgba(51, 102, 255, 0.7);
+  animation: pulse-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-loading {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(51, 102, 255, 0.5);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 30px rgba(51, 102, 255, 0.7);
+  }
+}
+
+/* 全屏按钮 */
+.cyber-video-player .plyr__control[data-plyr="fullscreen"] {
+  color: #f5f5f5;
+}
+
+/* 音量控制紧凑 */
+.cyber-video-player .plyr__volume {
+  max-width: 80px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .cyber-video-player .plyr__controls {
+    padding: 3px 8px 5px;
+    gap: 4px;
+  }
+  
+  .cyber-video-player .plyr__control {
+    padding: 4px !important;
+  }
+  
+  .cyber-video-player {
+    --plyr-font-size-base: 13px;
+    --plyr-font-size-small: 11px;
+    --plyr-control-spacing: 4px;
   }
 }

@@ -1,189 +1,249 @@
 "use client";
 
+import Image from "next/image";
 import { Icon } from "@iconify/react";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { TOUR_CASES } from "@/lib/constants";
+import { CategoryBadge } from "@/components/custom/badges";
 
 export function ToursShowcase() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [current, setCurrent] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const timer = useRef<NodeJS.Timeout | null>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const prefersReducedMotion = useRef<boolean>(false);
+  const previous = useRef(0);
+  const DURATION_MS = 5000;
 
-  // Auto-play carousel
+  const slides = TOUR_CASES.map((tour) => ({
+    title: tour.title,
+    img: tour.image,
+    url: tour.url,
+    category: tour.category,
+    device: "Galois",
+  }));
+
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    // Respect reduced motion preference
+    if (typeof window !== "undefined") {
+      try {
+        const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+        prefersReducedMotion.current = mql.matches;
+      } catch {}
+    }
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % TOUR_CASES.length);
-    }, 5000);
+    const start = () => {
+      if (timer.current) clearInterval(timer.current);
+      if (!prefersReducedMotion.current && slides.length > 1) {
+        timer.current = setInterval(() => {
+          setCurrent((c) => {
+            previous.current = c;
+            return (c + 1) % slides.length;
+          });
+        }, DURATION_MS);
+        setPaused(false);
+      }
+    };
 
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
+    start();
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+    };
+  }, [slides.length]);
 
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-    setIsAutoPlaying(false);
+  const goTo = (index: number) => {
+    if (!slides.length) return;
+    const len = slides.length;
+    previous.current = current;
+    setCurrent(((index % len) + len) % len);
   };
 
-  const goToPrevious = () => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + TOUR_CASES.length) % TOUR_CASES.length,
-    );
-    setIsAutoPlaying(false);
-  };
+  const prev = () => goTo(current - 1);
+  const next = () => goTo(current + 1);
 
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % TOUR_CASES.length);
-    setIsAutoPlaying(false);
-  };
-
-  const currentTour = TOUR_CASES[currentIndex];
+  if (!slides.length) return null;
 
   return (
     <section
-      id="showcases"
-      className="relative overflow-hidden bg-gradient-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 py-20 sm:py-28"
+      id="tours"
+      aria-label="3D Virtual Tour Showcases"
+      className="hero min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-4.5rem)] w-screen bg-cyber-gray-900 p-0 relative overflow-hidden"
     >
-      {/* Background effects */}
-      <div className="absolute inset-0 -z-10">
-        <div className="cyber-grid absolute inset-0 opacity-5" />
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px] w-[600px] rounded-full bg-cyber-brand-500/15 blur-[180px] animate-pulse" />
-      </div>
+      {/* 赛博朋克背景渐变 */}
+      <div className="absolute inset-0 bg-gradient-to-br from-cyber-brand-500/10 via-transparent to-cyber-neon-cyan/5 pointer-events-none z-0" />
+      {/* 网格背景 */}
+      <div className="absolute inset-0 cyber-grid opacity-10 pointer-events-none z-0" />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        {/* Section header */}
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
-            Explore in Galois 3D
-          </h2>
-          <p className="text-lg sm:text-xl text-cyber-gray-300 max-w-3xl mx-auto">
-            Discover stunning 3D tours created with Galois
-          </p>
-        </div>
+      <div className="hero-content p-0 w-full max-w-none relative z-10">
+        <div
+          className="relative w-full overflow-hidden rounded-none shadow-none focus:outline-none focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+          tabIndex={0}
+          role="region"
+          aria-label="Featured 3D Tours Carousel"
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft") prev();
+            if (e.key === "ArrowRight") next();
+            if (e.key === "Home") goTo(0);
+            if (e.key === "End") goTo(slides.length - 1);
+          }}
+          onMouseEnter={() => {
+            if (timer.current) clearInterval(timer.current);
+            setPaused(true);
+          }}
+          onMouseLeave={() => {
+            if (!prefersReducedMotion.current && slides.length > 1) {
+              timer.current = setInterval(
+                () => setCurrent((c) => (c + 1) % slides.length),
+                DURATION_MS
+              );
+              setPaused(false);
+            }
+          }}
+          onTouchStart={(e) => {
+            const t = e.touches[0];
+            touchStart.current = { x: t.clientX, y: t.clientY };
+            if (timer.current) clearInterval(timer.current);
+            setPaused(true);
+          }}
+          onTouchEnd={(e) => {
+            const s = touchStart.current;
+            touchStart.current = null;
+            if (!s) return;
+            const t = e.changedTouches[0];
+            const dx = t.clientX - s.x;
+            const dy = t.clientY - s.y;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+              if (dx > 0) prev();
+              else next();
+            }
+            if (!prefersReducedMotion.current && slides.length > 1) {
+              timer.current = setInterval(
+                () => setCurrent((c) => (c + 1) % slides.length),
+                DURATION_MS
+              );
+              setPaused(false);
+            }
+          }}
+        >
+          {/* Visual container full-bleed with subtle Ken Burns */}
+          <div className="relative w-full h-[100svh]">
+            {slides.map((s, i) => {
+              const isVisible = i === current || i === previous.current;
+              return (
+                <div
+                  key={`${s.title}-${i}`}
+                  className={`absolute inset-0 ${
+                    isVisible ? "block" : "hidden"
+                  } transition-opacity duration-700 ease-out ${
+                    i === current ? "opacity-100 z-10" : "opacity-0 z-0"
+                  }`}
+                  aria-hidden={i !== current}
+                  aria-label={s.title}
+                  role="group"
+                >
+                  <Image
+                    src={s.img}
+                    alt={`${s.title} - 3D Virtual Tour created with Galois LiDAR Camera - ${s.category}`}
+                    fill
+                    priority={i === 0}
+                    sizes="100vw"
+                    placeholder="blur"
+                    blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%230a0f1a'/%3E%3C/svg%3E"
+                    className={`absolute inset-0 object-cover pointer-events-none ${
+                      !prefersReducedMotion.current ? "kenburns-soft" : ""
+                    }`}
+                  />
+                  {/* Immersive centered hero content with enhanced design */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="px-6 md:px-12 w-full max-w-6xl">
+                      <div className="text-white text-center">
+                        {/* Main Title */}
+                        <h1 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6">
+                          <span className="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent drop-shadow-2xl">
+                            {s.title}
+                          </span>
+                        </h1>
 
-        {/* Carousel container */}
-        <div className="relative max-w-5xl mx-auto">
-          {/* Main image */}
-          <div className="relative aspect-[16/9] rounded-2xl overflow-hidden cyber-card-neon group">
-            <div className="absolute inset-0 bg-gradient-to-br from-cyber-brand-500/10 to-cyber-neon-cyan/10 z-10" />
+                        <div className="mt-6 mb-8 flex items-center justify-center gap-3 flex-wrap">
+                          <CategoryBadge category={s.category} size="lg" />
+                        </div>
 
-            {/* Placeholder image with Ken Burns effect */}
-            <div className="relative w-full h-full bg-cyber-gray-800 flex items-center justify-center overflow-hidden">
-              <div className="absolute inset-0 animate-ken-burns">
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center space-y-4 p-8">
-                    <div className="w-32 h-32 mx-auto rounded-full bg-cyber-brand-500/20 flex items-center justify-center">
-                      <span className="text-6xl">🏠</span>
+                        {/* 赛博朋克 CTA 按钮 */}
+                        <div className="mt-8 pointer-events-auto">
+                          <Link
+                            className="cyber-btn-primary btn-lg px-10 py-4 rounded-full text-lg font-semibold shadow-2xl shadow-primary/50 hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-sm gap-3 cyber-gentle-pulse font-display"
+                            href={s.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`Explore ${s.title} 3D Virtual Tour`}
+                          >
+                            <Icon
+                              icon="solar:rocket-2-bold-duotone"
+                              width={24}
+                            />
+                            <span>Launch Tour</span>
+                          </Link>
+                        </div>
+
+                        {/* Additional description */}
+                        <p className="mt-6 text-white/80 text-base md:text-lg max-w-2xl mx-auto">
+                          Immersive 3D virtual experience - Explore every detail
+                          of real spaces
+                        </p>
+                      </div>
                     </div>
-                    <p className="text-cyber-gray-300 text-xl font-semibold">
-                      {currentTour.title}
-                    </p>
-                    <p className="text-cyber-gray-400 text-sm">
-                      {currentTour.category}
-                    </p>
                   </div>
                 </div>
+              );
+            })}
+          </div>
+
+          {/* Enhanced Indicators with modern design */}
+          {slides.length > 1 ? (
+            <div className="absolute bottom-28 md:bottom-32 left-1/2 -translate-x-1/2 z-20">
+              <div className="relative flex items-center gap-2 md:gap-3 overflow-hidden rounded-full border border-cyber-brand-400/40 bg-cyber-gray-900/92 px-4 py-3 shadow-lg shadow-cyber-brand-500/15 backdrop-blur-xl">
+                <div className="pointer-events-none absolute inset-0 -z-10 bg-cyber-brand-500/15" />
+                {slides.map((_, i) => {
+                  const isActive = i === current;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => goTo(i)}
+                      aria-label={`Go to slide ${i + 1}`}
+                      className={`relative overflow-hidden rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-neon-cyan/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${
+                        isActive
+                          ? "h-2 md:h-2.5 w-10 md:w-20 bg-white/90"
+                          : "h-2 md:h-2.5 w-2.5 md:w-3 bg-cyber-gray-400/40 hover:bg-cyber-brand-200/60"
+                      }`}
+                      style={{
+                        ["--carousel-duration" as any]: `${DURATION_MS}ms`,
+                      }}
+                      aria-current={isActive}
+                    >
+                      {isActive ? (
+                        <span
+                          key={`progress-${current}`}
+                          className={`absolute left-0 top-0 bottom-0 rounded-full bg-cyber-brand-400 carousel-progress ${
+                            paused || prefersReducedMotion.current
+                              ? "paused"
+                              : ""
+                          }`}
+                          style={{
+                            width: 0 as unknown as number,
+                            animationPlayState: paused ? "paused" : "running",
+                          }}
+                        />
+                      ) : null}
+                    </button>
+                  );
+                })}
               </div>
             </div>
-
-            {/* Tour link overlay */}
-            <a
-              href={currentTour.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="absolute inset-0 z-20 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/60 backdrop-blur-sm"
-            >
-              <div className="text-center space-y-4">
-                <div className="w-20 h-20 mx-auto rounded-full bg-cyber-brand-500/80 flex items-center justify-center">
-                  <Icon
-                    icon="lucide:external-link"
-                    className="w-10 h-10 text-white"
-                  />
-                </div>
-                <div className="text-white text-lg font-semibold">
-                  View 3D Tour
-                </div>
-              </div>
-            </a>
-
-            {/* Navigation buttons */}
-            <button
-              onClick={goToPrevious}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-cyber-gray-900/80 backdrop-blur-sm border border-cyber-brand-500/30 text-cyber-gray-100 hover:text-cyber-brand-500 hover:border-cyber-brand-500 transition-all duration-300 hover:scale-110"
-              aria-label="Previous"
-            >
-              <Icon icon="lucide:chevron-left" className="w-6 h-6" />
-            </button>
-            <button
-              onClick={goToNext}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-cyber-gray-900/80 backdrop-blur-sm border border-cyber-brand-500/30 text-cyber-gray-100 hover:text-cyber-brand-500 hover:border-cyber-brand-500 transition-all duration-300 hover:scale-110"
-              aria-label="Next"
-            >
-              <Icon icon="lucide:chevron-right" className="w-6 h-6" />
-            </button>
-          </div>
-
-          {/* Tour info */}
-          <div className="mt-6 text-center space-y-4">
-            <div>
-              <h3 className="text-2xl font-bold text-cyber-gray-100 mb-2">
-                {currentTour.title}
-              </h3>
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyber-brand-500/20 border border-cyber-brand-500/30 text-cyber-brand-500 text-sm font-medium">
-                <Icon icon="lucide:tag" className="w-4 h-4" />
-                {currentTour.category}
-              </span>
-            </div>
-          </div>
-
-          {/* Dots navigation */}
-          <div className="flex items-center justify-center gap-2 mt-8">
-            {TOUR_CASES.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => goToSlide(index)}
-                className={`transition-all duration-300 ${
-                  index === currentIndex
-                    ? "w-8 h-2 rounded-full bg-cyber-brand-500"
-                    : "w-2 h-2 rounded-full bg-cyber-gray-600 hover:bg-cyber-gray-500"
-                }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
-          </div>
-
-          {/* Auto-play toggle */}
-          <div className="flex items-center justify-center gap-2 mt-4">
-            <button
-              onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-cyber-gray-300 text-sm"
-            >
-              <Icon
-                icon={isAutoPlaying ? "lucide:pause" : "lucide:play"}
-                className="w-4 h-4"
-              />
-              <span>{isAutoPlaying ? "Pause" : "Play"} Auto-play</span>
-            </button>
-          </div>
+          ) : null}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes ken-burns {
-          0% {
-            transform: scale(1) translate(0, 0);
-          }
-          50% {
-            transform: scale(1.1) translate(-2%, -2%);
-          }
-          100% {
-            transform: scale(1) translate(0, 0);
-          }
-        }
-
-        .animate-ken-burns {
-          animation: ken-burns 20s ease-in-out infinite;
-        }
-      `}</style>
     </section>
   );
 }
