@@ -1,96 +1,83 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { geoPath, geoMercator } from "d3-geo";
-import { feature } from "topojson-client";
-import type { FeatureCollection, GeometryObject } from "geojson";
 import { GLOBAL_STATS } from "@/lib/constants";
-
-function useCountUp(end: number, duration: number, isVisible: boolean) {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    let start = 0;
-    const increment = end / (duration / 16); // 60fps
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-
-    return () => clearInterval(timer);
-  }, [end, duration, isVisible]);
-
-  return count;
-}
+import { useWorldMapStore } from "@/store/useWorldMapStore";
 
 // 有业务的国家列表（使用 ISO 3166-1 numeric 代码）
 const COVERED_COUNTRIES = new Set([
-  // 北美
-  840, // United States
-  124, // Canada
-  484, // Mexico
-  
-  // 南美
-  76,  // Brazil
-  32,  // Argentina
-  152, // Chile
-  
-  // 欧洲
-  826, // United Kingdom
-  276, // Germany
-  250, // France
-  380, // Italy
-  724, // Spain
-  528, // Netherlands
-  56,  // Belgium
-  756, // Switzerland
-  40,  // Austria
-  752, // Sweden
-  578, // Norway
-  208, // Denmark
-  616, // Poland
+  // 亚洲
+  156, // China 中国
+  344, // Hong Kong 中国香港
+  158, // Taiwan 中国台湾
+  392, // Japan 日本
+  410, // South Korea 韩国
   
   // 中东
-  784, // United Arab Emirates
-  682, // Saudi Arabia
-  634, // Qatar
-  414, // Kuwait
-  376, // Israel
+  376, // Israel 以色列
+  196, // Cyprus 塞浦路斯
+  682, // Saudi Arabia 沙特
+  512, // Oman 阿曼
+  784, // United Arab Emirates 阿联酋
+  422, // Lebanon 黎巴嫩
+  792, // Turkey 土耳其
+  
+  // 东南亚
+  702, // Singapore 新加坡
+  458, // Malaysia 马来西亚
+  764, // Thailand 泰国
+  360, // Indonesia 印尼
+  704, // Vietnam 越南
+  116, // Cambodia 柬埔寨
+  608, // Philippines 菲律宾
+  356, // India 印度
+  144, // Sri Lanka 斯里兰卡
+  
+  // 欧洲
+  276, // Germany 德国
+  756, // Switzerland 瑞士
+  616, // Poland 波兰
+  826, // United Kingdom 英国
+  372, // Ireland 爱尔兰
+  578, // Norway 挪威
+  191, // Croatia 克罗地亚
+  348, // Hungary 匈牙利
+  250, // France 法国
+  528, // Netherlands 荷兰
+  208, // Denmark 丹麦
+  233, // Estonia 爱沙尼亚
+  56,  // Belgium 比利时
+  300, // Greece 希腊
+  380, // Italy 意大利
+  724, // Spain 西班牙
+  620, // Portugal 葡萄牙
+  688, // Serbia 塞尔维亚
   
   // 非洲
-  710, // South Africa
-  818, // Egypt
-  404, // Kenya
-  566, // Nigeria
+  710, // South Africa 南非
+  788, // Tunisia 突尼斯
+  384, // Ivory Coast 科特迪瓦
+  686, // Senegal 塞内加尔
+  12,  // Algeria 阿尔及利亚
   
-  // 亚洲
-  156, // China
-  392, // Japan
-  410, // South Korea
-  158, // Taiwan
-  344, // Hong Kong
-  446, // Macau
-  356, // India
-  702, // Singapore
-  458, // Malaysia
-  764, // Thailand
-  704, // Vietnam
-  608, // Philippines
-  360, // Indonesia
+  // 北美
+  840, // United States 美国
+  124, // Canada 加拿大
+  
+  // 拉美
+  484, // Mexico 墨西哥
+  32,  // Argentina 阿根廷
+  188, // Costa Rica 哥斯达黎加
+  76,  // Brazil 巴西
+  218, // Ecuador 厄瓜多尔
+  604, // Peru 秘鲁
+  170, // Colombia 哥伦比亚
+  68,  // Bolivia 玻利维亚
   
   // 大洋洲
-  36,  // Australia
-  554, // New Zealand
-  
-  // 其他
-  792, // Turkey
+  36,  // Australia 澳大利亚
+  554, // New Zealand 新西兰
 ]);
 
 interface WorldMapProps {
@@ -99,58 +86,32 @@ interface WorldMapProps {
 
 export function WorldMap({ className }: WorldMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [worldGeoJSON, setWorldGeoJSON] = useState<FeatureCollection<GeometryObject> | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
+  
+  // ✅ 使用 selector 只订阅需要渲染的状态
+  const isVisible = useWorldMapStore((state) => state.isVisible);
+  const worldGeoJSON = useWorldMapStore((state) => state.worldGeoJSON);
+  const loading = useWorldMapStore((state) => state.loading);
+  const hoveredCountry = useWorldMapStore((state) => state.hoveredCountry);
+  const getCount = useWorldMapStore((state) => state.getCount);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
+    const { initializeIntersectionObserver, loadWorldMapData, cleanup } = useWorldMapStore.getState();
     if (containerRef.current) {
-      observer.observe(containerRef.current);
+      initializeIntersectionObserver(containerRef.current);
     }
-
-    return () => observer.disconnect();
+    loadWorldMapData();
+    return () => cleanup();
   }, []);
 
-  // 加载真实的世界地图 TopoJSON 数据
+  // 当地图变为可见时,启动所有统计数字的动画
   useEffect(() => {
-    const loadWorldMap = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
-        );
-        const topoData = await response.json();
-        
-        // 将 TopoJSON 转换为 GeoJSON
-        const countries = feature(topoData, topoData.objects.countries) as unknown as FeatureCollection<GeometryObject>;
-        
-        // 统计有业务的国家
-        const coveredCount = countries.features.filter((f: any) => {
-          const id = typeof f.id === 'string' ? parseInt(f.id, 10) : f.id;
-          return COVERED_COUNTRIES.has(id);
-        }).length;
-        console.log('Covered countries:', coveredCount);
-        
-        setWorldGeoJSON(countries);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error loading world map data:", error);
-        setLoading(false);
-      }
-    };
-
-    loadWorldMap();
-  }, []);
+    if (isVisible) {
+      const { startCountUp } = useWorldMapStore.getState();
+      GLOBAL_STATS.forEach((stat) => {
+        startCountUp(stat.label, stat.value, 2000);
+      });
+    }
+  }, [isVisible]);
 
   // 创建地图投影 - 向北移动中心点，裁剪南极洲
   const width = 1200;
@@ -251,8 +212,8 @@ export function WorldMap({ className }: WorldMapProps) {
                         : "none",
                       cursor: isCovered ? "pointer" : "default",
                     }}
-                    onMouseEnter={() => isCovered && setHoveredCountry(countryId)}
-                    onMouseLeave={() => setHoveredCountry(null)}
+                    onMouseEnter={() => isCovered && useWorldMapStore.getState().setHoveredCountry(countryId)}
+                    onMouseLeave={() => useWorldMapStore.getState().setHoveredCountry(null)}
                   />
                 );
               })}
@@ -265,7 +226,7 @@ export function WorldMap({ className }: WorldMapProps) {
           <div className="max-w-5xl w-full px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
               {GLOBAL_STATS.map((stat, index) => {
-                const count = useCountUp(stat.value, 2000, isVisible);
+                const count = getCount(stat.label);
                 const displayValue =
                   stat.label === "Spaces Scanned"
                     ? `${Math.floor(count / 1000000)}M`

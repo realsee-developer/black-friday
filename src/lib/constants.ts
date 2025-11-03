@@ -144,7 +144,7 @@ export const RETAIL_PARTNERS: RetailPartner[] = [
   {
     id: "bh",
     name: "B&H",
-    heroImage: "/assets/partners/b&h.jpg",
+    heroImage: "/assets/partners/bh.jpg",
     url: "https://www.bhphotovideo.com/c/product/1791796-REG/realsee_technology_rs41010_galois_m2_3d_lidar.html",
     themeColor: {
       from: "#DC143C",
@@ -256,26 +256,50 @@ export const KOL_VIDEOS: KOLVideo[] = [
   {
     id: "1",
     youtubeId: "2I4Xn85I2Co",
-    title: "Galois Review by Arthur",
-    creator: "Arthur",
+    title: "Galois Review by Arthur R",
+    creator: "Arthur R",
   },
   {
     id: "2",
     youtubeId: "tJyaBmGIvkY",
-    title: "Galois Review by Hugh",
-    creator: "Hugh",
+    title: "Galois Review by Hugh Hou",
+    creator: "Hugh Hou",
   },
   {
     id: "3",
     youtubeId: "ox0HgPfWDs8",
-    title: "Galois Review by Sparks",
-    creator: "Sparks",
+    title: "Galois Review by Sparks Media Group",
+    creator: "Sparks Media Group",
   },
   {
     id: "4",
     youtubeId: "IRWP9hYZsrA",
-    title: "Galois Review by 360 Guy",
-    creator: "360 Guy",
+    title: "Galois Review by The 360 guy",
+    creator: "The 360 guy",
+  },
+  {
+    id: "5",
+    youtubeId: "m0_AcH49dKY",
+    title: "Galois Review by Reveal Rabbit",
+    creator: "Reveal Rabbit",
+  },
+  {
+    id: "6",
+    youtubeId: "IWnjwSZraLE",
+    title: "Galois Review by Film Sandwich",
+    creator: "Film Sandwich",
+  },
+  {
+    id: "7",
+    youtubeId: "JsB2u-TS-3o",
+    title: "Galois Review by Jonathan Shilton",
+    creator: "Jonathan Shilton",
+  },
+  {
+    id: "8",
+    youtubeId: "Vi_lYgBRTBg",
+    title: "Galois Review by 戸田覚：ガジェット【辛口】点数評価",
+    creator: "戸田覚：ガジェット【辛口】点数評価",
   },
 ];
 
@@ -385,27 +409,27 @@ export const FEATURES: Feature[] = [
     title: "One-Click LiDAR for Indoor & Outdoor Scanning & Co-capture",
     description:
       "Galois rapidly captures complex environments, generating immersive 3D tours with a single click. For large projects, dual-device co-capture ensures maximum efficiency.",
-    video: "/videos/One-Click LiDAR for Indoor & Outdoor Scanning & Co-capture.mp4",
+    video: "/videos/one-click-lidar-indoor-outdoor-scanning-co-capture.mp4",
   },
   {
     id: "2",
     title: "LiDAR Precision & 134MP True Color & Ultra Detail",
     description:
       "Galois delivers 134MP Clarity 3D for luxury marketing, powered by a 940nm LiDAR, a 4/3-inch CMOS, and 5-bracket HDR. Showcase superior craftsmanship and finishes to enhance perceived value and command premium pricing for high-end properties.",
-    video: "/videos/LiDAR Precision & 134MP True Color & Ultra Detail.mp4",
+    video: "/videos/lidar-precision-134mp-true-color-ultra-detail.mp4",
   },
   {
     id: "3",
     title: "Pay-As-You-Go Credits Plan",
     description:
       "No monthly subscriptions. Only pay to activate. Shoot, edit, upload, and store all your projects for free. Get everything at once: RAW images, 16K panoramas, 3D models, E57 Point cloud, floor plans & CAD from a single scan.",
-    video: "/videos/Pay-As-You-Go Credits Plan.mp4",
+    video: "/videos/pay-as-you-go-credits-plan.mp4",
   },
   {
     id: "4",
     title: "Rich Editor Features",
     description:
       "Create captivating tours fast with Realsee editor: add multimedia label, screen label, area label, fusion video, AI Camera Removal, logo customization, aerial 3D connection, and automatic floor plans.",
-    video: "/videos/Rich Editor features.mp4",
+    video: "/videos/rich-editor-features.mp4",
   },
 ];

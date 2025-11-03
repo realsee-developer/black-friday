@@ -60,6 +60,16 @@ export const metadata: Metadata = {
     },
   },
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/assets/brand/favicon.ico" },
+      { url: "/assets/brand/favicon.png", type: "image/png" },
+      { url: "/assets/brand/favicon-rounded-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [
+      { url: "/assets/brand/favicon-rounded-512.png", sizes: "512x512", type: "image/png" },
+    ],
+  },
   applicationName: "Realsee Black Friday",
   category: "Technology",
   classification: "E-commerce",

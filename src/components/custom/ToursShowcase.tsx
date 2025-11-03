@@ -3,17 +3,19 @@
 import Image from "next/image";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { TOUR_CASES } from "@/lib/constants";
 import { CategoryBadge } from "@/components/custom/badges";
+import { useToursStore } from "@/store/useToursStore";
 
 export function ToursShowcase() {
-  const [current, setCurrent] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const timer = useRef<NodeJS.Timeout | null>(null);
-  const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const prefersReducedMotion = useRef<boolean>(false);
-  const previous = useRef(0);
+  // ✅ 使用 selector 只订阅需要渲染的状态
+  const current = useToursStore((state) => state.current);
+  const paused = useToursStore((state) => state.paused);
+  const touchStart = useToursStore((state) => state.touchStart);
+  const prefersReducedMotion = useToursStore((state) => state.prefersReducedMotion);
+  const previous = useToursStore((state) => state.previous);
+
   const DURATION_MS = 5000;
 
   const slides = TOUR_CASES.map((tour) => ({
@@ -25,53 +27,23 @@ export function ToursShowcase() {
   }));
 
   useEffect(() => {
-    // Respect reduced motion preference
-    if (typeof window !== "undefined") {
-      try {
-        const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
-        prefersReducedMotion.current = mql.matches;
-      } catch {}
-    }
-
-    const start = () => {
-      if (timer.current) clearInterval(timer.current);
-      if (!prefersReducedMotion.current && slides.length > 1) {
-        timer.current = setInterval(() => {
-          setCurrent((c) => {
-            previous.current = c;
-            return (c + 1) % slides.length;
-          });
-        }, DURATION_MS);
-        setPaused(false);
-      }
-    };
-
-    start();
-    return () => {
-      if (timer.current) clearInterval(timer.current);
-    };
-  }, [slides.length]);
-
-  const goTo = (index: number) => {
-    if (!slides.length) return;
-    const len = slides.length;
-    previous.current = current;
-    setCurrent(((index % len) + len) % len);
-  };
-
-  const prev = () => goTo(current - 1);
-  const next = () => goTo(current + 1);
+    const { initialize, startAutoPlay, cleanup } = useToursStore.getState();
+    initialize();
+    startAutoPlay(slides.length, DURATION_MS);
+    return () => cleanup();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (!slides.length) return null;
 
   return (
     <section
-      id="tours"
+      id="showcases"
       aria-label="3D Virtual Tour Showcases"
       className="hero min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-4.5rem)] w-screen bg-cyber-gray-900 p-0 relative overflow-hidden"
     >
       {/* 赛博朋克背景渐变 */}
-      <div className="absolute inset-0 bg-gradient-to-br from-cyber-brand-500/10 via-transparent to-cyber-neon-cyan/5 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-linear-to-br from-cyber-brand-500/10 via-transparent to-cyber-neon-cyan/5 pointer-events-none z-0" />
       {/* 网格背景 */}
       <div className="absolute inset-0 cyber-grid opacity-10 pointer-events-none z-0" />
 
@@ -82,54 +54,38 @@ export function ToursShowcase() {
           role="region"
           aria-label="Featured 3D Tours Carousel"
           onKeyDown={(e) => {
-            if (e.key === "ArrowLeft") prev();
-            if (e.key === "ArrowRight") next();
-            if (e.key === "Home") goTo(0);
-            if (e.key === "End") goTo(slides.length - 1);
+            const { prev, next, goTo } = useToursStore.getState();
+            if (e.key === "ArrowLeft") prev(slides.length);
+            if (e.key === "ArrowRight") next(slides.length);
+            if (e.key === "Home") goTo(0, slides.length);
+            if (e.key === "End") goTo(slides.length - 1, slides.length);
           }}
-          onMouseEnter={() => {
-            if (timer.current) clearInterval(timer.current);
-            setPaused(true);
-          }}
-          onMouseLeave={() => {
-            if (!prefersReducedMotion.current && slides.length > 1) {
-              timer.current = setInterval(
-                () => setCurrent((c) => (c + 1) % slides.length),
-                DURATION_MS
-              );
-              setPaused(false);
-            }
-          }}
+          onMouseEnter={() => useToursStore.getState().pauseAutoPlay()}
+          onMouseLeave={() => useToursStore.getState().resumeAutoPlay(slides.length, DURATION_MS)}
           onTouchStart={(e) => {
             const t = e.touches[0];
-            touchStart.current = { x: t.clientX, y: t.clientY };
-            if (timer.current) clearInterval(timer.current);
-            setPaused(true);
+            useToursStore.getState().setTouchStart({ x: t.clientX, y: t.clientY });
+            useToursStore.getState().pauseAutoPlay();
           }}
           onTouchEnd={(e) => {
-            const s = touchStart.current;
-            touchStart.current = null;
+            const s = touchStart;
+            useToursStore.getState().setTouchStart(null);
             if (!s) return;
             const t = e.changedTouches[0];
             const dx = t.clientX - s.x;
             const dy = t.clientY - s.y;
             if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
-              if (dx > 0) prev();
-              else next();
+              const { prev, next } = useToursStore.getState();
+              if (dx > 0) prev(slides.length);
+              else next(slides.length);
             }
-            if (!prefersReducedMotion.current && slides.length > 1) {
-              timer.current = setInterval(
-                () => setCurrent((c) => (c + 1) % slides.length),
-                DURATION_MS
-              );
-              setPaused(false);
-            }
+            useToursStore.getState().resumeAutoPlay(slides.length, DURATION_MS);
           }}
         >
           {/* Visual container full-bleed with subtle Ken Burns */}
           <div className="relative w-full h-[100svh]">
             {slides.map((s, i) => {
-              const isVisible = i === current || i === previous.current;
+              const isVisible = i === current || i === previous;
               return (
                 <div
                   key={`${s.title}-${i}`}
@@ -147,11 +103,12 @@ export function ToursShowcase() {
                     alt={`${s.title} - 3D Virtual Tour created with Galois LiDAR Camera - ${s.category}`}
                     fill
                     priority={i === 0}
-                    sizes="100vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1920px) 100vw, 3840px"
+                    quality={90}
                     placeholder="blur"
                     blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%230a0f1a'/%3E%3C/svg%3E"
                     className={`absolute inset-0 object-cover pointer-events-none ${
-                      !prefersReducedMotion.current ? "kenburns-soft" : ""
+                      !prefersReducedMotion ? "kenburns-soft" : ""
                     }`}
                   />
                   {/* Immersive centered hero content with enhanced design */}
@@ -160,7 +117,7 @@ export function ToursShowcase() {
                       <div className="text-white text-center">
                         {/* Main Title */}
                         <h1 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6">
-                          <span className="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent drop-shadow-2xl">
+                          <span className="bg-linear-to-r from-white via-white to-white/80 bg-clip-text text-transparent drop-shadow-2xl">
                             {s.title}
                           </span>
                         </h1>
@@ -175,7 +132,7 @@ export function ToursShowcase() {
                             className="cyber-btn-primary btn-lg px-10 py-4 rounded-full text-lg font-semibold shadow-2xl shadow-primary/50 hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-sm gap-3 cyber-gentle-pulse font-display"
                             href={s.url}
                             target="_blank"
-                            rel="noopener noreferrer"
+                            rel="noopener "
                             aria-label={`Explore ${s.title} 3D Virtual Tour`}
                           >
                             <Icon
@@ -210,7 +167,7 @@ export function ToursShowcase() {
                     <button
                       key={i}
                       type="button"
-                      onClick={() => goTo(i)}
+                      onClick={() => useToursStore.getState().goTo(i, slides.length)}
                       aria-label={`Go to slide ${i + 1}`}
                       className={`relative overflow-hidden rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-neon-cyan/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${
                         isActive
@@ -226,7 +183,7 @@ export function ToursShowcase() {
                         <span
                           key={`progress-${current}`}
                           className={`absolute left-0 top-0 bottom-0 rounded-full bg-cyber-brand-400 carousel-progress ${
-                            paused || prefersReducedMotion.current
+                            paused || prefersReducedMotion
                               ? "paused"
                               : ""
                           }`}

@@ -13,7 +13,7 @@ export function RetailPartners({ className }: RetailPartnersProps) {
     <section
       id="partners"
       aria-label="Authorized Retail Partners"
-      className={`relative overflow-hidden bg-gradient-to-b from-cyber-gray-800 via-cyber-gray-900 to-cyber-gray-900 py-20 sm:py-28 ${className || ""}`}
+      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-800 via-cyber-gray-900 to-cyber-gray-900 py-20 sm:py-28 ${className || ""}`}
     >
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
@@ -48,7 +48,7 @@ export function RetailPartners({ className }: RetailPartnersProps) {
               <a
                 href={partner.url}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener "
                 className="block relative aspect-[16/9] overflow-hidden rounded-2xl transition-all duration-300"
                 style={{
                   boxShadow: `0 0 0 rgba(${partner.themeColor.shadow}, 0)`,
@@ -81,7 +81,7 @@ export function RetailPartners({ className }: RetailPartnersProps) {
               <a
                 href={partner.url}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener "
                 className="mt-6 flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-white font-semibold shadow-lg transition-all duration-300"
                 style={{
                   background: `linear-gradient(to right, ${partner.themeColor.from}, ${partner.themeColor.to})`,

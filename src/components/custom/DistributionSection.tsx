@@ -9,7 +9,7 @@ export function DistributionSection({ className }: DistributionSectionProps) {
   return (
     <section
       id="distribution"
-      className={`relative overflow-hidden bg-gradient-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 py-20 sm:py-28 ${className || ""}`}
+      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 py-20 sm:py-28 ${className || ""}`}
     >
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">

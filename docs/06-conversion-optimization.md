@@ -400,7 +400,7 @@ export function QuickContactButtons() {
       <a
         href={`https://wa.me/${whatsapp.replace(/\D/g, '')}`}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener "
         className="
           w-14 h-14 rounded-full
           bg-[#25D366] text-white
