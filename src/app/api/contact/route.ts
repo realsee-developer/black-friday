@@ -34,9 +34,10 @@ export async function POST(request: Request) {
       email: data.email,
       phone: `${data.countryCode} ${data.phone}`,
       country: data.country,
+      companyName: data.companyName,
       industry: data.industry,
       message: data.message,
-      otherProducts: data.otherProducts,
+      devicesUsed: data.devicesUsed,
       timestamp: new Date().toISOString(),
     });
 

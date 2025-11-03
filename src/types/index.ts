@@ -5,9 +5,14 @@ export interface UIState {
   isMobileMenuOpen: boolean;
   activeSection: string;
   isScrolling: boolean;
+  isScrolled: boolean;
+  scrollHandler: (() => void) | null;
   setMobileMenuOpen: (isOpen: boolean) => void;
   setActiveSection: (section: string) => void;
   setScrolling: (isScrolling: boolean) => void;
+  setScrolled: (isScrolled: boolean) => void;
+  initializeScrollListener: () => void;
+  cleanupScrollListener: () => void;
 }
 
 /**
