@@ -6,7 +6,7 @@ interface CountUpState {
   count: number;
   targetValue: number;
   isActive: boolean;
-  timer: NodeJS.Timeout | null;
+  animationFrameId: number | null;
 }
 
 interface WorldMapState {
@@ -14,6 +14,8 @@ interface WorldMapState {
   worldGeoJSON: FeatureCollection<GeometryObject> | null;
   loading: boolean;
   hoveredCountry: string | null;
+  observer: IntersectionObserver | null;
+  hasAnimated: boolean;
   
   // Count up 状态 - 为每个统计项维护独立的状态
   countUpStates: Record<string, CountUpState>;
@@ -27,6 +29,7 @@ interface WorldMapState {
   startCountUp: (key: string, endValue: number, duration: number) => void;
   stopCountUp: (key: string) => void;
   getCount: (key: string) => number;
+  resetAnimation: () => void;
   
   // 生命周期
   initializeIntersectionObserver: (element: HTMLDivElement) => void;
@@ -34,11 +37,18 @@ interface WorldMapState {
   cleanup: () => void;
 }
 
+// 缓动函数 - 使动画更自然
+const easeOutCubic = (t: number): number => {
+  return 1 - Math.pow(1 - t, 3);
+};
+
 export const useWorldMapStore = create<WorldMapState>((set, get) => ({
   isVisible: false,
   worldGeoJSON: null,
   loading: true,
   hoveredCountry: null,
+  observer: null,
+  hasAnimated: false,
   countUpStates: {},
   
   setIsVisible: (visible: boolean) => set({ isVisible: visible }),
@@ -51,17 +61,44 @@ export const useWorldMapStore = create<WorldMapState>((set, get) => ({
     const { countUpStates, stopCountUp } = get();
     
     // 如果已经在运行,先停止
-    if (countUpStates[key]?.timer) {
+    if (countUpStates[key]?.animationFrameId) {
       stopCountUp(key);
     }
     
-    let start = 0;
-    const increment = endValue / (duration / 16); // 60fps
+    const startTime = performance.now();
     
-    const timer = setInterval(() => {
-      start += increment;
+    const animate = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
       
-      if (start >= endValue) {
+      // 使用缓动函数使动画更丝滑
+      const easedProgress = easeOutCubic(progress);
+      const currentValue = Math.floor(easedProgress * endValue);
+      
+      set((state) => ({
+        countUpStates: {
+          ...state.countUpStates,
+          [key]: {
+            ...state.countUpStates[key],
+            count: currentValue,
+            isActive: progress < 1,
+          },
+        },
+      }));
+      
+      if (progress < 1) {
+        const animationFrameId = requestAnimationFrame(animate);
+        set((state) => ({
+          countUpStates: {
+            ...state.countUpStates,
+            [key]: {
+              ...state.countUpStates[key],
+              animationFrameId,
+            },
+          },
+        }));
+      } else {
+        // 动画完成，确保显示最终值
         set((state) => ({
           countUpStates: {
             ...state.countUpStates,
@@ -69,23 +106,14 @@ export const useWorldMapStore = create<WorldMapState>((set, get) => ({
               ...state.countUpStates[key],
               count: endValue,
               isActive: false,
-            },
-          },
-        }));
-        stopCountUp(key);
-      } else {
-        set((state) => ({
-          countUpStates: {
-            ...state.countUpStates,
-            [key]: {
-              ...state.countUpStates[key],
-              count: Math.floor(start),
+              animationFrameId: null,
             },
           },
         }));
       }
-    }, 16);
+    };
     
+    // 初始化状态
     set((state) => ({
       countUpStates: {
         ...state.countUpStates,
@@ -93,7 +121,19 @@ export const useWorldMapStore = create<WorldMapState>((set, get) => ({
           count: 0,
           targetValue: endValue,
           isActive: true,
-          timer,
+          animationFrameId: null,
+        },
+      },
+    }));
+    
+    // 开始动画
+    const animationFrameId = requestAnimationFrame(animate);
+    set((state) => ({
+      countUpStates: {
+        ...state.countUpStates,
+        [key]: {
+          ...state.countUpStates[key],
+          animationFrameId,
         },
       },
     }));
@@ -103,14 +143,14 @@ export const useWorldMapStore = create<WorldMapState>((set, get) => ({
     const { countUpStates } = get();
     const state = countUpStates[key];
     
-    if (state?.timer) {
-      clearInterval(state.timer);
+    if (state?.animationFrameId) {
+      cancelAnimationFrame(state.animationFrameId);
       set((prevState) => ({
         countUpStates: {
           ...prevState.countUpStates,
           [key]: {
             ...state,
-            timer: null,
+            animationFrameId: null,
             isActive: false,
           },
         },
@@ -123,18 +163,53 @@ export const useWorldMapStore = create<WorldMapState>((set, get) => ({
     return countUpStates[key]?.count || 0;
   },
   
+  resetAnimation: () => {
+    const { countUpStates } = get();
+    
+    // 停止所有正在运行的动画
+    Object.keys(countUpStates).forEach((key) => {
+      const state = countUpStates[key];
+      if (state?.animationFrameId) {
+        cancelAnimationFrame(state.animationFrameId);
+      }
+    });
+    
+    // 重置所有状态
+    set({ 
+      isVisible: false, 
+      hasAnimated: false,
+      countUpStates: {} 
+    });
+  },
+  
   initializeIntersectionObserver: (element: HTMLDivElement) => {
+    // 清理旧的 observer
+    const oldObserver = get().observer;
+    if (oldObserver) {
+      oldObserver.disconnect();
+    }
+    
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          set({ isVisible: true });
-          observer.disconnect();
+        const { hasAnimated } = get();
+        
+        if (entry.isIntersecting && !hasAnimated) {
+          // 进入视口且未动画过，开始动画
+          set({ isVisible: true, hasAnimated: true });
+        } else if (!entry.isIntersecting && hasAnimated) {
+          // 离开视口且已经动画过，重置状态以便下次进入时重新触发
+          const { resetAnimation } = get();
+          resetAnimation();
         }
       },
-      { threshold: 0.2 }
+      { 
+        threshold: 0.2,
+        rootMargin: '0px 0px -100px 0px' // 向上留100px边距，确保用户真正看到内容
+      }
     );
     
     observer.observe(element);
+    set({ observer });
   },
   
   loadWorldMapData: async () => {
@@ -159,17 +234,27 @@ export const useWorldMapStore = create<WorldMapState>((set, get) => ({
   },
   
   cleanup: () => {
-    const { countUpStates } = get();
+    const { countUpStates, observer } = get();
     
-    // 清理所有 count up 定时器
+    // 清理所有动画帧
     Object.keys(countUpStates).forEach((key) => {
       const state = countUpStates[key];
-      if (state?.timer) {
-        clearInterval(state.timer);
+      if (state?.animationFrameId) {
+        cancelAnimationFrame(state.animationFrameId);
       }
     });
     
-    set({ countUpStates: {} });
+    // 断开 IntersectionObserver
+    if (observer) {
+      observer.disconnect();
+    }
+    
+    set({ 
+      countUpStates: {},
+      observer: null,
+      isVisible: false,
+      hasAnimated: false
+    });
   },
 }));
 
