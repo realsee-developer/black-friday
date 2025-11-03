@@ -1,0 +1,15 @@
+# Robots.txt for Realsee Black Friday Campaign
+# https://blackfriday.realsee.ai
+
+User-agent: *
+Allow: /
+
+# Disallow admin and api routes
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://blackfriday.realsee.ai/sitemap.xml
+
+# Crawl-delay for responsible crawling
+Crawl-delay: 1
+

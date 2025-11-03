@@ -948,7 +948,7 @@ export const PRODUCTS: ProductSKU[] = [
 export const RETAIL_PARTNERS: RetailPartner[] = [
   {
     id: 'bh',
-    name: 'B&H Photo Video',
+    name: 'B&H',
     logo: '/assets/partners/bh-logo.png',
     url: 'https://www.bhphotovideo.com/c/product/1791796-REG/realsee_technology_rs41010_galois_m2_3d_lidar.html',
   },

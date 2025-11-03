@@ -3,14 +3,18 @@
 ## 一、组件分类
 
 ### 1.1 服务端组件 (Server Components)
+
 优先使用，无需客户端 JavaScript，性能最优：
+
 - SiteFooter
 - ShippingInfo
 - RetailPartners
 - DistributionSection
 
 ### 1.2 客户端组件 (Client Components)
+
 包含交互逻辑，需要 `'use client'`：
+
 - SiteHeader（导航高亮）
 - CountdownTimer（实时倒计时）
 - ProductOffers（折叠展开）
@@ -20,7 +24,9 @@
 - ContactForm（表单交互）
 
 ### 1.3 混合组件 (Mixed)
+
 部分子组件为客户端组件：
+
 - HeroSection（包含 CountdownTimer）
 - TestimonialSection（包含多个子组件）
 
@@ -33,6 +39,7 @@
 **类型**: Client Component
 
 **Props 接口**:
+
 ```typescript
 interface SiteHeaderProps {
   className?: string;
@@ -40,6 +47,7 @@ interface SiteHeaderProps {
 ```
 
 **状态管理**:
+
 ```typescript
 // 使用 zustand store
 interface UIStore {
@@ -51,6 +59,7 @@ interface UIStore {
 ```
 
 **功能需求**:
+
 - 5个导航 tab，点击平滑滚动到对应区块
 - 使用 Intersection Observer 监听滚动，自动高亮当前区块
 - 移动端汉堡菜单（< 768px）
@@ -58,11 +67,13 @@ interface UIStore {
 - 固定在页面顶部
 
 **响应式策略**:
+
 - Desktop (≥ 1024px): 横向导航栏，所有 tab 可见
 - Tablet (768px - 1023px): 横向导航栏，可能需要缩小字体
 - Mobile (< 768px): 汉堡菜单，侧边抽屉或全屏菜单
 
 **可访问性**:
+
 - `<nav>` 语义化标签
 - `aria-current="page"` 标识当前激活项
 - 键盘导航支持（Tab、Enter）
@@ -77,6 +88,7 @@ interface UIStore {
 **类型**: Client Component
 
 **Props 接口**:
+
 ```typescript
 interface CountdownTimerProps {
   className?: string;
@@ -99,6 +111,7 @@ interface CountdownData {
 ```
 
 **状态管理**:
+
 ```typescript
 // 使用 zustand store（用于 debug）
 interface DebugStore {
@@ -108,6 +121,7 @@ interface DebugStore {
 ```
 
 **功能需求**:
+
 - 实时倒计时，每秒更新
 - 美东时间计算（EST/EDT）
 - 根据当前时间判断阶段：
@@ -120,10 +134,12 @@ interface DebugStore {
 - 赛博朋克发光效果
 
 **响应式策略**:
+
 - Desktop: 横向排列，大数字 (text-6xl)
 - Mobile: 可能需要缩小或竖向排列
 
 **动画细节**:
+
 ```css
 /* 数字翻转动画 */
 @keyframes flip {
@@ -149,6 +165,7 @@ interface DebugStore {
 **类型**: Client Component
 
 **Props 接口**:
+
 ```typescript
 interface ProductSKU {
   id: string;
@@ -176,6 +193,7 @@ interface ProductOffersProps {
 ```
 
 **状态管理**:
+
 ```typescript
 // 组件内部状态
 const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
@@ -183,6 +201,7 @@ const [showMobileModal, setShowMobileModal] = useState(false);
 ```
 
 **功能需求**:
+
 - 展示 2 个 SKU：Premium Bundle（突出显示）和 Standard Kit
 - 价格对比：原价删除线 + 折扣价高亮
 - 折扣信息徽章
@@ -194,11 +213,13 @@ const [showMobileModal, setShowMobileModal] = useState(false);
   - 11/03 后: "Buy Now"
 
 **响应式策略**:
+
 - Desktop: 2列并排，Premium Bundle 略大或有特殊边框
 - Tablet: 2列并排，可能缩小
 - Mobile: 单列堆叠
 
 **视觉差异化**:
+
 ```typescript
 // Premium Bundle 特殊样式
 const premiumStyles = {
@@ -217,6 +238,7 @@ const premiumStyles = {
 **类型**: Client Component
 
 **Props 接口**:
+
 ```typescript
 interface TourCase {
   id: string;
@@ -232,6 +254,7 @@ interface ToursShowcaseProps {
 ```
 
 **状态管理**:
+
 ```typescript
 const [currentIndex, setCurrentIndex] = useState(0);
 const [isPlaying, setIsPlaying] = useState(true);
@@ -239,6 +262,7 @@ const [isHovered, setIsHovered] = useState(false);
 ```
 
 **功能需求**:
+
 - 7个案例轮播
 - 自动播放（可配置间隔）
 - 鼠标悬停暂停
@@ -248,10 +272,12 @@ const [isHovered, setIsHovered] = useState(false);
 - 点击图片打开新标签页访问 3D Tour
 
 **响应式策略**:
+
 - Desktop: 16:9 大图
 - Mobile: 可能是 4:3 或全宽
 
 **动画细节**:
+
 ```css
 /* Ken Burns 效果 */
 @keyframes kenburns {
@@ -281,6 +307,7 @@ const [isHovered, setIsHovered] = useState(false);
 **类型**: Client Component
 
 **Props 接口**:
+
 ```typescript
 interface Feature {
   id: string;
@@ -295,11 +322,13 @@ interface FeaturesSectionProps {
 ```
 
 **状态管理**:
+
 ```typescript
 const [activeFeature, setActiveFeature] = useState(0);
 ```
 
 **功能需求**:
+
 - 4个特性内容
 - Desktop: 左侧视频，右侧手风琴（点击切换）
 - Mobile: 视频在上，内容在下，tab 切换
@@ -307,10 +336,12 @@ const [activeFeature, setActiveFeature] = useState(0);
 - 平滑过渡动画
 
 **响应式策略**:
+
 - Desktop (≥ 1024px): 左右布局，6:4 或 1:1 比例
 - Mobile (< 1024px): 上下堆叠，tab 切换
 
 **交互设计**:
+
 ```typescript
 // 手风琴项
 const AccordionItem = ({ feature, isActive, onClick }) => (
@@ -335,6 +366,7 @@ const AccordionItem = ({ feature, isActive, onClick }) => (
 **类型**: Client Component
 
 **Props 接口**:
+
 ```typescript
 interface ContactFormProps {
   className?: string;
@@ -364,6 +396,7 @@ enum Industry {
 ```
 
 **状态管理**:
+
 ```typescript
 // 使用 zustand store
 interface FormStore {
@@ -377,6 +410,7 @@ interface FormStore {
 ```
 
 **表单验证 (Zod Schema)**:
+
 ```typescript
 const contactFormSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -391,6 +425,7 @@ const contactFormSchema = z.object({
 ```
 
 **功能需求**:
+
 - 所有必填字段验证
 - 手机号区号选择（react-phone-number-input）
 - 国家/地区选择，与区号联动
@@ -403,10 +438,12 @@ const contactFormSchema = z.object({
 - 提交到 `/api/contact`
 
 **响应式策略**:
+
 - Desktop: 2列表单布局
 - Mobile: 单列堆叠
 
 **可访问性**:
+
 - 每个字段有 `<label>`
 - 错误提示与字段关联 (`aria-describedby`)
 - 提交按钮禁用状态清晰
@@ -421,6 +458,7 @@ const contactFormSchema = z.object({
 **类型**: Client Component
 
 **Props 接口**:
+
 ```typescript
 interface Stat {
   label: string;
@@ -434,12 +472,14 @@ interface GlobalStatsProps {
 ```
 
 **状态管理**:
+
 ```typescript
 const [isVisible, setIsVisible] = useState(false);
 const [animatedValues, setAnimatedValues] = useState<number[]>([0, 0, 0, 0]);
 ```
 
 **功能需求**:
+
 - 左侧：世界地图 SVG，动画绘制覆盖区域
 - 右侧：4个统计指标卡片
   - 50+ Countries
@@ -450,10 +490,12 @@ const [animatedValues, setAnimatedValues] = useState<number[]>([0, 0, 0, 0]);
 - 地图区域逐个点亮
 
 **响应式策略**:
+
 - Desktop: 左右布局（6:6 或 5:7）
 - Mobile: 地图在上，统计在下
 
 **动画实现**:
+
 ```typescript
 // 数字递增动画
 const animateNumber = (target: number, duration: number) => {
@@ -483,6 +525,7 @@ const animateNumber = (target: number, duration: number) => {
 **来源**: `apps/discover/frontend/src/components/custom/SiteFooter.tsx`
 
 **修改**:
+
 - 可能需要调整链接
 - 保持视觉风格一致
 
@@ -491,6 +534,7 @@ const animateNumber = (target: number, duration: number) => {
 **来源**: `apps/discover/frontend/src/components/custom/home/Professionals.tsx`
 
 **修改**:
+
 - 标题改为 "Realsee Galois Professionals"
 - 其余完全复用
 
@@ -505,6 +549,7 @@ const animateNumber = (target: number, duration: number) => {
 **类型**: Server Component
 
 **Props 接口**:
+
 ```typescript
 interface ShippingPoint {
   title: string;
@@ -518,6 +563,7 @@ interface ShippingInfoProps {
 ```
 
 **数据**:
+
 ```typescript
 const shippingPoints: ShippingPoint[] = [
   {
@@ -530,6 +576,7 @@ const shippingPoints: ShippingPoint[] = [
 ```
 
 **布局**:
+
 - Desktop: 4列网格 `grid-cols-4`
 - Tablet: 2列 `md:grid-cols-2`
 - Mobile: 1列 `grid-cols-1`
@@ -543,6 +590,7 @@ const shippingPoints: ShippingPoint[] = [
 **类型**: Server Component
 
 **Props 接口**:
+
 ```typescript
 interface Partner {
   name: string;
@@ -556,10 +604,11 @@ interface RetailPartnersProps {
 ```
 
 **数据**:
+
 ```typescript
 const partners: Partner[] = [
   {
-    name: 'B&H Photo Video',
+    name: 'B&H',
     logo: '/assets/partners/bh-logo.png',
     url: 'https://www.bhphotovideo.com/c/product/1791796-REG/...',
   },
@@ -568,6 +617,7 @@ const partners: Partner[] = [
 ```
 
 **布局**:
+
 - Desktop: 3列并排
 - Mobile: 单列堆叠或 2列
 
@@ -580,6 +630,7 @@ const partners: Partner[] = [
 **类型**: Server Component
 
 **Props 接口**:
+
 ```typescript
 interface DistributionFeature {
   title: string;
@@ -593,6 +644,7 @@ interface DistributionSectionProps {
 ```
 
 **数据**:
+
 ```typescript
 const features: DistributionFeature[] = [
   {
@@ -605,6 +657,7 @@ const features: DistributionFeature[] = [
 ```
 
 **布局**:
+
 - Desktop: 图文左右交替布局
 - Mobile: 图在上，文在下堆叠
 
@@ -686,6 +739,7 @@ useEffect(() => {
 ## 六、性能优化策略
 
 ### 6.1 代码分割
+
 ```typescript
 // 懒加载非首屏组件
 const GlobalStats = dynamic(() => import('@/components/custom/GlobalStats'), {
@@ -695,6 +749,7 @@ const GlobalStats = dynamic(() => import('@/components/custom/GlobalStats'), {
 ```
 
 ### 6.2 图片优化
+
 ```typescript
 <Image
   src="/assets/tours/luxury-residential.jpg"
@@ -708,6 +763,7 @@ const GlobalStats = dynamic(() => import('@/components/custom/GlobalStats'), {
 ```
 
 ### 6.3 动画性能
+
 ```css
 /* 使用 transform 和 opacity，避免 layout 重绘 */
 .animated-element {
@@ -721,20 +777,23 @@ const GlobalStats = dynamic(() => import('@/components/custom/GlobalStats'), {
 ## 七、测试清单
 
 ### 7.1 单元测试（可选）
+
 - 工具函数测试（时间转换、表单验证）
 - Zustand store 测试
 
 ### 7.2 集成测试
+
 - 导航滚动联动
 - 表单提交流程
 - 倒计时 debug 模式
 
 ### 7.3 视觉回归测试
+
 - Storybook stories（可选）
 - 截图对比
 
 ### 7.4 可访问性测试
+
 - Lighthouse Accessibility 得分 ≥ 95
 - 键盘导航完整路径
 - 屏幕阅读器测试（VoiceOver/NVDA）
-

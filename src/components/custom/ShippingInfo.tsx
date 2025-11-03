@@ -8,7 +8,8 @@ interface ShippingInfoProps {
 export function ShippingInfo({ className }: ShippingInfoProps) {
   return (
     <section
-      id="shipping-info"
+      id="shipping"
+      aria-label="Shipping and Service Information"
       className={`relative overflow-hidden bg-gradient-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-20 sm:py-28 ${className || ""}`}
     >
       {/* Background effects */}
@@ -18,7 +19,7 @@ export function ShippingInfo({ className }: ShippingInfoProps) {
         <div className="absolute right-[20%] bottom-12 h-72 w-72 rounded-full bg-cyber-neon-cyan/10 blur-[150px]" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <div className="container mx-auto px-6">
         {/* Section header */}
         <div className="text-center mb-16 sm:mb-20">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
@@ -31,11 +32,11 @@ export function ShippingInfo({ className }: ShippingInfoProps) {
         </div>
 
         {/* Points grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {SHIPPING_POINTS.map((point, index) => (
             <div
               key={index}
-              className="group cyber-card-neon p-6 text-center hover:scale-105 transition-transform duration-300"
+              className="group cyber-card-neon p-8 text-center hover:scale-105 transition-transform duration-300"
             >
               {/* Icon */}
               <div className="relative w-24 h-24 mx-auto mb-6">
@@ -43,8 +44,9 @@ export function ShippingInfo({ className }: ShippingInfoProps) {
                 <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-cyber-brand-500/30 group-hover:border-cyber-brand-500/60 transition-colors">
                   <Image
                     src={point.icon}
-                    alt={point.title}
+                    alt={`${point.title} - ${point.description}`}
                     fill
+                    sizes="96px"
                     className="object-cover"
                   />
                 </div>

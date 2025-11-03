@@ -130,28 +130,52 @@ export const PRODUCTS: ProductSKU[] = [
 export interface RetailPartner {
   id: string;
   name: string;
-  logo: string;
+  heroImage: string;
   url: string;
+  themeColor: {
+    from: string;
+    to: string;
+    hover: string;
+    shadow: string;
+  };
 }
 
 export const RETAIL_PARTNERS: RetailPartner[] = [
   {
     id: "bh",
-    name: "B&H Photo Video",
-    logo: "/assets/partners/bh-logo.png",
+    name: "B&H",
+    heroImage: "/assets/partners/b&h.jpg",
     url: "https://www.bhphotovideo.com/c/product/1791796-REG/realsee_technology_rs41010_galois_m2_3d_lidar.html",
+    themeColor: {
+      from: "#DC143C",
+      to: "#B71C1C",
+      hover: "#FF1744",
+      shadow: "220, 20, 60",
+    },
   },
   {
     id: "adorama",
     name: "Adorama",
-    logo: "/assets/partners/adorama-logo.png",
+    heroImage: "/assets/partners/adorama.jpg",
     url: "https://www.adorama.com/rlrs41025.html",
+    themeColor: {
+      from: "#FDB813",
+      to: "#F57C00",
+      hover: "#FFD54F",
+      shadow: "253, 184, 19",
+    },
   },
   {
     id: "robotshop",
     name: "RobotShop",
-    logo: "/assets/partners/robotshop-logo.png",
+    heroImage: "/assets/partners/robotshop.jpg",
     url: "https://www.robotshop.com/products/realsee-technology-galois-m2-3d-lidar-camera-kit-us",
+    themeColor: {
+      from: "#00A0E3",
+      to: "#0277BD",
+      hover: "#29B6F6",
+      shadow: "0, 160, 227",
+    },
   },
 ];
 
@@ -172,49 +196,49 @@ export const TOUR_CASES: TourCase[] = [
     title: "Luxury Residential",
     category: "Residential",
     url: "https://realsee.ai/v4OOR4qm",
-    image: "/assets/tours/luxury-residential.jpg",
+    image: "/assets/tours/v4OOR4qm.jpg",
   },
   {
     id: "2",
     title: "Retail Space",
     category: "Retail",
     url: "https://realsee.ai/jmxxR7qV",
-    image: "/assets/tours/retail.jpg",
+    image: "/assets/tours/jmxxR7qV.jpg",
   },
   {
     id: "3",
     title: "Restaurant",
     category: "Hospitality",
     url: "https://realsee.ai/Ae44XBBg",
-    image: "/assets/tours/restaurant.jpg",
+    image: "/assets/tours/Ae44XBBg.jpg",
   },
   {
     id: "4",
     title: "Museum",
     category: "Cultural",
     url: "https://realsee.ai/8VRR9e8a",
-    image: "/assets/tours/museum.jpg",
+    image: "/assets/tours/8VRR9e8a.jpg",
   },
   {
     id: "5",
     title: "Aerial 3D",
     category: "Outdoor",
     url: "https://realsee.ai/GjVV2lEO",
-    image: "/assets/tours/aerial.jpg",
+    image: "/assets/tours/GjVV2lEO.jpg",
   },
   {
     id: "6",
     title: "Industrial",
     category: "Industrial",
     url: "https://realsee.ai/gL99yxrL",
-    image: "/assets/tours/industrial.jpg",
+    image: "/assets/tours/gL99yxrL.jpg",
   },
   {
     id: "7",
     title: "Construction",
     category: "Construction",
     url: "https://realsee.ai/p8EEaW6z",
-    image: "/assets/tours/construction.jpg",
+    image: "/assets/tours/p8EEaW6z.jpg",
   },
 ];
 
@@ -260,14 +284,16 @@ export const KOL_VIDEOS: KOLVideo[] = [
  */
 export interface GlobalStat {
   label: string;
-  value: string;
+  value: number;
+  suffix?: string;
+  icon?: string;
 }
 
 export const GLOBAL_STATS: GlobalStat[] = [
-  { label: "Countries", value: "50+" },
-  { label: "Spaces Scanned", value: "50 Million" },
-  { label: "Partnership Companies", value: "3000+" },
-  { label: "Patents", value: "600+" },
+  { label: "Countries", value: 50, suffix: "+", icon: "🌍" },
+  { label: "Spaces Scanned", value: 50000000, suffix: "", icon: "📸" },
+  { label: "Partnership Companies", value: 3000, suffix: "+", icon: "🤝" },
+  { label: "Patents", value: 600, suffix: "+", icon: "💡" },
 ];
 
 /**
@@ -282,25 +308,25 @@ export interface ShippingPoint {
 export const SHIPPING_POINTS: ShippingPoint[] = [
   {
     title: "Data Security",
-    icon: "https://global-public.realsee-cdn.com/release/pagepress/MThhVIKC/uploads/ef809007-4259-43af-ade6-fb15af6e10a4.jpg",
+    icon: "/assets/shipping/data-security.jpg",
     description:
       "Your data is securely stored on AWS, the world's leading cloud platform. Rest assured, your information is protected with top-tier encryption and compliance standards.",
   },
   {
     title: "1-on-1 Support",
-    icon: "https://global-public.realsee-cdn.com/release/pagepress/DyxzsENw/uploads/24a6172d-e43b-4fbe-a4a9-d99e37d71a93.jpg",
+    icon: "/assets/shipping/support.jpg",
     description:
       "Skip the bots. Get personalized assistance from our expert team. From questions to solutions, we're with you every step.",
   },
   {
     title: "Global Delivery",
-    icon: "https://global-public.realsee-cdn.com/release/pagepress/iNGhqImq/uploads/faea9e9d-413f-4e32-8ace-90e615d39082.jpg",
+    icon: "/assets/shipping/delivery.jpg",
     description:
       "Shop anywhere, ship everywhere—for free. Fast, reliable delivery to your doorstep, no hidden costs.",
   },
   {
     title: "1-Year Warranty",
-    icon: "https://global-public.realsee-cdn.com/release/pagepress/ENZNjZlk/uploads/4b944cc1-15e5-40fa-a164-2b48525a3a87.jpg",
+    icon: "/assets/shipping/warranty.jpg",
     description:
       "Shop with confidence. Enjoy full hardware product protection for a year after purchase, with easy claim processing.",
   },
@@ -339,7 +365,7 @@ export const DISTRIBUTION_FEATURES: DistributionFeature[] = [
     id: "4",
     title: "Ready-to-Use Assets",
     description: "3D tour, Photos, floorplan, and more.",
-    image: "/assets/3d-tour-distribution/ready-assets.jpg",
+    image: "/assets/3d-tour-distribution/ready-to-use-assets.jpg",
   },
 ];
 
@@ -359,27 +385,27 @@ export const FEATURES: Feature[] = [
     title: "One-Click LiDAR for Indoor & Outdoor Scanning & Co-capture",
     description:
       "Galois rapidly captures complex environments, generating immersive 3D tours with a single click. For large projects, dual-device co-capture ensures maximum efficiency.",
-    video: "/assets/videos/feature-1.mp4",
+    video: "/videos/One-Click LiDAR for Indoor & Outdoor Scanning & Co-capture.mp4",
   },
   {
     id: "2",
     title: "LiDAR Precision & 134MP True Color & Ultra Detail",
     description:
       "Galois delivers 134MP Clarity 3D for luxury marketing, powered by a 940nm LiDAR, a 4/3-inch CMOS, and 5-bracket HDR. Showcase superior craftsmanship and finishes to enhance perceived value and command premium pricing for high-end properties.",
-    video: "/assets/videos/feature-2.mp4",
+    video: "/videos/LiDAR Precision & 134MP True Color & Ultra Detail.mp4",
   },
   {
     id: "3",
     title: "Pay-As-You-Go Credits Plan",
     description:
       "No monthly subscriptions. Only pay to activate. Shoot, edit, upload, and store all your projects for free. Get everything at once: RAW images, 16K panoramas, 3D models, E57 Point cloud, floor plans & CAD from a single scan.",
-    video: "/assets/videos/feature-3.mp4",
+    video: "/videos/Pay-As-You-Go Credits Plan.mp4",
   },
   {
     id: "4",
     title: "Rich Editor Features",
     description:
       "Create captivating tours fast with Realsee editor: add multimedia label, screen label, area label, fusion video, AI Camera Removal, logo customization, aerial 3D connection, and automatic floor plans.",
-    video: "/assets/videos/feature-4.mp4",
+    video: "/videos/Rich Editor features.mp4",
   },
 ];

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { DISTRIBUTION_FEATURES } from "@/lib/constants";
 
 interface DistributionSectionProps {
@@ -17,7 +18,7 @@ export function DistributionSection({ className }: DistributionSectionProps) {
         <div className="absolute right-1/3 bottom-1/4 h-80 w-80 rounded-full bg-cyber-neon-cyan/10 blur-[140px]" />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <div className="container mx-auto px-6">
         {/* Section header */}
         <div className="text-center mb-16 sm:mb-20">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
@@ -36,17 +37,14 @@ export function DistributionSection({ className }: DistributionSectionProps) {
               className="group cyber-card-neon p-6 flex flex-col items-center text-center hover:scale-105 transition-all duration-300"
             >
               {/* Feature image */}
-              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-6">
-                <div className="absolute inset-0 bg-gradient-to-br from-cyber-brand-500/10 to-cyber-neon-cyan/10" />
-                <div className="relative w-full h-full flex items-center justify-center bg-cyber-gray-800/50">
-                  {/* Placeholder - will be replaced with actual images */}
-                  <div className="text-center space-y-2">
-                    <div className="w-16 h-16 mx-auto rounded-full bg-cyber-brand-500/20 flex items-center justify-center">
-                      <span className="text-3xl">🔗</span>
-                    </div>
-                    <p className="text-cyber-gray-400 text-xs">Feature Image</p>
-                  </div>
-                </div>
+              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-6 bg-cyber-gray-800 border border-cyber-gray-700">
+                <Image
+                  src={feature.image}
+                  alt={feature.title}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover"
+                />
               </div>
 
               {/* Feature info */}

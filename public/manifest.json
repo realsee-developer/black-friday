@@ -1,0 +1,37 @@
+{
+  "name": "Realsee Black Friday Event - Galois 3D LiDAR Camera",
+  "short_name": "Realsee BF",
+  "description": "Black Friday Special: Save up to $1,425 on Galois 3D LiDAR Camera. Professional 3D scanning technology for real estate, architecture, and virtual tours.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0f1a",
+  "theme_color": "#0a0f1a",
+  "orientation": "portrait-primary",
+  "categories": ["shopping", "technology", "business"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/assets/brand/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/brand/favicon-rounded-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/assets/products/galois-premium-bundle.jpg",
+      "sizes": "1200x1200",
+      "type": "image/jpeg",
+      "label": "Galois Premium Bundle - Black Friday Deal"
+    }
+  ],
+  "prefer_related_applications": false
+}
+
