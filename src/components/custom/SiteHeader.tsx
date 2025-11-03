@@ -2,44 +2,22 @@
 
 import { Icon } from "@iconify/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { NAV_TABS } from "@/lib/constants";
-import { throttle } from "@/lib/utils";
 import { useUIStore } from "@/store/useUIStore";
 
 export function SiteHeader() {
-  const {
-    isMobileMenuOpen,
-    activeSection,
-    setMobileMenuOpen,
-    setActiveSection,
-  } = useUIStore();
-  const [isScrolled, setIsScrolled] = useState(false);
+  // ✅ 使用 selector 只订阅需要渲染的状态
+  const isMobileMenuOpen = useUIStore((state) => state.isMobileMenuOpen);
+  const activeSection = useUIStore((state) => state.activeSection);
+  const isScrolled = useUIStore((state) => state.isScrolled);
 
   // Handle scroll to highlight active section
   useEffect(() => {
-    const handleScroll = throttle(() => {
-      setIsScrolled(window.scrollY > 20);
-
-      // Find active section based on scroll position
-      const sections = NAV_TABS.map((tab) => document.querySelector(tab.href));
-      const scrollPosition = window.scrollY + 100;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        if (section) {
-          const { offsetTop } = section as HTMLElement;
-          if (scrollPosition >= offsetTop) {
-            setActiveSection(NAV_TABS[i].id);
-            break;
-          }
-        }
-      }
-    }, 100);
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [setActiveSection]);
+    const { initializeScrollListener, cleanupScrollListener } = useUIStore.getState();
+    initializeScrollListener();
+    return () => cleanupScrollListener();
+  }, []);
 
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
@@ -47,8 +25,8 @@ export function SiteHeader() {
     id: string,
   ) => {
     e.preventDefault();
-    setActiveSection(id);
-    setMobileMenuOpen(false);
+    useUIStore.getState().setActiveSection(id);
+    useUIStore.getState().setMobileMenuOpen(false);
 
     const element = document.querySelector(href);
     if (element) {
@@ -106,7 +84,7 @@ export function SiteHeader() {
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
+            onClick={() => useUIStore.getState().setMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden p-2 rounded-lg text-cyber-gray-100 hover:bg-white/10 transition-colors"
             aria-label="Toggle menu"
           >

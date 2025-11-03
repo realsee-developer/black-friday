@@ -25,7 +25,7 @@ export function HeroSection({ className }: HeroSectionProps) {
       />
 
       {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-cyber-gray-900/80 via-cyber-gray-900/70 to-cyber-gray-900/90" />
+      <div className="absolute inset-0 bg-linear-to-b from-cyber-gray-900/80 via-cyber-gray-900/70 to-cyber-gray-900/90" />
 
       {/* Animated background effects */}
       <div className="absolute inset-0">
@@ -37,7 +37,7 @@ export function HeroSection({ className }: HeroSectionProps) {
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-cyber-neon-cyan/10 blur-[130px] animate-pulse animation-delay-1000" />
 
         {/* Scanline effect */}
-        <div className="absolute inset-0 bg-[linear-gradient(0deg,transparent_0%,rgba(51,102,255,0.02)_50%,transparent_100%)] bg-[length:100%_4px] animate-scanline" />
+        <div className="absolute inset-0 bg-[linear-gradient(0deg,transparent_0%,rgba(51,102,255,0.02)_50%,transparent_100%)] bg-size-[100%_4px] animate-scanline" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10 py-16 sm:py-20">
@@ -45,7 +45,7 @@ export function HeroSection({ className }: HeroSectionProps) {
           {/* Main title */}
           <div className="space-y-3 sm:space-y-4">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyber-gray-100 via-cyber-brand-400 to-cyber-neon-cyan drop-shadow-[0_0_30px_rgba(51,102,255,0.3)]">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-cyber-gray-100 via-cyber-brand-400 to-cyber-neon-cyan drop-shadow-[0_0_30px_rgba(51,102,255,0.3)]">
                 Black Friday Event
               </span>
             </h1>
@@ -63,7 +63,7 @@ export function HeroSection({ className }: HeroSectionProps) {
           <div className="w-full max-w-5xl my-6 sm:my-8">
             <div className="cyber-card-neon p-6 sm:p-8 md:p-10 lg:p-12 relative backdrop-blur-sm bg-cyber-gray-800/50">
               {/* Extra glow effect for emphasis */}
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyber-brand-500/20 via-cyber-neon-cyan/20 to-cyber-brand-500/20 blur-3xl -z-10 animate-pulse" />
+              <div className="absolute inset-0 rounded-xl bg-linear-to-r from-cyber-brand-500/20 via-cyber-neon-cyan/20 to-cyber-brand-500/20 blur-3xl -z-10 animate-pulse" />
               <CountdownTimer />
             </div>
           </div>
@@ -83,7 +83,7 @@ export function HeroSection({ className }: HeroSectionProps) {
               className="group relative cyber-btn-primary px-10 sm:px-14 md:px-16 py-4 sm:py-5 md:py-6 text-lg sm:text-xl md:text-2xl font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyber-brand-500/50 active:scale-100 shadow-lg shadow-cyber-brand-500/30"
             >
               {/* Extra glow on hover */}
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-cyber-brand-500 to-cyber-neon-cyan opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-300 -z-10" />
+              <div className="absolute inset-0 rounded-xl bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-300 -z-10" />
               <span className="relative z-10">View Offers Now</span>
             </a>
           </div>

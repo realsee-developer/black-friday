@@ -29,9 +29,10 @@ export interface ContactFormData {
   phone: string;
   countryCode: string;
   country?: string;
+  companyName?: string;
   industry: string;
   message: string;
-  otherProducts?: string;
+  devicesUsed?: string;
 }
 
 export interface FormState {

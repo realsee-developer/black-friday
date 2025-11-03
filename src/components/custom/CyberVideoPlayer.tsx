@@ -21,18 +21,24 @@ export function CyberVideoPlayer({
 }: CyberVideoPlayerProps) {
   const ref = useRef<APITypes>(null);
   const [isClient, setIsClient] = useState(false);
+  const onReadyRef = useRef(onReady);
 
+  // 更新 onReady ref
+  useEffect(() => {
+    onReadyRef.current = onReady;
+  }, [onReady]);
+
+  // 客户端检测
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  // Plyr 就绪回调
   useEffect(() => {
-    if (ref.current && isClient) {
-      if (onReady) {
-        onReady(ref.current);
-      }
+    if (ref.current && isClient && onReadyRef.current) {
+      onReadyRef.current(ref.current);
     }
-  }, [onReady, isClient]);
+  }, [isClient]);
 
   const videoSrc = {
     type: "video" as const,

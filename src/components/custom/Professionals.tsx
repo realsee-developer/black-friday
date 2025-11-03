@@ -30,7 +30,7 @@ export function Professionals() {
   };
 
   return (
-    <section className="relative overflow-visible bg-gradient-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-20 sm:py-28">
+    <section className="relative overflow-visible bg-linear-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-20 sm:py-28">
       <div className="absolute inset-0 -z-10">
         <div className="cyber-grid absolute inset-0 opacity-10" />
         <div className="absolute left-[10%] top-12 h-80 w-80 rounded-full bg-cyber-brand-500/18 blur-[140px]" />
@@ -40,7 +40,7 @@ export function Professionals() {
       <div className="container mx-auto px-6">
         <div className="mb-12 sm:mb-16 flex flex-col items-center text-center">
           <div className="inline-flex items-center">
-            <div className="rounded-full bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-neon-magenta p-[1.5px] shadow-[0_0_28px_rgba(51,102,255,0.35)]">
+            <div className="rounded-full bg-linear-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-neon-magenta p-[1.5px] shadow-[0_0_28px_rgba(51,102,255,0.35)]">
               <div className="flex items-center gap-2 rounded-full bg-cyber-gray-900/85 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-cyber-gray-100">
                 <Icon
                   icon="heroicons:sparkles"
@@ -67,7 +67,7 @@ export function Professionals() {
               key={`grid-${p.id}`}
               href={`https://discover.realsee.ai/professional/${p.slug || p.id}`}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener "
               className="group hover-shine relative flex flex-col items-center overflow-hidden rounded-2xl border border-cyber-gray-600 bg-cyber-gray-900/70 px-6 pb-6 pt-10 text-center shadow-lg shadow-black/20 transition-transform duration-500 hover:-translate-y-2 hover:border-cyber-brand-400 hover:shadow-cyber-brand-500/25 isolate"
             >
               <div className="relative mb-6 h-28 w-28 overflow-hidden rounded-2xl border border-white/40 bg-cyber-gray-800 shadow-lg shadow-black/30 transition-transform duration-500 group-hover:scale-[1.05]">
@@ -80,7 +80,7 @@ export function Professionals() {
                     className="rounded-2xl object-cover"
                   />
                 </div>
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-cyber-brand-500/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-0 rounded-2xl bg-linear-to-t from-cyber-brand-500/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </div>
               <h3 className="text-base font-semibold text-cyber-gray-100">
                 {p.name}
@@ -102,8 +102,8 @@ export function Professionals() {
         {/* Desktop marquee */}
         <div className="relative hidden pb-12 md:block">
           <div className="professionals-marquee" style={marqueeStyle}>
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-cyber-gray-800 via-cyber-gray-800/40 to-transparent z-10" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-cyber-gray-800 via-cyber-gray-800/40 to-transparent z-10" />
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-linear-to-r from-cyber-gray-800 via-cyber-gray-800/40 to-transparent z-10" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-linear-to-l from-cyber-gray-800 via-cyber-gray-800/40 to-transparent z-10" />
             <div className="relative flex overflow-hidden">
               <div className="professionals-track flex gap-8 animate-marquee-dynamic px-10">
                 {[...list, ...list].map((p, index) => (
@@ -111,8 +111,8 @@ export function Professionals() {
                     key={`${p.id}-${index}`}
                     href={`https://discover.realsee.ai/professional/${p.slug || p.id}`}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    className="group hover-shine relative flex w-[220px] flex-shrink-0 transform-gpu flex-col items-center overflow-hidden rounded-2xl border border-cyber-gray-600 bg-cyber-gray-900/70 px-6 pb-6 pt-10 text-center shadow-lg shadow-black/25 transition-transform duration-500 hover:scale-[1.06] hover:-translate-y-2 hover:border-cyber-brand-400 hover:shadow-cyber-brand-500/30 xl:w-[260px] isolate"
+                    rel="noopener "
+                    className="group hover-shine relative flex w-[220px] shrink-0 transform-gpu flex-col items-center overflow-hidden rounded-2xl border border-cyber-gray-600 bg-cyber-gray-900/70 px-6 pb-6 pt-10 text-center shadow-lg shadow-black/25 transition-transform duration-500 hover:scale-[1.06] hover:-translate-y-2 hover:border-cyber-brand-400 hover:shadow-cyber-brand-500/30 xl:w-[260px] isolate"
                   >
                     <div className="relative mb-6 h-24 w-24 overflow-hidden rounded-2xl border border-white/40 bg-cyber-gray-800 shadow-lg shadow-black/30 transition-transform duration-500 group-hover:scale-[1.05]">
                       <div className="relative h-full w-full">
@@ -124,7 +124,7 @@ export function Professionals() {
                           className="rounded-2xl object-cover"
                         />
                       </div>
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-cyber-brand-500/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      <div className="absolute inset-0 rounded-2xl bg-linear-to-t from-cyber-brand-500/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     </div>
 
                     <div className="space-y-3">

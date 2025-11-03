@@ -1,19 +1,27 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { useRef, useState } from "react";
 import { FEATURES } from "@/lib/constants";
 import { CyberVideoPlayer } from "./CyberVideoPlayer";
+import { useFeaturesStore } from "@/store/useFeaturesStore";
 import type { APITypes } from "plyr-react";
 
 export function FeaturesSection() {
-  const [activeFeature, setActiveFeature] = useState(0);
-  const plyrRef = useRef<APITypes | null>(null);
+  // ✅ 使用 selector 只订阅需要的状态
+  const activeFeature = useFeaturesStore((state) => state.activeFeature);
+  const setActiveFeature = useFeaturesStore((state) => state.setActiveFeature);
 
-  // Plyr 播放器就绪回调
+  // ✅ 直接使用 getState()，不需要 useCallback
   const handlePlyrReady = (player: APITypes) => {
-    plyrRef.current = player;
+    useFeaturesStore.getState().setPlyrRef(player);
   };
+
+  // Safety check - if FEATURES is empty or activeFeature is invalid, return null
+  if (FEATURES.length === 0 || activeFeature >= FEATURES.length || activeFeature < 0) {
+    return null;
+  }
+
+  const currentFeature = FEATURES[activeFeature];
 
   return (
     <section
@@ -45,15 +53,15 @@ export function FeaturesSection() {
             <div className="relative aspect-video rounded-2xl overflow-hidden bg-cyber-gray-900 border border-cyber-gray-700 shadow-[0_0_20px_rgba(51,102,255,0.1)]">
               {/* Plyr 视频播放器 */}
               <CyberVideoPlayer
-                key={FEATURES[activeFeature].id}
-                src={FEATURES[activeFeature].video}
+                key={currentFeature.id}
+                src={currentFeature.video}
                 onReady={handlePlyrReady}
               />
               
               {/* 特性切换按钮 - 悬浮在视频上方 */}
               <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
                 <button
-                  onClick={() => setActiveFeature(Math.max(0, activeFeature - 1))}
+                  onClick={() => useFeaturesStore.getState().prevFeature()}
                   disabled={activeFeature === 0}
                   className="w-9 h-9 flex items-center justify-center rounded-lg bg-black/60 hover:bg-black/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all backdrop-blur-sm border border-white/10"
                   type="button"
@@ -67,7 +75,7 @@ export function FeaturesSection() {
                 </div>
                 
                 <button
-                  onClick={() => setActiveFeature(Math.min(FEATURES.length - 1, activeFeature + 1))}
+                  onClick={() => useFeaturesStore.getState().nextFeature(FEATURES.length)}
                   disabled={activeFeature === FEATURES.length - 1}
                   className="w-9 h-9 flex items-center justify-center rounded-lg bg-black/60 hover:bg-black/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all backdrop-blur-sm border border-white/10"
                   type="button"

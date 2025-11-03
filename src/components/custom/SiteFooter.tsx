@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="relative bg-gradient-to-br from-cyber-gray-900 via-cyber-gray-800 to-cyber-brand-50 border-t border-cyber-brand-300/30">
+    <footer className="relative bg-linear-to-br from-cyber-gray-900 via-cyber-gray-800 to-cyber-brand-50 border-t border-cyber-brand-300/30">
       {/* Cyberpunk background patterns */}
       <div
         className="absolute inset-0"
@@ -44,7 +44,7 @@ export function SiteFooter() {
           <div className="mb-20 text-center">
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="relative group">
-                <div className="absolute -inset-2 bg-gradient-to-r from-cyber-brand-500/30 via-cyber-neon-cyan/20 to-cyber-brand-500/30 rounded-3xl blur-md group-hover:blur-lg transition-all duration-500" />
+                <div className="absolute -inset-2 bg-linear-to-r from-cyber-brand-500/30 via-cyber-neon-cyan/20 to-cyber-brand-500/30 rounded-3xl blur-md group-hover:blur-lg transition-all duration-500" />
                 <Image
                   src="/assets/brand/realsee-logo.jpeg"
                   alt="Realsee Logo"
@@ -53,10 +53,10 @@ export function SiteFooter() {
                   className="relative w-16 h-16 rounded-2xl shadow-2xl ring-2 ring-cyber-brand-500/50 group-hover:ring-cyber-neon-cyan/70 transition-all duration-500"
                   priority
                 />
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-gradient-to-br from-cyber-brand-500 to-cyber-neon-cyan rounded-full border-2 border-cyber-gray-900 shadow-lg shadow-cyber-neon-cyan/50" />
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-linear-to-br from-cyber-brand-500 to-cyber-neon-cyan rounded-full border-2 border-cyber-gray-900 shadow-lg shadow-cyber-neon-cyan/50" />
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-4xl font-bold font-display bg-gradient-to-r from-cyber-brand-600 via-cyber-neon-cyan to-cyber-brand-600 bg-clip-text text-transparent">
+                <span className="text-4xl font-bold font-display bg-linear-to-r from-cyber-brand-600 via-cyber-neon-cyan to-cyber-brand-600 bg-clip-text text-transparent">
                   Realsee
                 </span>
                 <span className="text-cyber-brand-500 text-lg font-semibold -mt-1 tracking-wider">
@@ -77,7 +77,7 @@ export function SiteFooter() {
             <div className="space-y-8 group">
               <h3 className="text-lg font-bold uppercase tracking-widest text-cyber-brand-600 border-b-2 border-cyber-brand-500/30 pb-3 relative">
                 Products
-                <div className="absolute -bottom-0.5 left-0 w-12 h-0.5 bg-gradient-to-r from-cyber-brand-500 to-cyber-neon-cyan group-hover:w-full transition-all duration-700" />
+                <div className="absolute -bottom-0.5 left-0 w-12 h-0.5 bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan group-hover:w-full transition-all duration-700" />
               </h3>
               <ul className="space-y-6">
                 {[
@@ -104,10 +104,10 @@ export function SiteFooter() {
                 ].map((item) => (
                   <li key={item.name}>
                     <Link
-                      className="group/link block p-4 -m-4 rounded-xl hover:bg-gradient-to-r hover:from-cyber-brand-500/5 hover:to-cyber-neon-cyan/5 border border-transparent hover:border-cyber-brand-500/20 transition-all duration-300 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
+                      className="group/link block p-4 -m-4 rounded-xl hover:bg-linear-to-r hover:from-cyber-brand-500/5 hover:to-cyber-neon-cyan/5 border border-transparent hover:border-cyber-brand-500/20 transition-all duration-300 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
                       href={item.link}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener "
                     >
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-cyber-gray-100 font-semibold text-lg group-hover/link:text-cyber-brand-500 transition-colors duration-300">
@@ -132,7 +132,7 @@ export function SiteFooter() {
             <div className="space-y-8 group">
               <h3 className="text-lg font-bold uppercase tracking-widest text-cyber-brand-600 border-b-2 border-cyber-brand-500/30 pb-3 relative">
                 Solutions
-                <div className="absolute -bottom-0.5 left-0 w-12 h-0.5 bg-gradient-to-r from-cyber-brand-500 to-cyber-neon-cyan group-hover:w-full transition-all duration-700" />
+                <div className="absolute -bottom-0.5 left-0 w-12 h-0.5 bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan group-hover:w-full transition-all duration-700" />
               </h3>
               <ul className="space-y-6">
                 {[
@@ -154,10 +154,10 @@ export function SiteFooter() {
                 ].map((item) => (
                   <li key={item.name}>
                     <Link
-                      className="group/link block p-4 -m-4 rounded-xl hover:bg-gradient-to-r hover:from-cyber-brand-500/5 hover:to-cyber-neon-cyan/5 border border-transparent hover:border-cyber-brand-500/20 transition-all duration-300 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
+                      className="group/link block p-4 -m-4 rounded-xl hover:bg-linear-to-r hover:from-cyber-brand-500/5 hover:to-cyber-neon-cyan/5 border border-transparent hover:border-cyber-brand-500/20 transition-all duration-300 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
                       href={item.link}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener "
                     >
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-cyber-gray-100 font-semibold text-lg group-hover/link:text-cyber-brand-500 transition-colors duration-300">
@@ -182,7 +182,7 @@ export function SiteFooter() {
             <div className="space-y-8 group">
               <h3 className="text-lg font-bold uppercase tracking-widest text-cyber-brand-600 border-b-2 border-cyber-brand-500/30 pb-3 relative">
                 Resources
-                <div className="absolute -bottom-0.5 left-0 w-12 h-0.5 bg-gradient-to-r from-cyber-brand-500 to-cyber-neon-cyan group-hover:w-full transition-all duration-700" />
+                <div className="absolute -bottom-0.5 left-0 w-12 h-0.5 bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan group-hover:w-full transition-all duration-700" />
               </h3>
               <ul className="space-y-6">
                 {[
@@ -209,10 +209,10 @@ export function SiteFooter() {
                 ].map((item) => (
                   <li key={item.name}>
                     <Link
-                      className="group/link block p-4 -m-4 rounded-xl hover:bg-gradient-to-r hover:from-cyber-brand-500/5 hover:to-cyber-neon-cyan/5 border border-transparent hover:border-cyber-brand-500/20 transition-all duration-300 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
+                      className="group/link block p-4 -m-4 rounded-xl hover:bg-linear-to-r hover:from-cyber-brand-500/5 hover:to-cyber-neon-cyan/5 border border-transparent hover:border-cyber-brand-500/20 transition-all duration-300 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
                       href={item.link}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener "
                     >
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-cyber-gray-100 font-semibold text-lg group-hover/link:text-cyber-brand-500 transition-colors duration-300">
@@ -236,7 +236,7 @@ export function SiteFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-cyber-brand-300/20 bg-gradient-to-r from-cyber-gray-900/80 via-cyber-gray-800/60 to-cyber-gray-900/80 backdrop-blur-md">
+        <div className="border-t border-cyber-brand-300/20 bg-linear-to-r from-cyber-gray-900/80 via-cyber-gray-800/60 to-cyber-gray-900/80 backdrop-blur-md">
           <div className="container mx-auto px-6 py-8">
             <div className="flex flex-col items-center lg:flex-row lg:items-center lg:justify-between gap-8 text-center lg:text-left">
               {/* Copyright */}
@@ -300,7 +300,7 @@ export function SiteFooter() {
                       className="p-3 rounded-xl text-cyber-gray-100 border border-cyber-gray-600/40 bg-cyber-gray-800/70 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-cyber-brand-400 hover:text-cyber-neon-cyan hover:shadow-md hover:shadow-cyber-brand-500/20 focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
                       href={social.link}
                       target="_blank"
-                      rel="noopener noreferrer"
+                      rel="noopener "
                     >
                       <Icon icon={social.icon} width={20} />
                     </Link>

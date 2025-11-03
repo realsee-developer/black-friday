@@ -10,7 +10,7 @@ export function ShippingInfo({ className }: ShippingInfoProps) {
     <section
       id="shipping"
       aria-label="Shipping and Service Information"
-      className={`relative overflow-hidden bg-gradient-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-20 sm:py-28 ${className || ""}`}
+      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-20 sm:py-28 ${className || ""}`}
     >
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
@@ -40,7 +40,7 @@ export function ShippingInfo({ className }: ShippingInfoProps) {
             >
               {/* Icon */}
               <div className="relative w-24 h-24 mx-auto mb-6">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-cyber-brand-500/20 to-cyber-neon-cyan/20 blur-xl group-hover:blur-2xl transition-all" />
+                <div className="absolute inset-0 rounded-full bg-linear-to-br from-cyber-brand-500/20 to-cyber-neon-cyan/20 blur-xl group-hover:blur-2xl transition-all" />
                 <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-cyber-brand-500/30 group-hover:border-cyber-brand-500/60 transition-colors">
                   <Image
                     src={point.icon}
