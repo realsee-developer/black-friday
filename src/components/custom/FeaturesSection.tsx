@@ -102,9 +102,9 @@ export function FeaturesSection() {
           {/* Right: Accordion - 5 columns (decreased from 6) */}
           <div className="lg:col-span-5 sticky top-24">
             {/* 内容容器 - 固定高度与视频一致 */}
-            <div className="relative h-full rounded-2xl overflow-hidden bg-linear-to-b from-cyber-gray-900/20 to-cyber-gray-900/40">
-              {/* 内容区域 - 使用绝对定位填满容器，响应式调整间距和padding */}
-              <div className="absolute inset-0 flex flex-col gap-1 lg:gap-1.5 xl:gap-2 p-1.5 lg:p-2 xl:p-2.5">
+            <div className="h-full rounded-2xl bg-linear-to-b from-cyber-gray-900/20 to-cyber-gray-900/40 p-1.5 lg:p-2 xl:p-2.5">
+              {/* 内容区域 - 响应式调整间距 */}
+              <div className="h-full flex flex-col gap-1 lg:gap-1.5 xl:gap-2">
                 {FEATURES.map((feature, index) => {
                   const isActive = activeFeature === index;
                   
