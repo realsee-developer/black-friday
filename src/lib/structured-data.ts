@@ -454,6 +454,108 @@ export function getHowToUseGaloisSchema() {
 }
 
 /**
+ * Get VideoObject Schemas for product demo videos
+ */
+export function getProductDemoVideosSchema() {
+  const baseUrl = "https://black-friday.realsee.ai";
+  const videos = [
+    {
+      name: "One-Click LiDAR for Indoor & Outdoor Scanning & Co-capture",
+      description:
+        "Galois rapidly captures complex environments, generating immersive 3D tours with a single click. For large projects, dual-device co-capture ensures maximum efficiency.",
+      contentUrl: `${baseUrl}/videos/one-click-lidar-indoor-outdoor-scanning-co-capture.mp4`,
+      thumbnailUrl: `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
+      uploadDate: "2025-11-01T00:00:00Z",
+    },
+    {
+      name: "LiDAR Precision & 134MP True Color & Ultra Detail",
+      description:
+        "Galois delivers 134MP Clarity 3D for luxury marketing, powered by a 940nm LiDAR, a 4/3-inch CMOS, and 5-bracket HDR. Showcase superior craftsmanship and finishes to enhance perceived value and command premium pricing for high-end properties.",
+      contentUrl: `${baseUrl}/videos/lidar-precision-134mp-true-color-ultra-detail.mp4`,
+      thumbnailUrl: `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
+      uploadDate: "2025-11-01T00:00:00Z",
+    },
+    {
+      name: "Pay-As-You-Go Credits Plan",
+      description:
+        "No monthly subscriptions. Only pay to activate. Shoot, edit, upload, and store all your projects for free. Get everything at once: RAW images, 16K panoramas, 3D models, E57 Point cloud, floor plans & CAD from a single scan.",
+      contentUrl: `${baseUrl}/videos/pay-as-you-go-credits-plan.mp4`,
+      thumbnailUrl: `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
+      uploadDate: "2025-11-01T00:00:00Z",
+    },
+    {
+      name: "Rich Editor Features",
+      description:
+        "Create captivating tours fast with Realsee editor: add multimedia label, screen label, area label, fusion video, AI Camera Removal, logo customization, aerial 3D connection, and automatic floor plans.",
+      contentUrl: `${baseUrl}/videos/rich-editor-features.mp4`,
+      thumbnailUrl: `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
+      uploadDate: "2025-11-01T00:00:00Z",
+    },
+  ];
+
+  return videos.map((video) => getProductVideoSchema(video));
+}
+
+/**
+ * Get VideoObject Schemas for YouTube KOL videos
+ */
+export function getYouTubeKOLVideosSchema() {
+  const kolVideos = [
+    {
+      youtubeId: "2I4Xn85I2Co",
+      title: "Galois Review by Arthur R",
+      creator: "Arthur R",
+    },
+    {
+      youtubeId: "tJyaBmGIvkY",
+      title: "Galois Review by Hugh Hou",
+      creator: "Hugh Hou",
+    },
+    {
+      youtubeId: "ox0HgPfWDs8",
+      title: "Galois Review by Sparks Media Group",
+      creator: "Sparks Media Group",
+    },
+    {
+      youtubeId: "IRWP9hYZsrA",
+      title: "Galois Review by The 360 guy",
+      creator: "The 360 guy",
+    },
+    {
+      youtubeId: "m0_AcH49dKY",
+      title: "Galois Review by Reveal Rabbit",
+      creator: "Reveal Rabbit",
+    },
+    {
+      youtubeId: "IWnjwSZraLE",
+      title: "Galois Review by Film Sandwich",
+      creator: "Film Sandwich",
+    },
+    {
+      youtubeId: "JsB2u-TS-3o",
+      title: "Galois Review by Jonathan Shilton",
+      creator: "Jonathan Shilton",
+    },
+    {
+      youtubeId: "Vi_lYgBRTBg",
+      title: "Galois Review by 戸田覚：ガジェット【辛口】点数評価",
+      creator: "戸田覚：ガジェット【辛口】点数評価",
+    },
+  ];
+
+  return kolVideos.map((video) =>
+    getProductVideoSchema({
+      name: video.title,
+      description: `Professional review of the Realsee Galois 3D LiDAR Camera by ${video.creator}. Learn about features, performance, and real-world usage.`,
+      thumbnailUrl: `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`,
+      uploadDate: "2025-11-01T00:00:00Z",
+      embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
+      contentUrl: `https://www.youtube.com/watch?v=${video.youtubeId}`,
+    }),
+  );
+}
+
+/**
  * Get all structured data as a combined array
  */
 export function getAllStructuredData() {
@@ -466,5 +568,7 @@ export function getAllStructuredData() {
     getBreadcrumbSchema(),
     getFAQSchema(),
     getHowToUseGaloisSchema(),
+    ...getProductDemoVideosSchema(),
+    ...getYouTubeKOLVideosSchema(),
   ];
 }
