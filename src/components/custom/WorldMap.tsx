@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { geoPath, geoMercator } from "d3-geo";
-import { useInView } from "react-intersection-observer";
+import { geoMercator, geoPath } from "d3-geo";
+import type { Feature } from "geojson";
+import { useEffect } from "react";
 import CountUp from "react-countup";
+import { useInView } from "react-intersection-observer";
 import { GLOBAL_STATS } from "@/lib/constants";
 import { useWorldMapStore } from "@/store/useWorldMapStore";
 
@@ -15,7 +16,7 @@ const COVERED_COUNTRIES = new Set([
   158, // Taiwan 中国台湾
   392, // Japan 日本
   410, // South Korea 韩国
-  
+
   // 中东
   376, // Israel 以色列
   196, // Cyprus 塞浦路斯
@@ -24,7 +25,7 @@ const COVERED_COUNTRIES = new Set([
   784, // United Arab Emirates 阿联酋
   422, // Lebanon 黎巴嫩
   792, // Turkey 土耳其
-  
+
   // 东南亚
   702, // Singapore 新加坡
   458, // Malaysia 马来西亚
@@ -35,7 +36,7 @@ const COVERED_COUNTRIES = new Set([
   608, // Philippines 菲律宾
   356, // India 印度
   144, // Sri Lanka 斯里兰卡
-  
+
   // 欧洲
   276, // Germany 德国
   756, // Switzerland 瑞士
@@ -49,36 +50,36 @@ const COVERED_COUNTRIES = new Set([
   528, // Netherlands 荷兰
   208, // Denmark 丹麦
   233, // Estonia 爱沙尼亚
-  56,  // Belgium 比利时
+  56, // Belgium 比利时
   300, // Greece 希腊
   380, // Italy 意大利
   724, // Spain 西班牙
   620, // Portugal 葡萄牙
   688, // Serbia 塞尔维亚
-  
+
   // 非洲
   710, // South Africa 南非
   788, // Tunisia 突尼斯
   384, // Ivory Coast 科特迪瓦
   686, // Senegal 塞内加尔
-  12,  // Algeria 阿尔及利亚
-  
+  12, // Algeria 阿尔及利亚
+
   // 北美
   840, // United States 美国
   124, // Canada 加拿大
-  
+
   // 拉美
   484, // Mexico 墨西哥
-  32,  // Argentina 阿根廷
+  32, // Argentina 阿根廷
   188, // Costa Rica 哥斯达黎加
-  76,  // Brazil 巴西
+  76, // Brazil 巴西
   218, // Ecuador 厄瓜多尔
   604, // Peru 秘鲁
   170, // Colombia 哥伦比亚
-  68,  // Bolivia 玻利维亚
-  
+  68, // Bolivia 玻利维亚
+
   // 大洋洲
-  36,  // Australia 澳大利亚
+  36, // Australia 澳大利亚
   554, // New Zealand 新西兰
 ]);
 
@@ -92,7 +93,7 @@ export function WorldMap({ className }: WorldMapProps) {
     threshold: 0.3,
     triggerOnce: false, // 每次进入都触发
   });
-  
+
   const worldGeoJSON = useWorldMapStore((state) => state.worldGeoJSON);
   const loading = useWorldMapStore((state) => state.loading);
   const hoveredCountry = useWorldMapStore((state) => state.hoveredCountry);
@@ -109,7 +110,7 @@ export function WorldMap({ className }: WorldMapProps) {
     .scale(140)
     .translate([width / 2, height / 1.8])
     .center([0, 30]);
-  
+
   const pathGenerator = geoPath().projection(projection);
 
   return (
@@ -120,14 +121,17 @@ export function WorldMap({ className }: WorldMapProps) {
             <div className="text-cyber-gray-400">Loading map data...</div>
           </div>
         )}
-        
+
         {/* 地图 SVG - 铺满整个容器 */}
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="w-full h-auto"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="xMidYMid meet"
+          role="img"
+          aria-label="Global coverage map showing Realsee service areas"
         >
+          <title>Realsee Global Coverage Map</title>
           <defs>
             {/* 发光滤镜 */}
             <filter id="glow">
@@ -178,12 +182,15 @@ export function WorldMap({ className }: WorldMapProps) {
           {/* 真实的世界地图 */}
           {worldGeoJSON && (
             <g id="world-countries">
-              {worldGeoJSON.features.map((country: any, index: number) => {
+              {worldGeoJSON.features.map((country: Feature, index: number) => {
                 const countryId = country.id;
-                const countryIdNum = typeof countryId === 'string' ? parseInt(countryId, 10) : countryId;
-                const isCovered = COVERED_COUNTRIES.has(countryIdNum);
+                const countryIdNum =
+                  typeof countryId === "string"
+                    ? parseInt(countryId, 10)
+                    : countryId;
+                const isCovered = countryIdNum !== undefined && COVERED_COUNTRIES.has(countryIdNum);
                 const isHovered = hoveredCountry === countryId;
-                
+
                 return (
                   <path
                     key={`country-${index}`}
@@ -193,16 +200,28 @@ export function WorldMap({ className }: WorldMapProps) {
                     stroke={isCovered ? "#00D9FF" : "#3366FF"}
                     strokeWidth={isCovered ? "2.5" : "0.5"}
                     strokeOpacity={isCovered ? "1" : "0.5"}
-                    filter={isCovered ? (isHovered ? "url(#strong-glow)" : "url(#glow)") : "none"}
+                    filter={
+                      isCovered
+                        ? isHovered
+                          ? "url(#strong-glow)"
+                          : "url(#glow)"
+                        : "none"
+                    }
                     className="country-path transition-all duration-300"
                     style={{
-                      animation: inView && isCovered
-                        ? `fadeIn 0.8s ease ${(index % 20) * 0.05}s forwards`
-                        : "none",
+                      animation:
+                        inView && isCovered
+                          ? `fadeIn 0.8s ease ${(index % 20) * 0.05}s forwards`
+                          : "none",
                       cursor: isCovered ? "pointer" : "default",
                     }}
-                    onMouseEnter={() => isCovered && useWorldMapStore.getState().setHoveredCountry(countryId)}
-                    onMouseLeave={() => useWorldMapStore.getState().setHoveredCountry(null)}
+                    onMouseEnter={() =>
+                      isCovered && countryId !== undefined &&
+                      useWorldMapStore.getState().setHoveredCountry(String(countryId))
+                    }
+                    onMouseLeave={() =>
+                      useWorldMapStore.getState().setHoveredCountry(null)
+                    }
                   />
                 );
               })}
@@ -217,9 +236,11 @@ export function WorldMap({ className }: WorldMapProps) {
               {GLOBAL_STATS.map((stat, index) => {
                 // Spaces Scanned 显示为百万单位
                 const isSpacesScanned = stat.label === "Spaces Scanned";
-                const endValue = isSpacesScanned ? stat.value / 1000000 : stat.value;
-                const suffix = isSpacesScanned ? "M" : (stat.suffix || "");
-                
+                const endValue = isSpacesScanned
+                  ? stat.value / 1000000
+                  : stat.value;
+                const suffix = isSpacesScanned ? "M" : stat.suffix || "";
+
                 return (
                   <div
                     key={stat.label}
@@ -230,7 +251,10 @@ export function WorldMap({ className }: WorldMapProps) {
                       transition: `all 0.6s ease ${index * 0.1}s`,
                     }}
                   >
-                    <div className="text-4xl md:text-5xl font-bold mb-2" style={{ color: '#ffffff' }}>
+                    <div
+                      className="text-4xl md:text-5xl font-bold mb-2"
+                      style={{ color: "#ffffff" }}
+                    >
                       {inView ? (
                         <CountUp
                           key={`${stat.label}-${inView}`}

@@ -1,0 +1,29 @@
+/* TEAM */
+Organization: Realsee
+Website: https://realsee.ai
+Location: Global
+
+/* SITE */
+Last update: 2025/11/17
+Language: English
+Standards: HTML5, CSS3, JavaScript ES2024
+Components: React 19, Next.js 16
+SEO: Optimized for ChatGPT, Bing, Google
+Technologies: TypeScript, Tailwind CSS, DaisyUI
+
+/* PROJECT */
+Campaign: Black Friday 2025
+Product: Galois 3D LiDAR Camera
+Promotion Period: November 17 - December 7, 2025
+Worldwide Shipping: Available
+
+/* KEYWORDS */
+Realsee Black Friday
+Galois 3D LiDAR Camera
+3D Scanning Technology
+Virtual Tour Camera
+Real Estate Technology
+
+/* THANKS */
+Built with passion for professional 3D scanning
+Empowering creators worldwide

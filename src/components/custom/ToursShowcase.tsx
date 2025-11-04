@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { Icon } from "@iconify/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect } from "react";
-import { TOUR_CASES } from "@/lib/constants";
 import { CategoryBadge } from "@/components/custom/badges";
+import { TOUR_CASES } from "@/lib/constants";
 import { useToursStore } from "@/store/useToursStore";
 
 export function ToursShowcase() {
@@ -13,7 +13,9 @@ export function ToursShowcase() {
   const current = useToursStore((state) => state.current);
   const paused = useToursStore((state) => state.paused);
   const touchStart = useToursStore((state) => state.touchStart);
-  const prefersReducedMotion = useToursStore((state) => state.prefersReducedMotion);
+  const prefersReducedMotion = useToursStore(
+    (state) => state.prefersReducedMotion,
+  );
   const previous = useToursStore((state) => state.previous);
 
   const DURATION_MS = 5000;
@@ -32,7 +34,7 @@ export function ToursShowcase() {
     startAutoPlay(slides.length, DURATION_MS);
     return () => cleanup();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [slides.length]);
 
   if (!slides.length) return null;
 
@@ -50,7 +52,6 @@ export function ToursShowcase() {
       <div className="hero-content p-0 w-full max-w-none relative z-10">
         <div
           className="relative w-full overflow-hidden rounded-none shadow-none focus:outline-none focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
-          tabIndex={0}
           role="region"
           aria-label="Featured 3D Tours Carousel"
           onKeyDown={(e) => {
@@ -61,10 +62,14 @@ export function ToursShowcase() {
             if (e.key === "End") goTo(slides.length - 1, slides.length);
           }}
           onMouseEnter={() => useToursStore.getState().pauseAutoPlay()}
-          onMouseLeave={() => useToursStore.getState().resumeAutoPlay(slides.length, DURATION_MS)}
+          onMouseLeave={() =>
+            useToursStore.getState().resumeAutoPlay(slides.length, DURATION_MS)
+          }
           onTouchStart={(e) => {
             const t = e.touches[0];
-            useToursStore.getState().setTouchStart({ x: t.clientX, y: t.clientY });
+            useToursStore
+              .getState()
+              .setTouchStart({ x: t.clientX, y: t.clientY });
             useToursStore.getState().pauseAutoPlay();
           }}
           onTouchEnd={(e) => {
@@ -167,25 +172,27 @@ export function ToursShowcase() {
                     <button
                       key={i}
                       type="button"
-                      onClick={() => useToursStore.getState().goTo(i, slides.length)}
+                      onClick={() =>
+                        useToursStore.getState().goTo(i, slides.length)
+                      }
                       aria-label={`Go to slide ${i + 1}`}
                       className={`relative overflow-hidden rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-neon-cyan/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${
                         isActive
                           ? "h-2 md:h-2.5 w-10 md:w-20 bg-white/90"
                           : "h-2 md:h-2.5 w-2.5 md:w-3 bg-cyber-gray-400/40 hover:bg-cyber-brand-200/60"
                       }`}
-                      style={{
-                        ["--carousel-duration" as any]: `${DURATION_MS}ms`,
-                      }}
+                      style={
+                        {
+                          "--carousel-duration": `${DURATION_MS}ms`,
+                        } as React.CSSProperties
+                      }
                       aria-current={isActive}
                     >
                       {isActive ? (
                         <span
                           key={`progress-${current}`}
                           className={`absolute left-0 top-0 bottom-0 rounded-full bg-cyber-brand-400 carousel-progress ${
-                            paused || prefersReducedMotion
-                              ? "paused"
-                              : ""
+                            paused || prefersReducedMotion ? "paused" : ""
                           }`}
                           style={{
                             width: 0 as unknown as number,

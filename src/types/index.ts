@@ -62,7 +62,7 @@ export interface CROState {
 export interface CROEvent {
   type: "click" | "view" | "submit" | "scroll";
   target: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   timestamp: number;
 }
 

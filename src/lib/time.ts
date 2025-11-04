@@ -200,7 +200,9 @@ export function formatCountdownNumber(num: number): string {
 /**
  * 获取活动阶段（用于 CountdownTimer）
  */
-export function getEventPhase(currentTime: Date = new Date()): "before" | "active" | "ending" | "ended" {
+export function getEventPhase(
+  currentTime: Date = new Date(),
+): "before" | "active" | "ending" | "ended" {
   return getCountdownStage(currentTime);
 }
 
@@ -215,7 +217,9 @@ export interface TimeRemaining {
   total: number;
 }
 
-export function getTimeRemaining(currentTime: Date = new Date()): TimeRemaining {
+export function getTimeRemaining(
+  currentTime: Date = new Date(),
+): TimeRemaining {
   const countdown = calculateCountdown(currentTime);
   return {
     days: countdown.days,

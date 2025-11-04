@@ -46,16 +46,16 @@ export function HeroSection({ className }: HeroSectionProps) {
           <div className="space-y-3 sm:space-y-4">
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
               <span className="text-transparent bg-clip-text bg-linear-to-r from-cyber-gray-100 via-cyber-brand-400 to-cyber-neon-cyan drop-shadow-[0_0_30px_rgba(51,102,255,0.3)]">
-                Black Friday Event
+                Realsee Black Friday 2025
               </span>
             </h1>
 
             <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-cyber-gray-200 tracking-wide">
-              Galois 3D LiDAR Camera
+              Galois 3D LiDAR Camera Sale
             </h2>
 
             <p className="text-base sm:text-lg md:text-xl text-cyber-brand-400 font-medium">
-              Nov 17th - Dec 7th, 2025
+              Nov 17th - Dec 7th, 2025 | Worldwide Shipping
             </p>
           </div>
 
@@ -71,7 +71,9 @@ export function HeroSection({ className }: HeroSectionProps) {
           {/* Description */}
           <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300 max-w-3xl leading-relaxed px-4">
             Experience professional 3D scanning with up to{" "}
-            <span className="text-cyber-brand-400 font-bold text-lg sm:text-xl md:text-2xl">$1,425 OFF</span>{" "}
+            <span className="text-cyber-brand-400 font-bold text-lg sm:text-xl md:text-2xl">
+              $1,425 OFF
+            </span>{" "}
             during our exclusive Black Friday sale.
           </p>
 

@@ -17,10 +17,11 @@ export default function Home() {
   return (
     <div className="relative">
       {/* Structured Data for SEO */}
-      {structuredData.map((schema, index) => (
+      {structuredData.map((schema) => (
         <script
-          key={index}
+          key={`schema-${schema["@type"]}`}
           type="application/ld+json"
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}

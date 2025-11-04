@@ -14,7 +14,8 @@ export function SiteHeader() {
 
   // Handle scroll to highlight active section
   useEffect(() => {
-    const { initializeScrollListener, cleanupScrollListener } = useUIStore.getState();
+    const { initializeScrollListener, cleanupScrollListener } =
+      useUIStore.getState();
     initializeScrollListener();
     return () => cleanupScrollListener();
   }, []);
@@ -49,11 +50,11 @@ export function SiteHeader() {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
+          <a href="/" className="flex items-center gap-3 group">
             <div className="relative w-10 h-10">
               <Image
                 src="/assets/brand/favicon-rounded-512.png"
-                alt="Realsee"
+                alt="Realsee - 3D LiDAR Camera Technology"
                 fill
                 sizes="40px"
                 className="object-contain"
@@ -84,7 +85,10 @@ export function SiteHeader() {
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() => useUIStore.getState().setMobileMenuOpen(!isMobileMenuOpen)}
+            type="button"
+            onClick={() =>
+              useUIStore.getState().setMobileMenuOpen(!isMobileMenuOpen)
+            }
             className="lg:hidden p-2 rounded-lg text-cyber-gray-100 hover:bg-white/10 transition-colors"
             aria-label="Toggle menu"
           >

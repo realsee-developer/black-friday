@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
-import type {
-  VideoExposureResponse,
-  RecordExposureRequest,
-  RecordExposureResponse,
-} from "@/types/kol-exposure";
 import {
+  getEnvironment,
   getVideosByExposure,
   incrementExposure,
-  getEnvironment,
 } from "@/lib/cloudflare-kv";
+import type {
+  RecordExposureRequest,
+  RecordExposureResponse,
+  VideoExposureResponse,
+} from "@/types/kol-exposure";
 
 /**
  * GET /api/kol-exposure
@@ -33,13 +33,13 @@ export async function GET() {
     });
   } catch (error) {
     console.error("Error in GET /api/kol-exposure:", error);
-    
+
     return NextResponse.json(
       {
         error: "Failed to fetch exposure data",
         message: error instanceof Error ? error.message : "Unknown error",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -56,19 +56,19 @@ export async function POST(request: Request) {
     if (!body.videoIds || !Array.isArray(body.videoIds)) {
       return NextResponse.json(
         { error: "Invalid request: videoIds must be an array" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // 过滤掉无效的视频 ID
     const validVideoIds = body.videoIds.filter(
-      (id) => typeof id === "string" && id.trim() !== ""
+      (id) => typeof id === "string" && id.trim() !== "",
     );
 
     if (validVideoIds.length === 0) {
       return NextResponse.json(
         { error: "No valid video IDs provided" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -96,4 +96,3 @@ export async function POST(request: Request) {
     return NextResponse.json(response, { status: 200 });
   }
 }
-

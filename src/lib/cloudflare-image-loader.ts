@@ -11,7 +11,8 @@ const baseUrl = (() => {
 })();
 
 // 项目路径前缀，与上传脚本中的 PROJECT_PREFIX 保持一致
-const PROJECT_PREFIX = process.env.NEXT_PUBLIC_ASSET_PROJECT_PREFIX || "black-friday";
+const PROJECT_PREFIX =
+  process.env.NEXT_PUBLIC_ASSET_PROJECT_PREFIX || "black-friday";
 
 const CDN_SEGMENT = "/cdn-cgi/image/";
 
@@ -56,7 +57,11 @@ const cloudflareImageLoader: ImageLoader = ({ src, width, quality }) => {
   // 提取宽度限制并计算目标宽度
   const widthCap = extractWidthCap(src);
   const targetWidth = widthCap ? Math.min(width, widthCap) : width;
-  const transforms = [`width=${targetWidth}`, `quality=${quality ?? 85}`, "format=auto"];
+  const transforms = [
+    `width=${targetWidth}`,
+    `quality=${quality ?? 85}`,
+    "format=auto",
+  ];
 
   const ensureRelative = (input: string) =>
     input.startsWith("/") ? input.slice(1) : input;
@@ -84,4 +89,3 @@ const cloudflareImageLoader: ImageLoader = ({ src, width, quality }) => {
 };
 
 export default cloudflareImageLoader;
-

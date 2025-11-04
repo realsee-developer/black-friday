@@ -3,7 +3,7 @@
  * 用于 KOL 视频曝光计数的读写操作
  */
 
-import type { ExposureCounts, ExposureCount } from "@/types/kol-exposure";
+import type { ExposureCount, ExposureCounts } from "@/types/kol-exposure";
 import { KOL_VIDEOS } from "./constants";
 
 const ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID;
@@ -17,7 +17,7 @@ const EXPOSURE_KEY = "exposure_counts";
 function validateConfig(): void {
   if (!ACCOUNT_ID || !NAMESPACE_ID || !KV_API_TOKEN) {
     throw new Error(
-      "Missing Cloudflare KV configuration. Please check environment variables: CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_KV_NAMESPACE_ID, CLOUDFLARE_KV_API_TOKEN"
+      "Missing Cloudflare KV configuration. Please check environment variables: CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_KV_NAMESPACE_ID, CLOUDFLARE_KV_API_TOKEN",
     );
   }
 }
@@ -52,11 +52,13 @@ export async function getExposureCounts(): Promise<ExposureCounts> {
     }
 
     if (!response.ok) {
-      throw new Error(`KV API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `KV API error: ${response.status} ${response.statusText}`,
+      );
     }
 
     const counts: ExposureCounts = await response.json();
-    
+
     // 确保所有视频都有计数（处理新增视频的情况）
     return ensureAllVideosHaveCount(counts);
   } catch (error) {
@@ -94,7 +96,9 @@ export async function incrementExposure(videoIds: string[]): Promise<void> {
     });
 
     if (!response.ok) {
-      throw new Error(`KV API error: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `KV API error: ${response.status} ${response.statusText}`,
+      );
     }
   } catch (error) {
     console.error("Error incrementing exposure:", error);
@@ -152,4 +156,3 @@ function ensureAllVideosHaveCount(counts: ExposureCounts): ExposureCounts {
 export function getEnvironment(): string {
   return process.env.NODE_ENV === "production" ? "production" : "development";
 }
-

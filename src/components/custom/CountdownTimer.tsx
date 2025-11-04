@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { useDebugStore } from "@/store/useDebugStore";
 import { useCountdownStore } from "@/store/useCountdownStore";
+import { useDebugStore } from "@/store/useDebugStore";
 
 export function CountdownTimer() {
   // ✅ 使用 selector 只订阅需要渲染的状态
@@ -121,7 +121,7 @@ function TimeUnit({ value, label, isSeconds = false }: TimeUnitProps) {
         {/* Multi-layer glow effect - more subtle */}
         <div className="absolute inset-0 rounded-lg bg-cyber-brand-500/30 blur-xl animate-pulse" />
         <div className="absolute inset-0 rounded-lg bg-cyber-neon-cyan/15 blur-lg" />
-        
+
         {/* Scanning light effect for seconds */}
         {isSeconds && (
           <div className="absolute inset-0 rounded-lg bg-linear-to-b from-cyber-brand-500/0 via-cyber-brand-500/20 to-cyber-brand-500/0 animate-scan-vertical opacity-70" />
@@ -131,11 +131,11 @@ function TimeUnit({ value, label, isSeconds = false }: TimeUnitProps) {
         <div className="relative cyber-card-neon min-w-[60px] sm:min-w-[75px] md:min-w-[90px] lg:min-w-[110px] px-3 sm:px-4 md:px-5 py-3 sm:py-4 md:py-5 overflow-hidden">
           {/* Inner glow - subtle */}
           <div className="absolute inset-0 bg-linear-to-br from-cyber-brand-500/5 via-transparent to-cyber-neon-cyan/5" />
-          
+
           {/* Corner highlights - subtle */}
           <div className="absolute top-0 left-0 w-6 h-6 bg-linear-to-br from-cyber-brand-500/20 to-transparent rounded-tl-lg" />
           <div className="absolute bottom-0 right-0 w-6 h-6 bg-linear-to-tl from-cyber-neon-cyan/20 to-transparent rounded-br-lg" />
-          
+
           {/* Number with text shadow for depth */}
           <div className="relative text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-cyber-gray-100 tabular-nums leading-none drop-shadow-[0_0_8px_rgba(51,102,255,0.4)] transition-all duration-300 group-hover:scale-105">
             {String(value).padStart(2, "0")}

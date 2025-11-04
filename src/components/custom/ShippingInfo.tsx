@@ -33,9 +33,9 @@ export function ShippingInfo({ className }: ShippingInfoProps) {
 
         {/* Points grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {SHIPPING_POINTS.map((point, index) => (
+          {SHIPPING_POINTS.map((point) => (
             <div
-              key={index}
+              key={point.title}
               className="group cyber-card-neon p-8 text-center hover:scale-105 transition-transform duration-300"
             >
               {/* Icon */}
@@ -44,7 +44,7 @@ export function ShippingInfo({ className }: ShippingInfoProps) {
                 <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-cyber-brand-500/30 group-hover:border-cyber-brand-500/60 transition-colors">
                   <Image
                     src={point.icon}
-                    alt={`${point.title} - ${point.description}`}
+                    alt={`Realsee ${point.title} - ${point.description}`}
                     fill
                     sizes="96px"
                     className="object-cover"
