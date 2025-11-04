@@ -30,7 +30,7 @@ export function Professionals() {
   };
 
   return (
-    <section className="relative overflow-visible bg-linear-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-20 sm:py-28">
+    <section className="relative overflow-visible bg-gradient-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-28">
       <div className="absolute inset-0 -z-10">
         <div className="cyber-grid absolute inset-0 opacity-10" />
         <div className="absolute left-[10%] top-12 h-80 w-80 rounded-full bg-cyber-brand-500/18 blur-[140px]" />
@@ -38,9 +38,9 @@ export function Professionals() {
       </div>
 
       <div className="container mx-auto px-6">
-        <div className="mb-12 sm:mb-16 flex flex-col items-center text-center">
+        <div className="mb-16 flex flex-col items-center text-center">
           <div className="inline-flex items-center">
-            <div className="rounded-full bg-linear-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-neon-magenta p-[1.5px] shadow-[0_0_28px_rgba(51,102,255,0.35)]">
+            <div className="rounded-full bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-neon-magenta p-[1.5px] shadow-[0_0_28px_rgba(51,102,255,0.35)]">
               <div className="flex items-center gap-2 rounded-full bg-cyber-gray-900/85 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-cyber-gray-100">
                 <Icon
                   icon="heroicons:sparkles"
@@ -51,36 +51,38 @@ export function Professionals() {
               </div>
             </div>
           </div>
-          <h2 className="mt-6 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-cyber-gray-100">
+          <h2 className="mt-6 text-3xl font-bold tracking-tight text-cyber-gray-100 md:text-5xl">
             Realsee Galois Professionals
           </h2>
-          <p className="mt-4 max-w-3xl text-base sm:text-lg text-cyber-gray-300">
+          <p className="mt-4 max-w-3xl text-base text-cyber-gray-300 md:text-lg">
             Explore a global roster of certified creators delivering premium
             spatial capture, 3D storytelling, and immersive experiences.
           </p>
         </div>
 
         {/* Mobile grid */}
-        <div className="grid grid-cols-1 gap-6 md:hidden">
-          {list.slice(0, 12).map((p) => (
+        <div className="grid grid-cols-1 gap-6 md:hidden min-h-[200px]">
+          {list.map((p, index) => (
             <Link
               key={`grid-${p.id}`}
-              href={`https://discover.realsee.ai/professional/${p.slug || p.id}`}
+              href={`https://discover.realsee.ai/professional/${p.slug ?? p.id}`}
               target="_blank"
               rel="noopener "
-              className="group hover-shine relative flex flex-col items-center overflow-hidden rounded-2xl border border-cyber-gray-600 bg-cyber-gray-900/70 px-6 pb-6 pt-10 text-center shadow-lg shadow-black/20 transition-transform duration-500 hover:-translate-y-2 hover:border-cyber-brand-400 hover:shadow-cyber-brand-500/25 isolate"
+              className="group hover-shine relative flex flex-col items-center overflow-hidden rounded-2xl border border-cyber-gray-600 bg-cyber-gray-900/70 px-6 pb-6 pt-10 text-center shadow-lg shadow-black/20 transition-transform duration-500 hover:-translate-y-2 hover:border-cyber-brand-400 hover:shadow-cyber-brand-500/25"
+              aria-label={`Open ${p.name}`}
             >
               <div className="relative mb-6 h-28 w-28 overflow-hidden rounded-2xl border border-white/40 bg-cyber-gray-800 shadow-lg shadow-black/30 transition-transform duration-500 group-hover:scale-[1.05]">
                 <div className="relative h-full w-full">
                   <Image
-                    src={`/professional/${p.id}.jpg`}
-                    alt={p.name}
+                    src={`/professional/galois-professional-${p.slug || p.id}.jpg`}
+                    alt={`${p.name} - Realsee Galois Professional Photographer`}
                     fill
                     sizes="112px"
                     className="rounded-2xl object-cover"
+                    loading={index < 4 ? "eager" : "lazy"}
                   />
                 </div>
-                <div className="absolute inset-0 rounded-2xl bg-linear-to-t from-cyber-brand-500/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-cyber-brand-500/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
               </div>
               <h3 className="text-base font-semibold text-cyber-gray-100">
                 {p.name}
@@ -100,31 +102,33 @@ export function Professionals() {
         </div>
 
         {/* Desktop marquee */}
-        <div className="relative hidden pb-12 md:block">
+        <div className="relative hidden pb-12 md:block min-h-[280px]">
           <div className="professionals-marquee" style={marqueeStyle}>
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-linear-to-r from-cyber-gray-800 via-cyber-gray-800/40 to-transparent z-10" />
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-linear-to-l from-cyber-gray-800 via-cyber-gray-800/40 to-transparent z-10" />
-            <div className="relative flex overflow-hidden">
-              <div className="professionals-track flex gap-8 animate-marquee-dynamic px-10">
+            <div className="pointer-events-none absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-cyber-gray-900 via-cyber-gray-900/40 to-transparent" />
+            <div className="pointer-events-none absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-cyber-gray-900 via-cyber-gray-900/40 to-transparent" />
+            <div className="relative flex overflow-visible">
+              <div className="professionals-track flex gap-6 animate-marquee-dynamic px-10">
                 {[...list, ...list].map((p, index) => (
                   <Link
                     key={`${p.id}-${index}`}
-                    href={`https://discover.realsee.ai/professional/${p.slug || p.id}`}
+                    href={`https://discover.realsee.ai/professional/${p.slug ?? p.id}`}
                     target="_blank"
                     rel="noopener "
-                    className="group hover-shine relative flex w-[220px] shrink-0 transform-gpu flex-col items-center overflow-hidden rounded-2xl border border-cyber-gray-600 bg-cyber-gray-900/70 px-6 pb-6 pt-10 text-center shadow-lg shadow-black/25 transition-transform duration-500 hover:scale-[1.06] hover:-translate-y-2 hover:border-cyber-brand-400 hover:shadow-cyber-brand-500/30 xl:w-[260px] isolate"
+                    className="group hover-shine relative flex w-[220px] flex-shrink-0 transform-gpu flex-col items-center overflow-hidden rounded-2xl border border-cyber-gray-600 bg-cyber-gray-900/70 px-6 pb-6 pt-10 text-center shadow-lg shadow-black/25 transition-transform duration-500 hover:scale-[1.06] hover:-translate-y-2 hover:border-cyber-brand-400 hover:shadow-cyber-brand-500/30 xl:w-[260px]"
+                    aria-label={`Open ${p.name}`}
                   >
                     <div className="relative mb-6 h-24 w-24 overflow-hidden rounded-2xl border border-white/40 bg-cyber-gray-800 shadow-lg shadow-black/30 transition-transform duration-500 group-hover:scale-[1.05]">
                       <div className="relative h-full w-full">
                         <Image
-                          src={`/professional/${p.id}.jpg`}
-                          alt={p.name}
+                          src={`/professional/galois-professional-${p.slug || p.id}.jpg`}
+                          alt={`${p.name} - Realsee Galois Professional Photographer`}
                           fill
                           sizes="96px"
                           className="rounded-2xl object-cover"
+                          loading={index < 10 ? "eager" : "lazy"}
                         />
                       </div>
-                      <div className="absolute inset-0 rounded-2xl bg-linear-to-t from-cyber-brand-500/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-cyber-brand-500/25 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                     </div>
 
                     <div className="space-y-3">
@@ -145,29 +149,6 @@ export function Professionals() {
         </div>
       </div>
 
-      <style jsx>{`
-        .professionals-marquee {
-          position: relative;
-          overflow: hidden;
-        }
-
-        @keyframes marquee-dynamic {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-
-        .animate-marquee-dynamic {
-          animation: marquee-dynamic var(--marquee-duration, 60s) linear infinite;
-        }
-
-        .professionals-track:hover {
-          animation-play-state: paused;
-        }
-      `}</style>
     </section>
   );
 }

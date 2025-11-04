@@ -47,38 +47,48 @@ export function RetailPartners({ className }: RetailPartnersProps) {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 max-w-7xl mx-auto">
           {RETAIL_PARTNERS.map((partner) => (
             <div key={partner.id} className="group">
-              {/* Hero Image */}
-              <a
-                href={partner.url}
-                target="_blank"
-                rel="noopener "
-                className="block relative aspect-[16/9] overflow-hidden rounded-2xl transition-all duration-300"
-                style={{
-                  boxShadow: `0 0 0 rgba(${partner.themeColor.shadow}, 0)`,
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = `0 0 40px rgba(${partner.themeColor.shadow}, 0.4)`;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = `0 0 0 rgba(${partner.themeColor.shadow}, 0)`;
-                }}
-              >
-                <Image
-                  src={partner.heroImage}
-                  alt={`${partner.name} - Realsee Galois M2 3D LiDAR Camera - Black Friday Sale`}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  priority
-                />
-                {/* Subtle border on hover */}
+              {/* Hero Image with brand color glow */}
+              <div className="relative">
+                {/* Brand color background glow */}
                 <div
-                  className="absolute inset-0 rounded-2xl border-2 border-transparent transition-colors duration-300"
+                  className="absolute -inset-3 rounded-3xl blur-2xl opacity-0 group-hover:opacity-60 transition-opacity duration-500"
                   style={{
-                    borderColor: "transparent",
+                    background: `radial-gradient(circle, rgba(${partner.themeColor.shadow}, 0.4) 0%, transparent 70%)`,
                   }}
                 />
-              </a>
+                
+                <a
+                  href={partner.url}
+                  target="_blank"
+                  rel="noopener "
+                  className="block relative aspect-[16/9] overflow-hidden rounded-2xl transition-all duration-300"
+                  style={{
+                    boxShadow: `0 4px 20px rgba(${partner.themeColor.shadow}, 0.2)`,
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = `0 8px 40px rgba(${partner.themeColor.shadow}, 0.5)`;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = `0 4px 20px rgba(${partner.themeColor.shadow}, 0.2)`;
+                  }}
+                >
+                  <Image
+                    src={partner.heroImage}
+                    alt={`${partner.name} - Realsee Galois M2 3D LiDAR Camera - Black Friday Sale`}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    priority
+                  />
+                  {/* Subtle border with brand color */}
+                  <div
+                    className="absolute inset-0 rounded-2xl border-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    style={{
+                      borderColor: `rgba(${partner.themeColor.shadow}, 0.3)`,
+                    }}
+                  />
+                </a>
+              </div>
 
               {/* CTA Button */}
               <a

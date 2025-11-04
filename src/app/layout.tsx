@@ -107,7 +107,7 @@ export const metadata: Metadata = {
     siteName: "Realsee Black Friday",
     images: [
       {
-        url: "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+        url: "https://black-friday.realsee.ai/assets/realsee-black-friday-2025-galois-share.jpg",
         width: 1200,
         height: 1200,
         alt: "Realsee Black Friday 2025 - Galois 3D LiDAR Camera Premium Bundle - Save $1,425",
@@ -121,7 +121,7 @@ export const metadata: Metadata = {
     description:
       "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Worldwide shipping. Limited time offer Nov 17 - Dec 7!",
     images: [
-      "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+      "https://black-friday.realsee.ai/assets/realsee-black-friday-2025-galois-share.jpg",
     ],
     creator: "@REALSEE_Moment",
     site: "@REALSEE_Moment",

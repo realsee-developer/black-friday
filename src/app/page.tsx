@@ -1,4 +1,5 @@
 import { ContactForm } from "@/components/custom/ContactForm";
+import { CountdownSection } from "@/components/custom/CountdownSection";
 import { DistributionSection } from "@/components/custom/DistributionSection";
 import { FeaturesSection } from "@/components/custom/FeaturesSection";
 import { HeroSection } from "@/components/custom/HeroSection";
@@ -17,9 +18,9 @@ export default function Home() {
   return (
     <div className="relative">
       {/* Structured Data for SEO */}
-      {structuredData.map((schema) => (
+      {structuredData.map((schema, index) => (
         <script
-          key={`schema-${schema["@type"]}`}
+          key={`schema-${schema["@type"]}-${index}`}
           type="application/ld+json"
           // biome-ignore lint/security/noDangerouslySetInnerHtml: Required for JSON-LD structured data
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
@@ -33,6 +34,9 @@ export default function Home() {
       <main className="relative">
         {/* Hero Section */}
         <HeroSection />
+
+        {/* Countdown Section */}
+        <CountdownSection />
 
         {/* Black Friday Offers */}
         <ProductOffers />

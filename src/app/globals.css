@@ -1473,6 +1473,15 @@ body::-webkit-scrollbar-thumb:hover {
       0 0 6px rgba(255, 0, 255, 0.2);
   }
 
+  /* 强烈的霓虹文本效果 - 用于 RECOMMENDED 标签 */
+  .cyber-neon-text-strong {
+    text-shadow:
+      0 0 10px rgba(255, 255, 255, 1),
+      0 0 20px rgba(0, 255, 255, 0.8),
+      0 0 30px rgba(51, 102, 255, 0.6),
+      0 0 40px rgba(0, 255, 255, 0.4);
+  }
+
   /* 更温和的发光文本选项 */
   .cyber-glow-text {
     @apply text-primary;
@@ -2031,6 +2040,57 @@ body::-webkit-scrollbar-thumb:hover {
   animation: scan-vertical 2s ease-in-out infinite;
 }
 
+/* Shimmer animation for scanning light effect - 左上到右下对角线扫光 */
+@keyframes shimmer {
+  0% {
+    transform: translate(-150%, -150%) rotate(45deg);
+  }
+  100% {
+    transform: translate(150%, 150%) rotate(45deg);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Cyberpunk diagonal scan - 赛博朋克对角线霓虹扫光（左上到右下）*/
+@keyframes cyberpunk-diagonal-scan {
+  0% {
+    transform: translate(-100%, -100%);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(100%, 100%);
+    opacity: 0;
+  }
+}
+
+/* Cyberpunk neon badge animations */
+@keyframes neon-gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes neon-scan {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 /* ===================================
    YouTube 视频轮播样式
    =================================== */
@@ -2174,6 +2234,19 @@ body::-webkit-scrollbar-thumb:hover {
   }
   .animate-scan-vertical {
     animation: none;
+  }
+  .animate-shimmer {
+    animation: none;
+  }
+  
+  /* Cyberpunk diagonal scan 动画禁用 */
+  [style*="cyberpunk-diagonal-scan"] {
+    animation: none !important;
+  }
+
+  /* Cyberpunk neon badge 动画禁用 */
+  .cyber-recommended-badge [style*="animation"] {
+    animation: none !important;
   }
 
   /* 轮播动画禁用 */
@@ -2430,4 +2503,51 @@ body::-webkit-scrollbar-thumb:hover {
     --plyr-font-size-small: 11px;
     --plyr-control-spacing: 4px;
   }
+}
+
+/* ===================================
+   Hero Section 粒子浮动动画
+   =================================== */
+
+/* 粒子浮动动画 */
+@keyframes float-particle {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+      calc(var(--float-x, 0) * 1px),
+      calc(var(--float-y, -100) * 1px)
+    ) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.animate-float-particle {
+  animation: float-particle var(--duration, 5s) ease-in-out infinite;
+  --float-x: calc(sin(var(--angle, 0)) * 50);
+  --float-y: -100;
+}
+
+.animate-float-particle:nth-child(odd) {
+  --float-x: 30;
+}
+
+.animate-float-particle:nth-child(even) {
+  --float-x: -30;
+}
+
+.animate-float-particle:nth-child(3n) {
+  --float-x: 50;
+}
+
+.animate-float-particle:nth-child(5n) {
+  --float-x: -50;
 }

@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import Image from "next/image";
 import { useState } from "react";
 import { useFormStore } from "@/store/useFormStore";
+import { ResponsiveBackgroundImage } from "@/components/custom/ResponsiveBackgroundImage";
 import type { ContactFormData } from "@/types";
 
 export function ContactForm() {
@@ -198,11 +199,9 @@ export function ContactForm() {
     return (
       <section id="contact" className="relative overflow-hidden py-20 sm:py-28">
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/assets/contact/bg.jpg"
+          <ResponsiveBackgroundImage
+            basePath="/assets/contact/contact-bg"
             alt="Contact Background"
-            fill
-            className="object-cover"
             priority
           />
         </div>
@@ -238,11 +237,9 @@ export function ContactForm() {
   return (
     <section id="contact" className="relative overflow-hidden py-20 sm:py-28">
       <div className="absolute inset-0 z-0">
-        <Image
-          src="/assets/contact/bg.jpg"
+        <ResponsiveBackgroundImage
+          basePath="/assets/contact/contact-bg"
           alt="Contact Background"
-          fill
-          className="object-cover"
           priority
         />
       </div>
@@ -512,6 +509,33 @@ export function ContactForm() {
               >
                 <Icon icon="lucide:download" className="w-5 h-5" />
                 Download
+              </a>
+            </div>
+
+            {/* WhatsApp Contact Section */}
+            <div className="cyber-card-neon p-6 sm:p-8 space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="relative w-16 h-16 shrink-0 flex items-center justify-center bg-[#25D366] rounded-2xl shadow-lg">
+                  <Icon icon="mdi:whatsapp" className="w-10 h-10 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-cyber-gray-100">
+                    Quick Contact
+                  </h3>
+                  <p className="text-sm text-cyber-gray-300">
+                    Contact us directly via WhatsApp
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://wa.me/message/CGR6XJOODRABC1"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 w-full justify-center bg-[#25D366] hover:bg-[#22c55e] px-6 py-3 rounded-xl text-white text-base font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+              >
+                <Icon icon="mdi:whatsapp" className="w-5 h-5" />
+                Chat on WhatsApp
               </a>
             </div>
           </div>

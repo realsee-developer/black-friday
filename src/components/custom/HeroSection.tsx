@@ -1,49 +1,119 @@
-import Image from "next/image";
-import { CountdownTimer } from "./CountdownTimer";
+"use client";
+// v2.0.0 - Fixed hydration issue
 
+import { useEffect, useState } from "react";
+import { ResponsiveBackgroundImage } from "@/components/custom/ResponsiveBackgroundImage";
+
+// Hero section with particle effects and parallax
 interface HeroSectionProps {
   className?: string;
 }
 
 export function HeroSection({ className }: HeroSectionProps) {
+  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
+  const [isDesktop, setIsDesktop] = useState(false); // PC 端才有视差效果
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // 检测是否为 PC 设备
+    const checkDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    checkDesktop();
+    window.addEventListener("resize", checkDesktop);
+    return () => window.removeEventListener("resize", checkDesktop);
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (!isDesktop) return; // 只有 PC 端才响应鼠标移动
+    const { clientX, clientY, currentTarget } = e;
+    const { width, height } = currentTarget.getBoundingClientRect();
+    setMousePosition({
+      x: clientX / width,
+      y: clientY / height,
+    });
+  };
+
+  // 计算视差偏移 - 只在 PC 端应用
+  const getParallaxStyle = (depth: number) => {
+    if (!mounted || !isDesktop) return {};
+    const maxOffset = 20 * depth;
+    const offsetX = (mousePosition.x - 0.5) * maxOffset;
+    const offsetY = (mousePosition.y - 0.5) * maxOffset;
+    return {
+      transform: `translate(${offsetX}px, ${offsetY}px)`,
+      transition: "transform 0.3s ease-out",
+    };
+  };
+
   return (
     <section
       id="hero"
       aria-label="Black Friday Event Hero Section"
       className={`relative min-h-screen flex items-center justify-center overflow-hidden ${className || ""}`}
+      onMouseMove={handleMouseMove}
     >
-      {/* Background Image */}
-      <Image
-        src="/assets/hero/galois-hero.jpg"
-        alt="Galois 3D LiDAR Camera - Professional 3D scanning solution with advanced technology"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-        placeholder="blur"
-        blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%230a0f1a'/%3E%3C/svg%3E"
-      />
-
-      {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-linear-to-b from-cyber-gray-900/80 via-cyber-gray-900/70 to-cyber-gray-900/90" />
+      {/* Background Image - Responsive */}
+      <div className="absolute inset-0 w-full h-full">
+        <ResponsiveBackgroundImage
+          basePath="/assets/hero/galois-hero"
+          alt="Galois 3D LiDAR Camera - Professional 3D scanning solution with advanced technology"
+          priority
+        />
+      </div>
 
       {/* Animated background effects */}
       <div className="absolute inset-0">
         {/* Grid pattern */}
-        <div className="cyber-grid absolute inset-0 opacity-5" />
+        <div className="cyber-grid absolute inset-0 opacity-[0.02]" />
 
         {/* Animated gradient orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-cyber-brand-500/15 blur-[140px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-cyber-neon-cyan/10 blur-[130px] animate-pulse animation-delay-1000" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-cyber-brand-500/8 blur-[140px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-cyber-neon-cyan/5 blur-[130px] animate-pulse animation-delay-1000" />
 
         {/* Scanline effect */}
-        <div className="absolute inset-0 bg-[linear-gradient(0deg,transparent_0%,rgba(51,102,255,0.02)_50%,transparent_100%)] bg-size-[100%_4px] animate-scanline" />
+        <div className="absolute inset-0 bg-[linear-gradient(0deg,transparent_0%,rgba(51,102,255,0.01)_50%,transparent_100%)] bg-size-[100%_4px] animate-scanline" />
+
+        {/* 粒子效果 - 所有设备都显示 */}
+        {mounted && (
+          <div className="absolute inset-0 overflow-hidden">
+            {/* 小粒子 */}
+            {[...Array(20)].map((_, i) => (
+              <div
+                key={i}
+                className="absolute w-1 h-1 bg-cyber-brand-400 rounded-full animate-float-particle"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  animationDuration: `${3 + Math.random() * 4}s`,
+                  opacity: 0.15 + Math.random() * 0.25,
+                }}
+              />
+            ))}
+            {/* 大光点 */}
+            {[...Array(15)].map((_, i) => (
+              <div
+                key={`glow-${i}`}
+                className="absolute w-2 h-2 bg-cyber-neon-cyan rounded-full blur-sm animate-float-particle"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 5}s`,
+                  animationDuration: `${4 + Math.random() * 3}s`,
+                  opacity: 0.1 + Math.random() * 0.2,
+                }}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="container mx-auto px-6 relative z-10 py-16 sm:py-20">
-        <div className="flex flex-col items-center justify-center text-center space-y-6 sm:space-y-8 md:space-y-10 max-w-6xl mx-auto">
+        <div className="flex flex-col items-center md:items-start justify-center text-center md:text-left space-y-6 sm:space-y-8 md:space-y-10 max-w-6xl mx-auto md:mx-0 md:max-w-2xl lg:max-w-3xl">
           {/* Main title */}
-          <div className="space-y-3 sm:space-y-4">
+          <div className="space-y-3 sm:space-y-4" style={getParallaxStyle(1)}>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
               <span className="text-transparent bg-clip-text bg-linear-to-r from-cyber-gray-100 via-cyber-brand-400 to-cyber-neon-cyan drop-shadow-[0_0_30px_rgba(51,102,255,0.3)]">
                 Realsee Black Friday 2025
@@ -59,17 +129,11 @@ export function HeroSection({ className }: HeroSectionProps) {
             </p>
           </div>
 
-          {/* Countdown Timer - Center spotlight */}
-          <div className="w-full max-w-5xl my-6 sm:my-8">
-            <div className="cyber-card-neon p-6 sm:p-8 md:p-10 lg:p-12 relative backdrop-blur-sm bg-cyber-gray-800/50">
-              {/* Extra glow effect for emphasis */}
-              <div className="absolute inset-0 rounded-xl bg-linear-to-r from-cyber-brand-500/20 via-cyber-neon-cyan/20 to-cyber-brand-500/20 blur-3xl -z-10 animate-pulse" />
-              <CountdownTimer />
-            </div>
-          </div>
-
           {/* Description */}
-          <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300 max-w-3xl leading-relaxed px-4">
+          <p 
+            className="text-base sm:text-lg md:text-xl text-cyber-gray-300 max-w-3xl leading-relaxed px-4"
+            style={getParallaxStyle(0.5)}
+          >
             Experience professional 3D scanning with up to{" "}
             <span className="text-cyber-brand-400 font-bold text-lg sm:text-xl md:text-2xl">
               $1,425 OFF
@@ -78,7 +142,7 @@ export function HeroSection({ className }: HeroSectionProps) {
           </p>
 
           {/* CTA button */}
-          <div className="flex justify-center pt-2 sm:pt-4">
+          <div className="flex justify-center md:justify-start pt-2 sm:pt-4" style={getParallaxStyle(0.3)}>
             <a
               href="#offers"
               aria-label="View Black Friday special offers for Galois 3D LiDAR Camera"

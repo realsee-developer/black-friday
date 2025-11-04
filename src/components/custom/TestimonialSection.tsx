@@ -166,7 +166,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
             <div className="relative">
               {/* 轮播容器 */}
               <div
-                className="overflow-hidden"
+                className="overflow-hidden relative"
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
                 onMouseEnter={() =>
@@ -210,7 +210,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
 
                       {/* 视频信息 */}
                       <div className="mt-4 px-2">
-                        <h4 className="text-lg font-semibold text-white mb-1">
+                        <h4 className="text-xl font-bold text-white mb-1">
                           {video.title}
                         </h4>
                         <p className="text-gray-400">{video.creator}</p>
@@ -218,41 +218,41 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
                     </div>
                   ))}
                 </div>
-              </div>
 
-              {/* 导航按钮 */}
-              {totalPages > 1 && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      useTestimonialStore.getState().prevPage(totalPages)
-                    }
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-cyber-gray-800/90 hover:bg-cyber-gray-700 p-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={currentPage === 0}
-                    aria-label="Previous videos"
-                  >
-                    <Icon
-                      icon="mdi:chevron-left"
-                      className="w-6 h-6 text-white"
-                    />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      useTestimonialStore.getState().nextPage(totalPages)
-                    }
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-cyber-gray-800/90 hover:bg-cyber-gray-700 p-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={currentPage === totalPages - 1}
-                    aria-label="Next videos"
-                  >
-                    <Icon
-                      icon="mdi:chevron-right"
-                      className="w-6 h-6 text-white"
-                    />
-                  </button>
-                </>
-              )}
+                {/* 导航按钮 - 定位基于视频容器 */}
+                {totalPages > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        useTestimonialStore.getState().prevPage(totalPages)
+                      }
+                      className="absolute left-0 top-[22.5%] -translate-y-1/2 -translate-x-4 z-20 bg-cyber-gray-800/90 hover:bg-cyber-gray-700 p-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                      disabled={currentPage === 0}
+                      aria-label="Previous videos"
+                    >
+                      <Icon
+                        icon="mdi:chevron-left"
+                        className="w-6 h-6 text-white"
+                      />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        useTestimonialStore.getState().nextPage(totalPages)
+                      }
+                      className="absolute right-0 top-[22.5%] -translate-y-1/2 translate-x-4 z-20 bg-cyber-gray-800/90 hover:bg-cyber-gray-700 p-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+                      disabled={currentPage === totalPages - 1}
+                      aria-label="Next videos"
+                    >
+                      <Icon
+                        icon="mdi:chevron-right"
+                        className="w-6 h-6 text-white"
+                      />
+                    </button>
+                  </>
+                )}
+              </div>
 
               {/* 页码指示器 */}
               {totalPages > 1 && (
@@ -268,8 +268,8 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
                       }
                       className={`w-2 h-2 rounded-full transition-all ${
                         index === currentPage
-                          ? "w-8 bg-cyber-cyan"
-                          : "bg-gray-600 hover:bg-gray-500"
+                          ? "w-8 bg-cyber-brand-400"
+                          : "bg-cyber-brand-400/40 hover:bg-cyber-brand-400/60"
                       }`}
                       aria-label={`Go to page ${index + 1}`}
                     />
