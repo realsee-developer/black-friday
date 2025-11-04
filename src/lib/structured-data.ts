@@ -1,4 +1,5 @@
 import type { Product, WithContext } from "schema-dts";
+import { buildSEOImageUrl, buildAssetUrl } from "./seo-utils";
 
 /**
  * Organization Schema for Realsee
@@ -9,7 +10,7 @@ export function getOrganizationSchema() {
     "@type": "Organization",
     name: "Realsee",
     url: "https://realsee.ai",
-    logo: "https://black-friday.realsee.ai/assets/brand/realsee-logo.jpeg",
+    logo: buildSEOImageUrl("/assets/brand/realsee-logo.jpeg"),
     description:
       "Realsee provides professional 3D scanning and virtual tour solutions with cutting-edge LiDAR technology.",
     sameAs: [
@@ -43,8 +44,7 @@ export function getEventSchema() {
       "@type": "VirtualLocation",
       url: "https://black-friday.realsee.ai",
     },
-    image:
-      "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+    image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
     organizer: {
       "@type": "Organization",
       name: "Realsee",
@@ -105,8 +105,7 @@ export function getPremiumBundleProductSchema(): WithContext<Product> {
     name: "Realsee Galois Premium Bundle - 3D LiDAR Camera - Black Friday 2025",
     description:
       "Realsee Galois Professional 3D LiDAR scanning camera with 134MP true color, pay-as-you-go credits plan, and complete accessories package. Perfect for real estate, architecture, and virtual tours. Black Friday special pricing with worldwide shipping available.",
-    image:
-      "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+    image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
     brand: {
       "@type": "Brand",
       name: "Realsee Galois",
@@ -181,8 +180,7 @@ export function getStandardKitProductSchema(): WithContext<Product> {
     name: "Realsee Galois Standard Kit - 3D LiDAR Camera - Black Friday 2025",
     description:
       "Realsee Galois Professional 3D LiDAR scanning camera with essential accessories. Ideal for getting started with professional 3D scanning and virtual tour creation. Black Friday special pricing with worldwide shipping available.",
-    image:
-      "https://black-friday.realsee.ai/assets/products/galois-standard-kit.jpg",
+    image: buildSEOImageUrl("/assets/products/galois-standard-kit.jpg"),
     brand: {
       "@type": "Brand",
       name: "Realsee Galois",
@@ -374,7 +372,7 @@ export function getProductVideoSchema(videoData: {
       name: "Realsee",
       logo: {
         "@type": "ImageObject",
-        url: "https://black-friday.realsee.ai/assets/brand/realsee-logo.jpeg",
+        url: buildSEOImageUrl("/assets/brand/realsee-logo.jpeg"),
       },
     },
   };
@@ -390,8 +388,7 @@ export function getHowToUseGaloisSchema() {
     name: "How to Use Realsee Galois 3D LiDAR Camera",
     description:
       "Complete guide on using the Realsee Galois 3D LiDAR Camera for professional 3D scanning and virtual tour creation.",
-    image:
-      "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+    image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
     totalTime: "PT15M",
     estimatedCost: {
       "@type": "MonetaryAmount",
@@ -414,40 +411,35 @@ export function getHowToUseGaloisSchema() {
         position: 1,
         name: "Setup and Power On",
         text: "Charge your Galois camera fully. Mount it on the tripod for stable scanning. Power on the device.",
-        image:
-          "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+        image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
       },
       {
         "@type": "HowToStep",
         position: 2,
         name: "Position the Camera",
         text: "Place the camera at the center of the space you want to scan. Ensure 360-degree clearance for optimal results.",
-        image:
-          "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+        image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
       },
       {
         "@type": "HowToStep",
         position: 3,
         name: "Start Scanning",
         text: "Press the capture button to start scanning. The camera will automatically capture 134MP true color images and LiDAR depth data.",
-        image:
-          "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+        image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
       },
       {
         "@type": "HowToStep",
         position: 4,
         name: "Move to Next Position",
         text: "Move the camera to the next scanning position. Repeat the process for complete coverage of your space.",
-        image:
-          "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+        image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
       },
       {
         "@type": "HowToStep",
         position: 5,
         name: "Process and Share",
         text: "Upload your scans to the Realsee platform. The system will automatically process and create your 3D virtual tour.",
-        image:
-          "https://black-friday.realsee.ai/assets/products/galois-premium-bundle.jpg",
+        image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
       },
     ],
   };
@@ -457,38 +449,37 @@ export function getHowToUseGaloisSchema() {
  * Get VideoObject Schemas for product demo videos
  */
 export function getProductDemoVideosSchema() {
-  const baseUrl = "https://black-friday.realsee.ai";
   const videos = [
     {
       name: "One-Click LiDAR for Indoor & Outdoor Scanning & Co-capture",
       description:
         "Galois rapidly captures complex environments, generating immersive 3D tours with a single click. For large projects, dual-device co-capture ensures maximum efficiency.",
-      contentUrl: `${baseUrl}/videos/one-click-lidar-indoor-outdoor-scanning-co-capture.mp4`,
-      thumbnailUrl: `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
+      contentUrl: buildAssetUrl("/videos/one-click-lidar-indoor-outdoor-scanning-co-capture.mp4"),
+      thumbnailUrl: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
       uploadDate: "2025-11-01T00:00:00Z",
     },
     {
       name: "LiDAR Precision & 134MP True Color & Ultra Detail",
       description:
         "Galois delivers 134MP Clarity 3D for luxury marketing, powered by a 940nm LiDAR, a 4/3-inch CMOS, and 5-bracket HDR. Showcase superior craftsmanship and finishes to enhance perceived value and command premium pricing for high-end properties.",
-      contentUrl: `${baseUrl}/videos/lidar-precision-134mp-true-color-ultra-detail.mp4`,
-      thumbnailUrl: `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
+      contentUrl: buildAssetUrl("/videos/lidar-precision-134mp-true-color-ultra-detail.mp4"),
+      thumbnailUrl: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
       uploadDate: "2025-11-01T00:00:00Z",
     },
     {
       name: "Pay-As-You-Go Credits Plan",
       description:
         "No monthly subscriptions. Only pay to activate. Shoot, edit, upload, and store all your projects for free. Get everything at once: RAW images, 16K panoramas, 3D models, E57 Point cloud, floor plans & CAD from a single scan.",
-      contentUrl: `${baseUrl}/videos/pay-as-you-go-credits-plan.mp4`,
-      thumbnailUrl: `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
+      contentUrl: buildAssetUrl("/videos/pay-as-you-go-credits-plan.mp4"),
+      thumbnailUrl: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
       uploadDate: "2025-11-01T00:00:00Z",
     },
     {
       name: "Rich Editor Features",
       description:
         "Create captivating tours fast with Realsee editor: add multimedia label, screen label, area label, fusion video, AI Camera Removal, logo customization, aerial 3D connection, and automatic floor plans.",
-      contentUrl: `${baseUrl}/videos/rich-editor-features.mp4`,
-      thumbnailUrl: `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
+      contentUrl: buildAssetUrl("/videos/rich-editor-features.mp4"),
+      thumbnailUrl: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
       uploadDate: "2025-11-01T00:00:00Z",
     },
   ];

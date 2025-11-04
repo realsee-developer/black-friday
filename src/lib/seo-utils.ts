@@ -143,3 +143,80 @@ export function getTargetMarkets() {
   ];
 }
 
+/**
+ * Build SEO image URL for metadata (Open Graph, Twitter, etc.)
+ * Uses Cloudflare CDN with Image Resizing if configured
+ * @param imagePath - Relative path to image (e.g., "/assets/image.jpg" or "assets/image.jpg")
+ * @param options - Image transformation options
+ * @returns Full URL for SEO metadata
+ */
+export function buildSEOImageUrl(
+  imagePath: string,
+  options: {
+    width?: number;
+    quality?: number;
+    baseUrl?: string;
+  } = {},
+): string {
+  const {
+    width = 1200,
+    quality = 85,
+    baseUrl = "https://black-friday.realsee.ai",
+  } = options;
+
+  // Get CDN base URL from environment
+  const cdnBase = process.env.NEXT_PUBLIC_ASSET_BASE_URL?.replace(/\/$/, "");
+  const projectPrefix =
+    process.env.NEXT_PUBLIC_ASSET_PROJECT_PREFIX || "black-friday";
+
+  // Normalize image path (remove leading slash)
+  const normalizedPath = imagePath.startsWith("/")
+    ? imagePath.slice(1)
+    : imagePath;
+
+  // If CDN is configured, use Cloudflare Image Resizing
+  if (cdnBase) {
+    const transforms = [
+      `width=${width}`,
+      `quality=${quality}`,
+      "format=auto",
+    ].join(",");
+    const fullPath = `${projectPrefix}/${normalizedPath}`;
+    return `${cdnBase}/cdn-cgi/image/${transforms}/${fullPath}`;
+  }
+
+  // Fallback to site URL
+  return `${baseUrl}/${normalizedPath}`;
+}
+
+/**
+ * Build asset URL for non-image resources (videos, documents, etc.)
+ * Uses CDN if configured, but without image transformation parameters
+ * @param assetPath - Relative path to asset (e.g., "/videos/demo.mp4" or "videos/demo.mp4")
+ * @param baseUrl - Base URL to use if CDN is not configured
+ * @returns Full URL for the asset
+ */
+export function buildAssetUrl(
+  assetPath: string,
+  baseUrl: string = "https://black-friday.realsee.ai",
+): string {
+  // Get CDN base URL from environment
+  const cdnBase = process.env.NEXT_PUBLIC_ASSET_BASE_URL?.replace(/\/$/, "");
+  const projectPrefix =
+    process.env.NEXT_PUBLIC_ASSET_PROJECT_PREFIX || "black-friday";
+
+  // Normalize asset path (remove leading slash)
+  const normalizedPath = assetPath.startsWith("/")
+    ? assetPath.slice(1)
+    : assetPath;
+
+  // If CDN is configured, use direct CDN path (no image transformation)
+  if (cdnBase) {
+    const fullPath = `${projectPrefix}/${normalizedPath}`;
+    return `${cdnBase}/${fullPath}`;
+  }
+
+  // Fallback to site URL
+  return `${baseUrl}/${normalizedPath}`;
+}
+
