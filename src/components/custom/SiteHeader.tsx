@@ -50,19 +50,31 @@ export function SiteHeader() {
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10">
+          <a
+            href="https://home.realsee.ai/en/home"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 group"
+          >
+            <div className="relative group">
+              <div className="absolute -inset-2 bg-linear-to-r from-cyber-brand-500/30 via-cyber-neon-cyan/20 to-cyber-brand-500/30 rounded-3xl blur-md group-hover:blur-lg transition-all duration-500" />
               <Image
-                src="/assets/brand/favicon-rounded-512.png"
-                alt="Realsee - 3D LiDAR Camera Technology"
-                fill
-                sizes="40px"
-                className="object-contain"
+                src="/assets/brand/realsee-logo.jpeg"
+                alt="Realsee Logo"
+                width={40}
+                height={40}
+                className="relative w-10 h-10 rounded-2xl shadow-2xl ring-2 ring-cyber-brand-500/50 group-hover:ring-cyber-neon-cyan/70 transition-all duration-500"
               />
+              <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-linear-to-br from-cyber-brand-500 to-cyber-neon-cyan rounded-full border-2 border-cyber-gray-900 shadow-lg shadow-cyber-neon-cyan/50" />
             </div>
-            <span className="text-xl font-bold text-cyber-gray-100 group-hover:text-cyber-brand-500 transition-colors hidden sm:inline">
-              Realsee
-            </span>
+            <div className="hidden sm:flex flex-col items-start">
+              <span className="text-xl font-bold font-display bg-linear-to-r from-cyber-brand-600 via-cyber-neon-cyan to-cyber-brand-600 bg-clip-text text-transparent">
+                Realsee
+              </span>
+              <span className="text-cyber-brand-500 text-xs font-semibold -mt-1 tracking-wider">
+                BLACK FRIDAY
+              </span>
+            </div>
           </a>
 
           {/* Desktop Navigation */}
@@ -74,7 +86,7 @@ export function SiteHeader() {
                 onClick={(e) => handleNavClick(e, tab.href, tab.id)}
                 className={`px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 ${
                   activeSection === tab.id
-                    ? "bg-cyber-brand-500/20 text-cyber-brand-500 shadow-[0_0_15px_rgba(51,102,255,0.3)]"
+                    ? "bg-cyber-brand-500/20 text-white shadow-[0_0_15px_rgba(51,102,255,0.3)]"
                     : "text-cyber-gray-300 hover:text-cyber-gray-100 hover:bg-white/5"
                 }`}
               >
@@ -116,7 +128,7 @@ export function SiteHeader() {
               onClick={(e) => handleNavClick(e, tab.href, tab.id)}
               className={`px-4 py-3 rounded-lg font-medium text-sm transition-all duration-200 ${
                 activeSection === tab.id
-                  ? "bg-cyber-brand-500/20 text-cyber-brand-500 shadow-[0_0_15px_rgba(51,102,255,0.3)]"
+                  ? "bg-cyber-brand-500/20 text-white shadow-[0_0_15px_rgba(51,102,255,0.3)]"
                   : "text-cyber-gray-300 hover:text-cyber-gray-100 hover:bg-white/5"
               }`}
             >

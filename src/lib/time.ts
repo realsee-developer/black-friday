@@ -178,11 +178,11 @@ export function calculateCountdown(
 export function getCountdownMessage(stage: CountdownStage): string {
   switch (stage) {
     case "before":
-      return "Event Starts In";
+      return "Event Start In";
     case "active":
       return "Event Live Now";
     case "ending":
-      return "Event Ends In";
+      return "Event End In";
     case "ended":
       return "Event Has Ended";
     default:

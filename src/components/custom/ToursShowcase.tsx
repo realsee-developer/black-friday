@@ -108,8 +108,8 @@ export function ToursShowcase() {
                     alt={`${s.title} - 3D Virtual Tour created with Galois LiDAR Camera - ${s.category}`}
                     fill
                     priority={i === 0}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1920px) 100vw, 3840px"
-                    quality={90}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1536px) 100vw, 2048px"
+                    quality={85}
                     placeholder="blur"
                     blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%230a0f1a'/%3E%3C/svg%3E"
                     className={`absolute inset-0 object-cover pointer-events-none ${
@@ -121,7 +121,7 @@ export function ToursShowcase() {
                     <div className="px-6 md:px-12 w-full max-w-6xl">
                       <div className="text-white text-center">
                         {/* Main Title */}
-                        <h1 className="text-4xl md:text-7xl lg:text-8xl font-black tracking-tight mb-6">
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight mb-6">
                           <span className="bg-linear-to-r from-white via-white to-white/80 bg-clip-text text-transparent drop-shadow-2xl">
                             {s.title}
                           </span>
@@ -149,7 +149,7 @@ export function ToursShowcase() {
                         </div>
 
                         {/* Additional description */}
-                        <p className="mt-6 text-white/80 text-base md:text-lg max-w-2xl mx-auto">
+                        <p className="mt-6 text-white/80 text-lg md:text-xl lg:text-2xl max-w-2xl mx-auto">
                           Immersive 3D virtual experience - Explore every detail
                           of real spaces
                         </p>

@@ -34,10 +34,10 @@ export function DistributionSection({ className }: DistributionSectionProps) {
           {DISTRIBUTION_FEATURES.map((feature) => (
             <div
               key={feature.id}
-              className="group cyber-card-neon p-6 flex flex-col items-center text-center hover:scale-105 transition-all duration-300"
+              className="group cyber-card-neon p-0 flex flex-col overflow-hidden hover:scale-105 transition-all duration-300"
             >
-              {/* Feature image */}
-              <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden mb-6 bg-cyber-gray-800 border border-cyber-gray-700">
+              {/* Feature image - 贴边显示，与卡片圆角一致 */}
+              <div className="relative w-full aspect-[4/3] overflow-hidden bg-cyber-gray-800">
                 <Image
                   src={feature.image}
                   alt={feature.title}
@@ -47,13 +47,15 @@ export function DistributionSection({ className }: DistributionSectionProps) {
                 />
               </div>
 
-              {/* Feature info */}
-              <h3 className="text-xl font-semibold text-cyber-gray-100 mb-2 group-hover:text-cyber-brand-500 transition-colors">
-                {feature.title}
-              </h3>
-              <p className="text-sm text-cyber-gray-300">
-                {feature.description}
-              </p>
+              {/* Feature info - 添加内边距 */}
+              <div className="p-6 flex flex-col items-center text-center">
+                <h3 className="text-xl font-semibold text-cyber-gray-100 mb-2 group-hover:text-cyber-brand-500 transition-colors">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-cyber-gray-300">
+                  {feature.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

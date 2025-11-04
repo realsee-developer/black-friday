@@ -2,7 +2,6 @@
 
 import { geoMercator, geoPath } from "d3-geo";
 import type { Feature } from "geojson";
-import { useEffect } from "react";
 import CountUp from "react-countup";
 import { useInView } from "react-intersection-observer";
 import { GLOBAL_STATS } from "@/lib/constants";
@@ -95,13 +94,7 @@ export function WorldMap({ className }: WorldMapProps) {
   });
 
   const worldGeoJSON = useWorldMapStore((state) => state.worldGeoJSON);
-  const loading = useWorldMapStore((state) => state.loading);
   const hoveredCountry = useWorldMapStore((state) => state.hoveredCountry);
-
-  useEffect(() => {
-    const { loadWorldMapData } = useWorldMapStore.getState();
-    loadWorldMapData();
-  }, []);
 
   // 创建地图投影 - 向北移动中心点，裁剪南极洲
   const width = 1200;
@@ -114,14 +107,15 @@ export function WorldMap({ className }: WorldMapProps) {
   const pathGenerator = geoPath().projection(projection);
 
   return (
-    <div ref={inViewRef} className={`relative w-full ${className || ""}`}>
-      <div className="relative w-full bg-black overflow-hidden">
-        {loading && (
-          <div className="absolute inset-0 flex items-center justify-center z-10">
-            <div className="text-cyber-gray-400">Loading map data...</div>
-          </div>
-        )}
+    <div ref={inViewRef} className={`relative w-full pt-16 sm:pt-20 ${className || ""}`}>
+      {/* 标题区块 */}
+      <div className="text-center mb-12">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
+          Trusted 3D Tour Solution for Global Business
+        </h2>
+      </div>
 
+      <div className="relative w-full bg-black overflow-hidden">
         {/* 地图 SVG - 铺满整个容器 */}
         <svg
           viewBox={`0 0 ${width} ${height}`}
@@ -180,53 +174,51 @@ export function WorldMap({ className }: WorldMapProps) {
           </g>
 
           {/* 真实的世界地图 */}
-          {worldGeoJSON && (
-            <g id="world-countries">
-              {worldGeoJSON.features.map((country: Feature, index: number) => {
-                const countryId = country.id;
-                const countryIdNum =
-                  typeof countryId === "string"
-                    ? parseInt(countryId, 10)
-                    : countryId;
-                const isCovered = countryIdNum !== undefined && COVERED_COUNTRIES.has(countryIdNum);
-                const isHovered = hoveredCountry === countryId;
+          <g id="world-countries">
+            {worldGeoJSON.features.map((country: Feature, index: number) => {
+              const countryId = country.id;
+              const countryIdNum =
+                typeof countryId === "string"
+                  ? parseInt(countryId, 10)
+                  : countryId;
+              const isCovered = countryIdNum !== undefined && COVERED_COUNTRIES.has(countryIdNum);
+              const isHovered = hoveredCountry === countryId;
 
-                return (
-                  <path
-                    key={`country-${index}`}
-                    d={pathGenerator(country) || ""}
-                    fill={isCovered ? "#00D9FF" : "none"}
-                    fillOpacity={isCovered ? (isHovered ? "1" : "0.85") : "0"}
-                    stroke={isCovered ? "#00D9FF" : "#3366FF"}
-                    strokeWidth={isCovered ? "2.5" : "0.5"}
-                    strokeOpacity={isCovered ? "1" : "0.5"}
-                    filter={
-                      isCovered
-                        ? isHovered
-                          ? "url(#strong-glow)"
-                          : "url(#glow)"
-                        : "none"
-                    }
-                    className="country-path transition-all duration-300"
-                    style={{
-                      animation:
-                        inView && isCovered
-                          ? `fadeIn 0.8s ease ${(index % 20) * 0.05}s forwards`
-                          : "none",
-                      cursor: isCovered ? "pointer" : "default",
-                    }}
-                    onMouseEnter={() =>
-                      isCovered && countryId !== undefined &&
-                      useWorldMapStore.getState().setHoveredCountry(String(countryId))
-                    }
-                    onMouseLeave={() =>
-                      useWorldMapStore.getState().setHoveredCountry(null)
-                    }
-                  />
-                );
-              })}
-            </g>
-          )}
+              return (
+                <path
+                  key={`country-${index}`}
+                  d={pathGenerator(country) || ""}
+                  fill={isCovered ? "#00D9FF" : "none"}
+                  fillOpacity={isCovered ? (isHovered ? "1" : "0.85") : "0"}
+                  stroke={isCovered ? "#00D9FF" : "#3366FF"}
+                  strokeWidth={isCovered ? "2.5" : "0.5"}
+                  strokeOpacity={isCovered ? "1" : "0.5"}
+                  filter={
+                    isCovered
+                      ? isHovered
+                        ? "url(#strong-glow)"
+                        : "url(#glow)"
+                      : "none"
+                  }
+                  className="country-path transition-all duration-300"
+                  style={{
+                    animation:
+                      inView && isCovered
+                        ? `fadeIn 0.8s ease ${(index % 20) * 0.05}s forwards`
+                        : "none",
+                    cursor: isCovered ? "pointer" : "default",
+                  }}
+                  onMouseEnter={() =>
+                    isCovered && countryId !== undefined &&
+                    useWorldMapStore.getState().setHoveredCountry(String(countryId))
+                  }
+                  onMouseLeave={() =>
+                    useWorldMapStore.getState().setHoveredCountry(null)
+                  }
+                />
+              );
+            })}
+          </g>
         </svg>
 
         {/* 统计数据居中叠加 */}

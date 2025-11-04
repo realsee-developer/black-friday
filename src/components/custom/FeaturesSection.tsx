@@ -51,9 +51,9 @@ export function FeaturesSection() {
         </div>
 
         {/* Desktop: Video + Accordion side by side */}
-        <div className="hidden lg:grid lg:grid-cols-12 gap-8 items-start">
-          {/* Left: Video/Visual - 6 columns */}
-          <div className="lg:col-span-6 sticky top-24">
+        <div className="hidden lg:grid lg:grid-cols-12 gap-6 items-stretch">
+          {/* Left: Video/Visual - 7 columns (increased from 6) */}
+          <div className="lg:col-span-7 sticky top-24">
             <div className="relative aspect-video rounded-2xl overflow-hidden bg-cyber-gray-900 border border-cyber-gray-700 shadow-[0_0_20px_rgba(51,102,255,0.1)]">
               {/* Plyr 视频播放器 */}
               <CyberVideoPlayer
@@ -99,70 +99,69 @@ export function FeaturesSection() {
             </div>
           </div>
 
-          {/* Right: Accordion - 6 columns */}
-          <div className="lg:col-span-6 sticky top-24">
+          {/* Right: Accordion - 5 columns (decreased from 6) */}
+          <div className="lg:col-span-5 sticky top-24">
             {/* 内容容器 - 固定高度与视频一致 */}
-            <div className="relative aspect-video rounded-2xl overflow-hidden bg-linear-to-b from-cyber-gray-900/20 to-cyber-gray-900/40">
-              {/* 内容区域 */}
-              <div className="absolute inset-0 flex flex-col gap-2 p-3">
-                {FEATURES.map((feature, index) => (
-                  <div
-                    key={feature.id}
-                    className={`rounded-xl border transition-all duration-300 cursor-pointer overflow-hidden flex flex-col ${
-                      activeFeature === index
-                        ? "flex-1 bg-cyber-gray-800/90 backdrop-blur-sm border-cyber-brand-500 shadow-[0_0_20px_rgba(51,102,255,0.2)]"
-                        : "flex-none bg-cyber-gray-800/50 backdrop-blur-sm border-cyber-gray-700/50 hover:border-cyber-gray-600 hover:bg-cyber-gray-800/70"
-                    }`}
-                  >
-                    <button
-                      onClick={() => setActiveFeature(index)}
-                      className="w-full flex items-center justify-between px-5 py-4 text-left shrink-0"
-                      type="button"
-                    >
-                      <div className="flex items-center gap-4 flex-1 min-w-0">
-                        <div
-                          className={`flex items-center justify-center w-9 h-9 rounded-full transition-all duration-300 shrink-0 ${
-                            activeFeature === index
-                              ? "bg-cyber-brand-500 text-white scale-110"
-                              : "bg-cyber-gray-700 text-cyber-gray-400 scale-100"
-                          }`}
-                        >
-                          <span className="font-bold text-sm">{index + 1}</span>
-                        </div>
-                        <h3
-                          className={`text-base font-semibold transition-colors duration-300 leading-snug ${
-                            activeFeature === index
-                              ? "text-cyber-brand-500 line-clamp-3"
-                              : "text-cyber-gray-100 line-clamp-2"
-                          }`}
-                        >
-                          {feature.title}
-                        </h3>
-                      </div>
-                      <Icon
-                        icon="lucide:chevron-down"
-                        className={`w-5 h-5 text-cyber-gray-400 shrink-0 ml-3 transition-all duration-300 ${
-                          activeFeature === index ? "rotate-0" : "-rotate-90"
-                        }`}
-                      />
-                    </button>
-
-                    {/* Expanded content with animation */}
+            <div className="relative h-full rounded-2xl overflow-hidden bg-linear-to-b from-cyber-gray-900/20 to-cyber-gray-900/40">
+              {/* 内容区域 - 使用绝对定位填满容器，响应式调整间距和padding */}
+              <div className="absolute inset-0 flex flex-col gap-1 lg:gap-1.5 xl:gap-2 p-1.5 lg:p-2 xl:p-2.5">
+                {FEATURES.map((feature, index) => {
+                  const isActive = activeFeature === index;
+                  
+                  return (
                     <div
-                      className={`transition-all duration-300 ease-in-out ${
-                        activeFeature === index
-                          ? "flex-1 opacity-100 overflow-y-auto"
-                          : "max-h-0 opacity-0 overflow-hidden"
+                      key={feature.id}
+                      className={`rounded-xl border transition-all duration-300 cursor-pointer flex flex-col ${
+                        isActive
+                          ? "flex-1 bg-cyber-gray-800/90 backdrop-blur-sm border-cyber-brand-500 shadow-[0_0_20px_rgba(51,102,255,0.2)]"
+                          : "flex-none h-11 lg:h-12 xl:h-14 bg-cyber-gray-800/50 backdrop-blur-sm border-cyber-gray-700/50 hover:border-cyber-gray-600 hover:bg-cyber-gray-800/70"
                       }`}
                     >
-                      <div className="px-5 pb-6 pt-2 h-full flex items-center">
-                        <p className="text-cyber-gray-300 leading-relaxed text-base">
-                          {feature.description}
-                        </p>
-                      </div>
+                      {/* 标题按钮 - 响应式固定高度 */}
+                      <button
+                        onClick={() => setActiveFeature(index)}
+                        className="w-full flex items-center justify-between px-3 lg:px-3.5 xl:px-4 py-2 lg:py-2.5 xl:py-3 text-left shrink-0 h-11 lg:h-12 xl:h-14"
+                        type="button"
+                      >
+                        <div className="flex items-center gap-2 lg:gap-2.5 xl:gap-3 flex-1 min-w-0">
+                          <div
+                            className={`flex items-center justify-center w-7 h-7 xl:w-8 xl:h-8 rounded-full transition-all duration-300 shrink-0 ${
+                              isActive
+                                ? "bg-cyber-brand-500 text-white scale-110"
+                                : "bg-cyber-gray-700 text-cyber-gray-400 scale-100"
+                            }`}
+                          >
+                            <span className="font-bold text-xs">{index + 1}</span>
+                          </div>
+                          <h3
+                            className={`text-xs lg:text-sm font-semibold transition-colors duration-300 leading-tight ${
+                              isActive
+                                ? "text-cyber-brand-500 line-clamp-2 lg:line-clamp-3"
+                                : "text-cyber-gray-100 line-clamp-1 lg:line-clamp-2"
+                            }`}
+                          >
+                            {feature.title}
+                          </h3>
+                        </div>
+                        <Icon
+                          icon="lucide:chevron-down"
+                          className={`w-4 h-4 text-cyber-gray-400 shrink-0 ml-1.5 lg:ml-2 transition-all duration-300 ${
+                            isActive ? "rotate-0" : "-rotate-90"
+                          }`}
+                        />
+                      </button>
+
+                      {/* 展开内容 - 占据剩余空间并支持滚动 */}
+                      {isActive && (
+                        <div className="flex-1 px-3 lg:px-3.5 xl:px-4 pb-3 lg:pb-3.5 xl:pb-4 overflow-y-auto min-h-0">
+                          <p className="text-cyber-gray-300 leading-relaxed text-xs lg:text-sm">
+                            {feature.description}
+                          </p>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           </div>

@@ -47,30 +47,82 @@ export function ProductOffers() {
                 itemType="https://schema.org/Product"
                 className={`relative cyber-card-neon p-6 sm:p-8 flex flex-col transition-all duration-300 ${
                   product.featured
-                    ? "ring-2 ring-cyber-brand-500 shadow-[0_0_30px_rgba(51,102,255,0.3)]"
+                    ? "ring-4 ring-cyber-brand-500 shadow-[0_0_40px_rgba(51,102,255,0.4)]"
                     : ""
                 }`}
               >
-                {/* Featured badge */}
+                {/* Featured product enhanced effects */}
                 {product.featured && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                    <div className="relative">
-                      {/* Glow effect */}
-                      <div className="absolute inset-0 bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan blur-md opacity-60 rounded-full" />
-                      {/* Badge */}
-                      <div className="relative bg-linear-to-r from-cyber-brand-500 via-cyber-brand-400 to-cyber-neon-cyan text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-xl flex items-center gap-2 animate-pulse-slow">
-                        <Icon
-                          icon="lucide:star"
-                          className="w-4 h-4 fill-current"
-                        />
-                        <span>RECOMMENDED</span>
-                        <Icon
-                          icon="lucide:star"
-                          className="w-4 h-4 fill-current"
-                        />
+                  <>
+                    {/* Cyberpunk neon scanning light effect - 左上到右下对角线扫光 */}
+                    <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none z-10">
+                      <div 
+                        className="absolute -inset-[100%]"
+                        style={{
+                          background: 'linear-gradient(135deg, transparent 30%, rgba(51,102,255,0.3) 45%, rgba(0,255,255,0.6) 50%, rgba(51,102,255,0.3) 55%, transparent 70%)',
+                          transform: 'translate(-100%, -100%)',
+                          animation: 'cyberpunk-diagonal-scan 3s ease-in-out infinite',
+                          mixBlendMode: 'screen'
+                        }}
+                      />
+                    </div>
+                    {/* Enhanced background glow */}
+                    <div className="absolute -inset-1 bg-gradient-to-r from-cyber-brand-500/30 via-cyber-neon-cyan/20 to-cyber-brand-500/30 rounded-xl blur-xl -z-10 animate-pulse" />
+                    
+                    {/* Featured badge with cyberpunk neon effects */}
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                      <div className="relative cyber-recommended-badge">
+                        {/* Multi-layer glow effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-brand-500 blur-2xl opacity-80 rounded-full animate-pulse" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-brand-500 blur-lg opacity-60 rounded-full" />
+                        
+                        {/* Badge container with scanning light */}
+                        <div className="relative overflow-hidden rounded-full">
+                          {/* Badge background with gradient animation */}
+                          <div 
+                            className="relative bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-brand-500 text-white px-5 py-1.5 text-sm font-bold flex items-center gap-2"
+                            style={{
+                              backgroundSize: '200% 100%',
+                              animation: 'neon-gradient-shift 3s ease-in-out infinite',
+                              boxShadow: '0 0 20px rgba(51,102,255,0.8), 0 0 40px rgba(0,255,255,0.6), 0 0 60px rgba(51,102,255,0.4), inset 0 0 10px rgba(255,255,255,0.3)'
+                            }}
+                          >
+                            <Icon
+                              icon="lucide:star"
+                              className="w-4 h-4 fill-current animate-pulse"
+                              style={{
+                                filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.8))'
+                              }}
+                            />
+                            <span 
+                              className="tracking-wider cyber-neon-text-strong"
+                              style={{
+                                textShadow: '0 0 10px rgba(255,255,255,1), 0 0 20px rgba(0,255,255,0.8), 0 0 30px rgba(51,102,255,0.6), 0 0 40px rgba(0,255,255,0.4)'
+                              }}
+                            >
+                              RECOMMENDED
+                            </span>
+                            <Icon
+                              icon="lucide:star"
+                              className="w-4 h-4 fill-current animate-pulse"
+                              style={{
+                                filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.8))'
+                              }}
+                            />
+                          </div>
+                          
+                          {/* Scanning light overlay */}
+                          <div 
+                            className="absolute inset-0 pointer-events-none"
+                            style={{
+                              background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)',
+                              animation: 'neon-scan 2s linear infinite'
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </>
                 )}
 
                 {/* Product image */}
@@ -206,37 +258,27 @@ export function ProductOffers() {
                     </button>
                   </div>
 
-                  {/* CTA button */}
-                  <a
-                    href={product.buyUrl}
-                    target="_blank"
-                    rel="noopener"
-                    className={`flex items-center justify-center w-full text-center px-10 py-6 rounded-2xl font-bold text-2xl transition-all duration-300 hover:scale-105 ${
-                      product.featured
-                        ? "cyber-btn-primary"
-                        : "cyber-btn-secondary"
-                    }`}
-                  >
-                    Buy Now
-                  </a>
+                  {/* CTA buttons */}
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="#contact"
+                      className="flex-1 flex items-center justify-center px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 cyber-btn-secondary"
+                    >
+                      Contact Us
+                    </a>
+                    <a
+                      href={product.buyUrl}
+                      target="_blank"
+                      rel="noopener"
+                      className="flex-1 flex items-center justify-center px-6 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:scale-105 cyber-btn-primary"
+                    >
+                      Buy Now
+                    </a>
+                  </div>
                 </div>
               </article>
             );
           })}
-        </div>
-
-        {/* Contact Us CTA */}
-        <div className="mt-16 text-center max-w-2xl mx-auto">
-          <p className="text-lg sm:text-xl text-cyber-gray-300 mb-6">
-            Have questions or need personalized assistance?
-          </p>
-          <a
-            href="#contact"
-            className="inline-flex items-center gap-2 cyber-btn-secondary px-8 py-4 rounded-xl text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
-          >
-            <Icon icon="lucide:message-circle" className="w-5 h-5" />
-            Contact Us
-          </a>
         </div>
       </div>
 
