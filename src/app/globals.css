@@ -1326,8 +1326,7 @@ body::-webkit-scrollbar-thumb:hover {
       0 0 40px rgba(51, 102, 255, 0.3),
       inset 0 0 20px rgba(51, 102, 255, 0.1);
     animation: btn-breathe 3s ease-in-out infinite;
-    transition:
-      all 0.3s ease;
+    transition: all 0.3s ease;
   }
 
   .cyber-btn-primary::before {
@@ -1958,7 +1957,8 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* 按钮动画 */
 @keyframes btn-breathe {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow:
       0 0 20px rgba(51, 102, 255, 0.5),
       0 0 40px rgba(51, 102, 255, 0.3),
@@ -1982,7 +1982,8 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 @keyframes btn-gradient-border {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -2042,7 +2043,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .youtube-iframe-card:hover {
-  box-shadow: 
+  box-shadow:
     0 0 30px rgba(51, 102, 255, 0.3),
     0 0 60px rgba(51, 102, 255, 0.15);
   transform: translateY(-2px);
@@ -2076,7 +2077,7 @@ body::-webkit-scrollbar-thumb:hover {
 .carousel-nav-btn:hover:not(:disabled) {
   background: rgba(51, 102, 255, 0.4);
   border-color: rgba(51, 102, 255, 0.8);
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(51, 102, 255, 0.4),
     0 4px 16px rgba(0, 0, 0, 0.4);
   transform: scale(1.05);
@@ -2117,10 +2118,15 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .youtube-carousel-container + div button::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(51, 102, 255, 0.5), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(51, 102, 255, 0.5),
+    transparent
+  );
   transform: translateX(-100%);
   transition: transform 0.3s ease;
 }
@@ -2134,7 +2140,7 @@ body::-webkit-scrollbar-thumb:hover {
   html {
     scroll-behavior: auto;
   }
-  
+
   .countdown-digit {
     animation: none;
   }
@@ -2169,16 +2175,16 @@ body::-webkit-scrollbar-thumb:hover {
   .animate-scan-vertical {
     animation: none;
   }
-  
+
   /* 轮播动画禁用 */
   .youtube-carousel-container .flex {
-    transition: none !important;
+    transition: none;
   }
   .youtube-iframe-card {
-    transition: none !important;
+    transition: none;
   }
   .carousel-nav-btn {
-    transition: none !important;
+    transition: none;
   }
 }
 
@@ -2193,18 +2199,18 @@ body::-webkit-scrollbar-thumb:hover {
   --plyr-menu-color: #f5f5f5;
   --plyr-menu-border-color: #2a2a2a;
   --plyr-menu-border-shadow-color: rgba(51, 102, 255, 0.2);
-  
+
   /* 控制栏背景 */
   --plyr-control-background-hover: rgba(51, 102, 255, 0.2);
   --plyr-control-spacing: 4px;
   --plyr-control-padding: 5px;
-  
+
   /* 进度条 */
   --plyr-range-track-height: 4px;
   --plyr-range-thumb-height: 12px;
   --plyr-range-thumb-active-shadow-width: 3px;
   --plyr-range-fill-background: linear-gradient(90deg, #3366ff, #5577ff);
-  
+
   /* 字体 */
   --plyr-font-family: var(--font-inter), system-ui, sans-serif;
   --plyr-font-size-base: 14px;
@@ -2227,14 +2233,14 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* 强制控制栏内容紧凑 */
 .cyber-video-player .plyr__controls > * {
-  margin: 0 !important;
+  margin: 0;
 }
 
 /* 按钮样式 */
 .cyber-video-player .plyr__control {
   color: #f5f5f5;
   transition: all 0.2s ease;
-  padding: 5px !important;
+  padding: 5px;
 }
 
 .cyber-video-player .plyr__control:hover {
@@ -2248,20 +2254,20 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* 进度条容器紧凑 */
 .cyber-video-player .plyr__progress {
-  margin: 0 !important;
-  padding: 0 !important;
+  margin: 0;
+  padding: 0;
 }
 
 /* 时间显示紧凑 */
 .cyber-video-player .plyr__time {
-  padding: 0 4px !important;
+  padding: 0 4px;
 }
 
 /* 播放按钮 */
 .cyber-video-player .plyr__control--overlaid {
   background: rgba(51, 102, 255, 0.9);
   border: 2px solid rgba(51, 102, 255, 0.5);
-  box-shadow: 
+  box-shadow:
     0 0 20px rgba(51, 102, 255, 0.5),
     0 0 40px rgba(51, 102, 255, 0.3),
     inset 0 0 20px rgba(51, 102, 255, 0.1);
@@ -2271,7 +2277,7 @@ body::-webkit-scrollbar-thumb:hover {
 
 .cyber-video-player .plyr__control--overlaid:hover {
   background: rgba(51, 102, 255, 1);
-  box-shadow: 
+  box-shadow:
     0 0 30px rgba(51, 102, 255, 0.6),
     0 0 60px rgba(51, 102, 255, 0.4),
     inset 0 0 30px rgba(51, 102, 255, 0.2);
@@ -2360,12 +2366,16 @@ body::-webkit-scrollbar-thumb:hover {
   color: #ffffff;
 }
 
-.cyber-video-player .plyr__menu__container [role="menuitem"][aria-checked="true"] {
+.cyber-video-player
+  .plyr__menu__container
+  [role="menuitem"][aria-checked="true"] {
   color: #3366ff;
   background: rgba(51, 102, 255, 0.1);
 }
 
-.cyber-video-player .plyr__menu__container [role="menuitem"][aria-checked="true"]::before {
+.cyber-video-player
+  .plyr__menu__container
+  [role="menuitem"][aria-checked="true"]::before {
   background: #3366ff;
 }
 
@@ -2383,7 +2393,8 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 @keyframes pulse-loading {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
     box-shadow: 0 0 20px rgba(51, 102, 255, 0.5);
   }
@@ -2409,11 +2420,11 @@ body::-webkit-scrollbar-thumb:hover {
     padding: 3px 8px 5px;
     gap: 4px;
   }
-  
+
   .cyber-video-player .plyr__control {
-    padding: 4px !important;
+    padding: 4px;
   }
-  
+
   .cyber-video-player {
     --plyr-font-size-base: 13px;
     --plyr-font-size-small: 11px;

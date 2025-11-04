@@ -9,48 +9,36 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * 延迟执行
+ * 从 es-toolkit 导入的工具函数
  */
-export function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+export { debounce, throttle, delay } from "es-toolkit";
+
+/**
+ * 获取站点 URL
+ */
+export function getSiteURL(): string {
+  const explicit = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL;
+  if (explicit) return explicit.replace(/\/$/, "");
+
+  const vercelEnv = process.env.NEXT_PUBLIC_APP_ENV ?? process.env.VERCEL_ENV;
+  if (vercelEnv === "production") {
+    return "https://black-friday.realsee.ai";
+  }
+
+  const vercel = process.env.VERCEL_URL;
+  if (vercel) return `https://${vercel}`;
+
+  return "http://localhost:3000";
 }
 
 /**
- * 防抖函数
+ * 获取绝对 URL
  */
-export function debounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number,
-): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout | null = null;
-
-  return function executedFunction(...args: Parameters<T>) {
-    const later = () => {
-      timeout = null;
-      func(...args);
-    };
-
-    if (timeout) clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
-}
-
-/**
- * 节流函数
- */
-export function throttle<T extends (...args: any[]) => any>(
-  func: T,
-  limit: number,
-): (...args: Parameters<T>) => void {
-  let inThrottle: boolean;
-
-  return function executedFunction(...args: Parameters<T>) {
-    if (!inThrottle) {
-      func(...args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
-    }
-  };
+export function absoluteUrl(path?: string | null): string {
+  const base = getSiteURL();
+  if (!path) return base;
+  if (path.startsWith("http")) return path;
+  return `${base}${path.startsWith("/") ? path : `/${path}`}`;
 }
 
 /**

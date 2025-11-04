@@ -2,10 +2,10 @@
 
 import { Icon } from "@iconify/react";
 import { useEffect } from "react";
-import { Professionals } from "./Professionals";
-import { WorldMap } from "./WorldMap";
 import { KOL_VIDEOS } from "@/lib/constants";
 import { useTestimonialStore } from "@/store/useTestimonialStore";
+import { Professionals } from "./Professionals";
+import { WorldMap } from "./WorldMap";
 
 interface TestimonialSectionProps {
   className?: string;
@@ -20,7 +20,9 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
   const itemsPerPage = useTestimonialStore((state) => state.itemsPerPage);
   const sortedVideos = useTestimonialStore((state) => state.sortedVideos);
   const isLoadingOrder = useTestimonialStore((state) => state.isLoadingOrder);
-  const prefersReducedMotion = useTestimonialStore((state) => state.prefersReducedMotion);
+  const prefersReducedMotion = useTestimonialStore(
+    (state) => state.prefersReducedMotion,
+  );
   const touchStart = useTestimonialStore((state) => state.touchStart);
 
   const totalPages = Math.ceil(sortedVideos.length / itemsPerPage);
@@ -36,7 +38,9 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
   // 响应式处理
   useEffect(() => {
     const handleResize = () => {
-      useTestimonialStore.getState().setItemsPerPage(window.innerWidth < 768 ? 1 : 2);
+      useTestimonialStore
+        .getState()
+        .setItemsPerPage(window.innerWidth < 768 ? 1 : 2);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -75,7 +79,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
       {
         threshold: [0.5],
         rootMargin: "0px",
-      }
+      },
     );
 
     // 观察所有视频元素
@@ -83,7 +87,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
     videoElements.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
-  }, [sortedVideos]);
+  }, []);
 
   // 自动播放
   useEffect(() => {
@@ -94,7 +98,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
     }, AUTO_PLAY_INTERVAL);
 
     return () => clearInterval(timer);
-  }, [currentPage, paused, totalPages, prefersReducedMotion]);
+  }, [paused, totalPages, prefersReducedMotion]);
 
   // 触摸事件处理
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -128,10 +132,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
     const startIndex = currentPage * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const visibleStart = Math.max(0, startIndex - itemsPerPage);
-    const visibleEnd = Math.min(
-      sortedVideos.length,
-      endIndex + itemsPerPage
-    );
+    const visibleEnd = Math.min(sortedVideos.length, endIndex + itemsPerPage);
     return index >= visibleStart && index < visibleEnd;
   };
 
@@ -168,8 +169,12 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
                 className="overflow-hidden"
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
-                onMouseEnter={() => useTestimonialStore.getState().setPaused(true)}
-                onMouseLeave={() => useTestimonialStore.getState().setPaused(false)}
+                onMouseEnter={() =>
+                  useTestimonialStore.getState().setPaused(true)
+                }
+                onMouseLeave={() =>
+                  useTestimonialStore.getState().setPaused(false)
+                }
               >
                 <div
                   className="flex gap-8 transition-transform duration-500 ease-out"
@@ -220,7 +225,9 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
                 <>
                   <button
                     type="button"
-                    onClick={() => useTestimonialStore.getState().prevPage(totalPages)}
+                    onClick={() =>
+                      useTestimonialStore.getState().prevPage(totalPages)
+                    }
                     className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-cyber-gray-800/90 hover:bg-cyber-gray-700 p-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={currentPage === 0}
                     aria-label="Previous videos"
@@ -232,7 +239,9 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
                   </button>
                   <button
                     type="button"
-                    onClick={() => useTestimonialStore.getState().nextPage(totalPages)}
+                    onClick={() =>
+                      useTestimonialStore.getState().nextPage(totalPages)
+                    }
                     className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-cyber-gray-800/90 hover:bg-cyber-gray-700 p-3 rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={currentPage === totalPages - 1}
                     aria-label="Next videos"
@@ -252,7 +261,11 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
                     <button
                       key={index}
                       type="button"
-                      onClick={() => useTestimonialStore.getState().goToPage(index, totalPages)}
+                      onClick={() =>
+                        useTestimonialStore
+                          .getState()
+                          .goToPage(index, totalPages)
+                      }
                       className={`w-2 h-2 rounded-full transition-all ${
                         index === currentPage
                           ? "w-8 bg-cyber-cyan"

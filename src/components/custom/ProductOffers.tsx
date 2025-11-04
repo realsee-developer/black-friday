@@ -59,9 +59,15 @@ export function ProductOffers() {
                       <div className="absolute inset-0 bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan blur-md opacity-60 rounded-full" />
                       {/* Badge */}
                       <div className="relative bg-linear-to-r from-cyber-brand-500 via-cyber-brand-400 to-cyber-neon-cyan text-white px-5 py-1.5 rounded-full text-sm font-bold shadow-xl flex items-center gap-2 animate-pulse-slow">
-                        <Icon icon="lucide:star" className="w-4 h-4 fill-current" />
+                        <Icon
+                          icon="lucide:star"
+                          className="w-4 h-4 fill-current"
+                        />
                         <span>RECOMMENDED</span>
-                        <Icon icon="lucide:star" className="w-4 h-4 fill-current" />
+                        <Icon
+                          icon="lucide:star"
+                          className="w-4 h-4 fill-current"
+                        />
                       </div>
                     </div>
                   </div>
@@ -84,17 +90,33 @@ export function ProductOffers() {
                 {/* Product info */}
                 <div className="flex-1 space-y-4">
                   <div>
-                    <h3 className="text-2xl sm:text-3xl font-bold text-cyber-gray-100 mb-2" itemProp="name">
+                    <h3
+                      className="text-2xl sm:text-3xl font-bold text-cyber-gray-100 mb-2"
+                      itemProp="name"
+                    >
                       {product.name}
                     </h3>
-                    <p className="text-cyber-gray-400" itemProp="description">{product.subtitle}</p>
+                    <p className="text-cyber-gray-400" itemProp="description">
+                      {product.subtitle}
+                    </p>
                   </div>
 
                   {/* Pricing */}
-                  <div className="space-y-2" itemProp="offers" itemScope itemType="https://schema.org/Offer">
+                  <div
+                    className="space-y-2"
+                    itemProp="offers"
+                    itemScope
+                    itemType="https://schema.org/Offer"
+                  >
                     <meta itemProp="priceCurrency" content="USD" />
-                    <meta itemProp="price" content={product.discountedPrice.toString()} />
-                    <meta itemProp="availability" content="https://schema.org/InStock" />
+                    <meta
+                      itemProp="price"
+                      content={product.discountedPrice.toString()}
+                    />
+                    <meta
+                      itemProp="availability"
+                      content="https://schema.org/InStock"
+                    />
                     <div className="flex items-baseline gap-3">
                       <span className="text-3xl sm:text-4xl font-bold text-cyber-brand-500">
                         {formatPrice(product.discountedPrice)}
@@ -118,7 +140,10 @@ export function ProductOffers() {
                   {/* What's included button - Desktop */}
                   <div className="hidden md:block">
                     <button
-                      onClick={() => useProductStore.getState().toggleExpand(product.id)}
+                      type="button"
+                      onClick={() =>
+                        useProductStore.getState().toggleExpand(product.id)
+                      }
                       className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-cyber-gray-300 hover:text-cyber-gray-100"
                     >
                       <span className="font-medium">What's Included</span>
@@ -135,8 +160,8 @@ export function ProductOffers() {
                     {/* Expanded content */}
                     {isExpanded && (
                       <div className="mt-4 space-y-4 px-4 py-4 rounded-lg bg-white/5 border border-cyber-brand-500/20">
-                        {product.whatsIncluded.map((section, idx) => (
-                          <div key={idx}>
+                        {product.whatsIncluded.map((section) => (
+                          <div key={section.title}>
                             <div className="flex items-center justify-between mb-2">
                               <h4 className="font-semibold text-cyber-gray-100">
                                 {section.title}
@@ -148,9 +173,9 @@ export function ProductOffers() {
                               )}
                             </div>
                             <ul className="space-y-1">
-                              {section.items.map((item, itemIdx) => (
+                              {section.items.map((item) => (
                                 <li
-                                  key={itemIdx}
+                                  key={item}
                                   className="flex items-start gap-2 text-sm text-cyber-gray-300"
                                 >
                                   <Icon
@@ -170,7 +195,10 @@ export function ProductOffers() {
                   {/* What's included button - Mobile */}
                   <div className="md:hidden">
                     <button
-                      onClick={() => useProductStore.getState().showDetails(product.id)}
+                      type="button"
+                      onClick={() =>
+                        useProductStore.getState().showDetails(product.id)
+                      }
                       className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-cyber-gray-300 hover:text-cyber-gray-100"
                     >
                       <span className="font-medium">What's Included</span>
@@ -217,10 +245,19 @@ export function ProductOffers() {
         <div
           className="md:hidden fixed inset-0 z-50 bg-cyber-gray-900/95 backdrop-blur-lg flex items-end"
           onClick={() => useProductStore.getState().hideDetails()}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              useProductStore.getState().hideDetails();
+            }
+          }}
+          role="dialog"
+          aria-modal="true"
         >
           <div
             className="w-full max-h-[80vh] bg-cyber-gray-800 rounded-t-2xl p-6 overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
+            role="document"
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
@@ -228,6 +265,7 @@ export function ProductOffers() {
                 What's Included
               </h3>
               <button
+                type="button"
                 onClick={() => useProductStore.getState().hideDetails()}
                 className="p-2 rounded-lg hover:bg-white/10 transition-colors"
               >
@@ -239,9 +277,9 @@ export function ProductOffers() {
             <div className="space-y-4">
               {PRODUCTS.find(
                 (p) => p.id === showMobileDetails,
-              )?.whatsIncluded.map((section, idx) => (
+              )?.whatsIncluded.map((section) => (
                 <div
-                  key={idx}
+                  key={section.title}
                   className="p-4 rounded-lg bg-white/5 border border-cyber-brand-500/20"
                 >
                   <div className="flex items-center justify-between mb-2">
@@ -255,9 +293,9 @@ export function ProductOffers() {
                     )}
                   </div>
                   <ul className="space-y-1">
-                    {section.items.map((item, itemIdx) => (
+                    {section.items.map((item) => (
                       <li
-                        key={itemIdx}
+                        key={item}
                         className="flex items-start gap-2 text-sm text-cyber-gray-300"
                       >
                         <Icon

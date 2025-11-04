@@ -1,8 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
 import type { APITypes } from "plyr-react";
+import { useEffect, useRef, useState } from "react";
 import "plyr-react/plyr.css";
 
 // 动态导入 Plyr，禁用 SSR
@@ -95,4 +95,3 @@ export function CyberVideoPlayer({
     </div>
   );
 }
-

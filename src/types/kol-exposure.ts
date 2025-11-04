@@ -52,4 +52,3 @@ export interface KOLStats {
   creator: string;
   exposureCount: number;
 }
-

@@ -33,7 +33,10 @@ export function RetailPartners({ className }: RetailPartnersProps) {
           </p>
           {/* Trust badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyber-brand-500/10 border border-cyber-brand-500/30">
-            <Icon icon="lucide:shield-check" className="w-4 h-4 text-cyber-neon-cyan" />
+            <Icon
+              icon="lucide:shield-check"
+              className="w-4 h-4 text-cyber-neon-cyan"
+            />
             <span className="text-sm text-cyber-gray-300">
               All partners offer genuine Galois products with full warranty
             </span>
@@ -62,7 +65,7 @@ export function RetailPartners({ className }: RetailPartnersProps) {
               >
                 <Image
                   src={partner.heroImage}
-                  alt={`${partner.name} - Galois M2 3D LiDAR Camera`}
+                  alt={`${partner.name} - Realsee Galois M2 3D LiDAR Camera - Black Friday Sale`}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -97,7 +100,10 @@ export function RetailPartners({ className }: RetailPartnersProps) {
                 }}
               >
                 <span>Shop Now</span>
-                <Icon icon="lucide:arrow-right" className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                <Icon
+                  icon="lucide:arrow-right"
+                  className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                />
               </a>
             </div>
           ))}

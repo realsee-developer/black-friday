@@ -1,18 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
 import { Icon } from "@iconify/react";
+import { useEffect } from "react";
 import { useKolStatsStore } from "@/store/useKolStatsStore";
 
 export default function KOLStatsPage() {
-  const { 
-    stats, 
-    isLoading, 
-    error, 
-    lastUpdated, 
-    environment, 
-    fetchStats 
-  } = useKolStatsStore();
+  const { stats, isLoading, error, lastUpdated, environment, fetchStats } =
+    useKolStatsStore();
 
   useEffect(() => {
     fetchStats();
@@ -43,9 +37,7 @@ export default function KOLStatsPage() {
               <Icon icon="lucide:clock" className="w-5 h-5" />
               <span>
                 Last Updated:{" "}
-                {lastUpdated
-                  ? new Date(lastUpdated).toLocaleString()
-                  : "N/A"}
+                {lastUpdated ? new Date(lastUpdated).toLocaleString() : "N/A"}
               </span>
             </div>
           </div>
@@ -70,7 +62,10 @@ export default function KOLStatsPage() {
         {/* Error State */}
         {error && (
           <div className="mb-6 p-4 bg-red-900/20 border border-red-500 rounded-lg flex items-start gap-3">
-            <Icon icon="lucide:alert-circle" className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+            <Icon
+              icon="lucide:alert-circle"
+              className="w-5 h-5 text-red-500 shrink-0 mt-0.5"
+            />
             <div>
               <p className="text-red-400 font-semibold">Error</p>
               <p className="text-red-300 text-sm">{error}</p>
@@ -94,7 +89,10 @@ export default function KOLStatsPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="bg-cyber-gray-800 rounded-lg p-6 border border-cyber-gray-700">
                 <div className="flex items-center gap-3 mb-2">
-                  <Icon icon="lucide:video" className="w-6 h-6 text-cyber-brand-500" />
+                  <Icon
+                    icon="lucide:video"
+                    className="w-6 h-6 text-cyber-brand-500"
+                  />
                   <h3 className="text-cyber-gray-400 text-sm font-medium">
                     Total Videos
                   </h3>
@@ -106,7 +104,10 @@ export default function KOLStatsPage() {
 
               <div className="bg-cyber-gray-800 rounded-lg p-6 border border-cyber-gray-700">
                 <div className="flex items-center gap-3 mb-2">
-                  <Icon icon="lucide:eye" className="w-6 h-6 text-cyber-neon-cyan" />
+                  <Icon
+                    icon="lucide:eye"
+                    className="w-6 h-6 text-cyber-neon-cyan"
+                  />
                   <h3 className="text-cyber-gray-400 text-sm font-medium">
                     Total Exposures
                   </h3>
@@ -118,7 +119,10 @@ export default function KOLStatsPage() {
 
               <div className="bg-cyber-gray-800 rounded-lg p-6 border border-cyber-gray-700">
                 <div className="flex items-center gap-3 mb-2">
-                  <Icon icon="lucide:trending-up" className="w-6 h-6 text-green-500" />
+                  <Icon
+                    icon="lucide:trending-up"
+                    className="w-6 h-6 text-green-500"
+                  />
                   <h3 className="text-cyber-gray-400 text-sm font-medium">
                     Avg. Exposure
                   </h3>
@@ -157,10 +161,11 @@ export default function KOLStatsPage() {
                   </thead>
                   <tbody>
                     {stats.map((stat, index) => {
-                      const percentage = totalExposures > 0
-                        ? (stat.exposureCount / totalExposures) * 100
-                        : 0;
-                      
+                      const percentage =
+                        totalExposures > 0
+                          ? (stat.exposureCount / totalExposures) * 100
+                          : 0;
+
                       return (
                         <tr
                           key={stat.videoId}
@@ -192,7 +197,10 @@ export default function KOLStatsPage() {
                               rel="noopener "
                               className="inline-flex items-center gap-1 text-cyber-brand-500 hover:text-cyber-brand-400 transition-colors"
                             >
-                              <Icon icon="lucide:external-link" className="w-4 h-4" />
+                              <Icon
+                                icon="lucide:external-link"
+                                className="w-4 h-4"
+                              />
                               <span className="text-sm">YouTube</span>
                             </a>
                           </td>
@@ -208,7 +216,10 @@ export default function KOLStatsPage() {
             {stats.length > 0 && (
               <div className="mt-6 p-4 bg-cyber-gray-800 rounded-lg border border-cyber-gray-700">
                 <div className="flex items-center gap-3 mb-2">
-                  <Icon icon="lucide:bar-chart-3" className="w-5 h-5 text-cyber-brand-500" />
+                  <Icon
+                    icon="lucide:bar-chart-3"
+                    className="w-5 h-5 text-cyber-brand-500"
+                  />
                   <h3 className="text-cyber-gray-100 font-semibold">
                     Exposure Balance
                   </h3>
@@ -223,7 +234,9 @@ export default function KOLStatsPage() {
                   <div>
                     <span className="text-cyber-gray-400">Highest: </span>
                     <span className="text-cyber-gray-100 font-semibold">
-                      {stats[stats.length - 1]?.exposureCount.toLocaleString() || 0}
+                      {stats[
+                        stats.length - 1
+                      ]?.exposureCount.toLocaleString() || 0}
                     </span>
                   </div>
                 </div>
@@ -235,4 +248,3 @@ export default function KOLStatsPage() {
     </div>
   );
 }
-

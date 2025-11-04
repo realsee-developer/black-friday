@@ -1,10 +1,10 @@
 "use client";
 
 import { Icon } from "@iconify/react";
-import { FEATURES } from "@/lib/constants";
-import { CyberVideoPlayer } from "./CyberVideoPlayer";
-import { useFeaturesStore } from "@/store/useFeaturesStore";
 import type { APITypes } from "plyr-react";
+import { FEATURES } from "@/lib/constants";
+import { useFeaturesStore } from "@/store/useFeaturesStore";
+import { CyberVideoPlayer } from "./CyberVideoPlayer";
 
 export function FeaturesSection() {
   // ✅ 使用 selector 只订阅需要的状态
@@ -17,7 +17,11 @@ export function FeaturesSection() {
   };
 
   // Safety check - if FEATURES is empty or activeFeature is invalid, return null
-  if (FEATURES.length === 0 || activeFeature >= FEATURES.length || activeFeature < 0) {
+  if (
+    FEATURES.length === 0 ||
+    activeFeature >= FEATURES.length ||
+    activeFeature < 0
+  ) {
     return null;
   }
 
@@ -57,7 +61,7 @@ export function FeaturesSection() {
                 src={currentFeature.video}
                 onReady={handlePlyrReady}
               />
-              
+
               {/* 特性切换按钮 - 悬浮在视频上方 */}
               <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
                 <button
@@ -67,21 +71,29 @@ export function FeaturesSection() {
                   type="button"
                   aria-label="上一个特性"
                 >
-                  <Icon icon="lucide:chevron-left" className="w-5 h-5 text-white" />
+                  <Icon
+                    icon="lucide:chevron-left"
+                    className="w-5 h-5 text-white"
+                  />
                 </button>
-                
+
                 <div className="px-3 py-1.5 text-sm text-white font-medium bg-black/60 backdrop-blur-sm rounded-lg border border-white/10">
                   {activeFeature + 1} / {FEATURES.length}
                 </div>
-                
+
                 <button
-                  onClick={() => useFeaturesStore.getState().nextFeature(FEATURES.length)}
+                  onClick={() =>
+                    useFeaturesStore.getState().nextFeature(FEATURES.length)
+                  }
                   disabled={activeFeature === FEATURES.length - 1}
                   className="w-9 h-9 flex items-center justify-center rounded-lg bg-black/60 hover:bg-black/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all backdrop-blur-sm border border-white/10"
                   type="button"
                   aria-label="下一个特性"
                 >
-                  <Icon icon="lucide:chevron-right" className="w-5 h-5 text-white" />
+                  <Icon
+                    icon="lucide:chevron-right"
+                    className="w-5 h-5 text-white"
+                  />
                 </button>
               </div>
             </div>
@@ -169,6 +181,7 @@ export function FeaturesSection() {
             >
               {/* Header */}
               <button
+                type="button"
                 onClick={() =>
                   setActiveFeature(activeFeature === index ? -1 : index)
                 }
@@ -213,10 +226,7 @@ export function FeaturesSection() {
                 <div className="px-6 pb-6 space-y-4">
                   {/* Feature video */}
                   <div className="relative aspect-video rounded-lg overflow-hidden border border-cyber-brand-500/30 bg-cyber-gray-900">
-                    <CyberVideoPlayer
-                      key={feature.video}
-                      src={feature.video}
-                    />
+                    <CyberVideoPlayer key={feature.video} src={feature.video} />
                   </div>
 
                   {/* Description */}

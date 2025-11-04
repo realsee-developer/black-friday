@@ -92,10 +92,12 @@ export function ContactForm() {
     { code: "+254", country: "Kenya", region: "Africa" },
   ];
 
-  const countries = Array.from(new Set(countryCodes.map(c => c.country))).sort();
+  const countries = Array.from(
+    new Set(countryCodes.map((c) => c.country)),
+  ).sort();
 
   const handleCountryChange = (selectedCountry: string) => {
-    const countryData = countryCodes.find(c => c.country === selectedCountry);
+    const countryData = countryCodes.find((c) => c.country === selectedCountry);
     if (countryData) {
       setFormData({
         ...formData,
@@ -106,7 +108,7 @@ export function ContactForm() {
   };
 
   const handleCountryCodeChange = (selectedCode: string) => {
-    const countryData = countryCodes.find(c => c.code === selectedCode);
+    const countryData = countryCodes.find((c) => c.code === selectedCode);
     setFormData({
       ...formData,
       countryCode: selectedCode,
@@ -194,10 +196,7 @@ export function ContactForm() {
 
   if (submitSuccess) {
     return (
-      <section
-        id="contact"
-        className="relative overflow-hidden py-20 sm:py-28"
-      >
+      <section id="contact" className="relative overflow-hidden py-20 sm:py-28">
         <div className="absolute inset-0 z-0">
           <Image
             src="/assets/contact/bg.jpg"
@@ -220,9 +219,11 @@ export function ContactForm() {
               Thank You!
             </h2>
             <p className="text-lg text-cyber-gray-300 mb-8">
-              Your message has been sent successfully. We'll get back to you soon.
+              Your message has been sent successfully. We'll get back to you
+              soon.
             </p>
             <button
+              type="button"
               onClick={resetForm}
               className="cyber-btn-secondary px-6 py-3"
             >
@@ -235,10 +236,7 @@ export function ContactForm() {
   }
 
   return (
-    <section
-      id="contact"
-      className="relative overflow-hidden py-20 sm:py-28"
-    >
+    <section id="contact" className="relative overflow-hidden py-20 sm:py-28">
       <div className="absolute inset-0 z-0">
         <Image
           src="/assets/contact/bg.jpg"
@@ -255,7 +253,6 @@ export function ContactForm() {
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="flex flex-col-reverse md:flex-row gap-8 md:gap-12 lg:gap-16 items-start">
-          
           {/* 左侧：表单 (PC在左，Mobile在下) */}
           <div className="w-full md:w-1/2">
             <form
@@ -263,7 +260,10 @@ export function ContactForm() {
               className="cyber-card-neon p-6 sm:p-8 space-y-6"
             >
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-cyber-gray-200 mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
+                >
                   Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -276,11 +276,16 @@ export function ContactForm() {
                   } text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors`}
                   placeholder="Your name"
                 />
-                {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
+                {errors.name && (
+                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+                )}
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-cyber-gray-200 mb-2">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
+                >
                   Email <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -293,11 +298,16 @@ export function ContactForm() {
                   } text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors`}
                   placeholder="your@email.com"
                 />
-                {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+                )}
               </div>
 
               <div>
-                <label htmlFor="country" className="block text-sm font-medium text-cyber-gray-200 mb-2">
+                <label
+                  htmlFor="country"
+                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
+                >
                   Country/Region & Phone <span className="text-red-500">*</span>
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -309,7 +319,9 @@ export function ContactForm() {
                   >
                     <option value="">Select your country or region</option>
                     {countries.map((country) => (
-                      <option key={country} value={country}>{country}</option>
+                      <option key={country} value={country}>
+                        {country}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -319,9 +331,13 @@ export function ContactForm() {
                     onChange={(e) => handleCountryCodeChange(e.target.value)}
                     className="px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors min-w-[120px]"
                   >
-                    {Array.from(new Set(countryCodes.map(c => c.code))).map((code) => (
-                      <option key={code} value={code}>{code}</option>
-                    ))}
+                    {Array.from(new Set(countryCodes.map((c) => c.code))).map(
+                      (code) => (
+                        <option key={code} value={code}>
+                          {code}
+                        </option>
+                      ),
+                    )}
                   </select>
                   <input
                     type="tel"
@@ -334,11 +350,16 @@ export function ContactForm() {
                     placeholder="123-456-7890"
                   />
                 </div>
-                {errors.phone && <p className="mt-1 text-sm text-red-500">{errors.phone}</p>}
+                {errors.phone && (
+                  <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+                )}
               </div>
 
               <div>
-                <label htmlFor="companyName" className="block text-sm font-medium text-cyber-gray-200 mb-2">
+                <label
+                  htmlFor="companyName"
+                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
+                >
                   Company Name
                 </label>
                 <input
@@ -352,7 +373,10 @@ export function ContactForm() {
               </div>
 
               <div>
-                <label htmlFor="industry" className="block text-sm font-medium text-cyber-gray-200 mb-2">
+                <label
+                  htmlFor="industry"
+                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
+                >
                   Industry <span className="text-red-500">*</span>
                 </label>
                 <select
@@ -365,14 +389,21 @@ export function ContactForm() {
                 >
                   <option value="">Select your industry</option>
                   {industries.map((industry) => (
-                    <option key={industry} value={industry}>{industry}</option>
+                    <option key={industry} value={industry}>
+                      {industry}
+                    </option>
                   ))}
                 </select>
-                {errors.industry && <p className="mt-1 text-sm text-red-500">{errors.industry}</p>}
+                {errors.industry && (
+                  <p className="mt-1 text-sm text-red-500">{errors.industry}</p>
+                )}
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-cyber-gray-200 mb-2">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
+                >
                   Message <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -385,11 +416,16 @@ export function ContactForm() {
                   } text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors resize-none`}
                   placeholder="Please provide more details about your questions so we can help you better."
                 />
-                {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
+                {errors.message && (
+                  <p className="mt-1 text-sm text-red-500">{errors.message}</p>
+                )}
               </div>
 
               <div>
-                <label htmlFor="devicesUsed" className="block text-sm font-medium text-cyber-gray-200 mb-2">
+                <label
+                  htmlFor="devicesUsed"
+                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
+                >
                   What devices or platforms do you use for 3D tours?
                 </label>
                 <input
@@ -404,7 +440,10 @@ export function ContactForm() {
 
               {submitError && (
                 <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 flex items-start gap-3">
-                  <Icon icon="lucide:alert-circle" className="w-5 h-5 shrink-0 mt-0.5" />
+                  <Icon
+                    icon="lucide:alert-circle"
+                    className="w-5 h-5 shrink-0 mt-0.5"
+                  />
                   <span>{submitError}</span>
                 </div>
               )}
@@ -416,7 +455,10 @@ export function ContactForm() {
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
-                    <Icon icon="lucide:loader-2" className="w-5 h-5 animate-spin" />
+                    <Icon
+                      icon="lucide:loader-2"
+                      className="w-5 h-5 animate-spin"
+                    />
                     Sending...
                   </span>
                 ) : (
@@ -433,9 +475,11 @@ export function ContactForm() {
                 Contact us
               </h2>
               <p className="text-lg sm:text-xl text-cyber-gray-300">
-                Please leave your information, we will contact you within 48 hours.
+                Please leave your information, we will contact you within 48
+                hours.
                 <br />
-                Discover our product, explore pricing options, schedule a demo, find solutions tailored to your needs, and more.
+                Discover our product, explore pricing options, schedule a demo,
+                find solutions tailored to your needs, and more.
               </p>
             </div>
 
@@ -455,7 +499,7 @@ export function ContactForm() {
                   </h3>
                 </div>
               </div>
-              
+
               <p className="text-cyber-gray-300">
                 Download Realsee App now and start the new user free trial
               </p>
@@ -471,7 +515,6 @@ export function ContactForm() {
               </a>
             </div>
           </div>
-
         </div>
       </div>
     </section>

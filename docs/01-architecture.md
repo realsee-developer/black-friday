@@ -212,7 +212,7 @@ NEXT_PUBLIC_ENABLE_STICKY_CTA=true
 ### 生产环境
 ```bash
 # Base URL
-NEXT_PUBLIC_BASE_URL=https://blackfriday.realsee.ai
+NEXT_PUBLIC_BASE_URL=https://black-friday.realsee.ai
 
 # Google Analytics
 NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
@@ -261,7 +261,7 @@ npm start
   "installCommand": "npm install",
   "devCommand": "npm run dev",
   "env": {
-    "NEXT_PUBLIC_BASE_URL": "https://blackfriday.realsee.ai"
+    "NEXT_PUBLIC_BASE_URL": "https://black-friday.realsee.ai"
   }
 }
 ```

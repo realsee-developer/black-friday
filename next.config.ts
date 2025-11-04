@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
 
+  // 优化生产构建
+  productionBrowserSourceMaps: false,
+  reactStrictMode: true,
+
   images: {
     loaderFile: "./src/lib/cloudflare-image-loader.ts",
     remotePatterns: [
@@ -63,10 +67,25 @@ const nextConfig: NextConfig = {
             value:
               "camera=(), microphone=(), geolocation=(), interest-cohort=()",
           },
+          // 添加资源预连接提示，加速外部资源加载
+          {
+            key: "Link",
+            value:
+              "<https://global-public.realsee-cdn.com>; rel=preconnect; crossorigin, <https://fonts.googleapis.com>; rel=preconnect; crossorigin, <https://fonts.gstatic.com>; rel=preconnect; crossorigin",
+          },
         ],
       },
       {
         source: "/assets/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/videos/:path*",
         headers: [
           {
             key: "Cache-Control",
