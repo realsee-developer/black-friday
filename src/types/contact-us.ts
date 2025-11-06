@@ -6,15 +6,6 @@ export type ContactFormRequest = {
   content: ContactFormContent;
   /** 表单标识，固定为 'contact-form' */
   form: "contact-form";
-  /** 人机验证信息 */
-  captcha: {
-    /** reCAPTCHA token */
-    recaptcha: string;
-    /** 验证类型，固定为 RecaptchaV3 */
-    recaptchaType: 3; // CaptchaType.RecaptchaV3
-  } | null;
-  /** OTP 验证（海外表单不使用，固定为 null） */
-  otpValidate: null;
 };
 
 /**
