@@ -115,116 +115,12 @@ export function WorldMap({ className }: WorldMapProps) {
         </h2>
       </div>
 
-      <div className="relative w-full bg-black overflow-hidden">
-        {/* 地图 SVG - 铺满整个容器 */}
-        <svg
-          viewBox={`0 0 ${width} ${height}`}
-          className="w-full h-auto"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid meet"
-          role="img"
-          aria-label="Global coverage map showing Realsee service areas"
-        >
-          <title>Realsee Global Coverage Map</title>
-          <defs>
-            {/* 发光滤镜 */}
-            <filter id="glow">
-              <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-
-            {/* 强发光滤镜 */}
-            <filter id="strong-glow">
-              <feGaussianBlur stdDeviation="5" result="coloredBlur" />
-              <feMerge>
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="coloredBlur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-
-          {/* 网格背景 */}
-          <g opacity="0.04">
-            {[...Array(31)].map((_, i) => (
-              <line
-                key={`h-${i}`}
-                x1="0"
-                y1={i * 20}
-                x2={width}
-                y2={i * 20}
-                stroke="#3366FF"
-                strokeWidth="0.5"
-              />
-            ))}
-            {[...Array(61)].map((_, i) => (
-              <line
-                key={`v-${i}`}
-                x1={i * 20}
-                y1="0"
-                x2={i * 20}
-                y2={height}
-                stroke="#3366FF"
-                strokeWidth="0.5"
-              />
-            ))}
-          </g>
-
-          {/* 真实的世界地图 */}
-          <g id="world-countries">
-            {worldGeoJSON.features.map((country: Feature, index: number) => {
-              const countryId = country.id;
-              const countryIdNum =
-                typeof countryId === "string"
-                  ? parseInt(countryId, 10)
-                  : countryId;
-              const isCovered = countryIdNum !== undefined && COVERED_COUNTRIES.has(countryIdNum);
-              const isHovered = hoveredCountry === countryId;
-
-              return (
-                <path
-                  key={`country-${index}`}
-                  d={pathGenerator(country) || ""}
-                  fill={isCovered ? "#00D9FF" : "none"}
-                  fillOpacity={isCovered ? (isHovered ? "1" : "0.85") : "0"}
-                  stroke={isCovered ? "#00D9FF" : "#3366FF"}
-                  strokeWidth={isCovered ? "2.5" : "0.5"}
-                  strokeOpacity={isCovered ? "1" : "0.5"}
-                  filter={
-                    isCovered
-                      ? isHovered
-                        ? "url(#strong-glow)"
-                        : "url(#glow)"
-                      : "none"
-                  }
-                  className="country-path transition-all duration-300"
-                  style={{
-                    animation:
-                      inView && isCovered
-                        ? `fadeIn 0.8s ease ${(index % 20) * 0.05}s forwards`
-                        : "none",
-                    cursor: isCovered ? "pointer" : "default",
-                  }}
-                  onMouseEnter={() =>
-                    isCovered && countryId !== undefined &&
-                    useWorldMapStore.getState().setHoveredCountry(String(countryId))
-                  }
-                  onMouseLeave={() =>
-                    useWorldMapStore.getState().setHoveredCountry(null)
-                  }
-                />
-              );
-            })}
-          </g>
-        </svg>
-
-        {/* 统计数据居中叠加 */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="max-w-5xl w-full px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      {/* 外层容器 - 小屏垂直布局,大屏相对定位叠加 */}
+      <div className="flex flex-col md:relative md:block">
+        {/* 统计数据 - 小屏在上方独立显示,大屏绝对定位叠加 */}
+        <div className="mb-6 md:mb-0 md:absolute md:inset-0 md:flex md:items-center md:justify-center md:pointer-events-none md:z-10">
+          <div className="max-w-5xl w-full mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-6">
               {GLOBAL_STATS.map((stat, index) => {
                 // Spaces Scanned 显示为百万单位
                 const isSpacesScanned = stat.label === "Spaces Scanned";
@@ -236,7 +132,7 @@ export function WorldMap({ className }: WorldMapProps) {
                 return (
                   <div
                     key={stat.label}
-                    className="pointer-events-auto backdrop-blur-md bg-black/70 border border-cyber-brand-500/40 rounded-lg p-6 text-center hover:bg-black/85 hover:border-cyber-brand-500/60 transition-all duration-300"
+                    className="md:pointer-events-auto p-2 md:backdrop-blur-md md:bg-black/70 md:border md:border-cyber-brand-500/40 md:rounded-lg md:p-6 text-center md:hover:bg-black/85 md:hover:border-cyber-brand-500/60 transition-all duration-300"
                     style={{
                       opacity: inView ? 1 : 0,
                       transform: inView ? "translateY(0)" : "translateY(20px)",
@@ -244,7 +140,7 @@ export function WorldMap({ className }: WorldMapProps) {
                     }}
                   >
                     <div
-                      className="text-4xl md:text-5xl font-bold mb-2"
+                      className="text-2xl sm:text-3xl md:text-5xl font-bold mb-1 md:mb-2"
                       style={{ color: "#ffffff" }}
                     >
                       {inView ? (
@@ -262,7 +158,7 @@ export function WorldMap({ className }: WorldMapProps) {
                         `0${suffix}`
                       )}
                     </div>
-                    <div className="text-sm md:text-base text-cyber-gray-300 font-medium">
+                    <div className="text-xs sm:text-sm md:text-base text-cyber-gray-300 font-medium">
                       {stat.label}
                     </div>
                   </div>
@@ -270,6 +166,113 @@ export function WorldMap({ className }: WorldMapProps) {
               })}
             </div>
           </div>
+        </div>
+
+        {/* 地图 SVG - 铺满整个容器 */}
+        <div className="relative w-full bg-black overflow-hidden">
+          <svg
+            viewBox={`0 0 ${width} ${height}`}
+            className="w-full h-auto"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="xMidYMid meet"
+            role="img"
+            aria-label="Global coverage map showing Realsee service areas"
+          >
+            <title>Realsee Global Coverage Map</title>
+            <defs>
+              {/* 发光滤镜 */}
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+
+              {/* 强发光滤镜 */}
+              <filter id="strong-glow">
+                <feGaussianBlur stdDeviation="5" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {/* 网格背景 */}
+            <g opacity="0.04">
+              {[...Array(31)].map((_, i) => (
+                <line
+                  key={`h-${i}`}
+                  x1="0"
+                  y1={i * 20}
+                  x2={width}
+                  y2={i * 20}
+                  stroke="#3366FF"
+                  strokeWidth="0.5"
+                />
+              ))}
+              {[...Array(61)].map((_, i) => (
+                <line
+                  key={`v-${i}`}
+                  x1={i * 20}
+                  y1="0"
+                  x2={i * 20}
+                  y2={height}
+                  stroke="#3366FF"
+                  strokeWidth="0.5"
+                />
+              ))}
+            </g>
+
+            {/* 真实的世界地图 */}
+            <g id="world-countries">
+              {worldGeoJSON.features.map((country: Feature, index: number) => {
+                const countryId = country.id;
+                const countryIdNum =
+                  typeof countryId === "string"
+                    ? parseInt(countryId, 10)
+                    : countryId;
+                const isCovered = countryIdNum !== undefined && COVERED_COUNTRIES.has(countryIdNum);
+                const isHovered = hoveredCountry === countryId;
+
+                return (
+                  <path
+                    key={`country-${index}`}
+                    d={pathGenerator(country) || ""}
+                    fill={isCovered ? "#00D9FF" : "none"}
+                    fillOpacity={isCovered ? (isHovered ? "1" : "0.85") : "0"}
+                    stroke={isCovered ? "#00D9FF" : "#3366FF"}
+                    strokeWidth={isCovered ? "2.5" : "0.5"}
+                    strokeOpacity={isCovered ? "1" : "0.5"}
+                    filter={
+                      isCovered
+                        ? isHovered
+                          ? "url(#strong-glow)"
+                          : "url(#glow)"
+                        : "none"
+                    }
+                    className="country-path transition-all duration-300"
+                    style={{
+                      animation:
+                        inView && isCovered
+                          ? `fadeIn 0.8s ease ${(index % 20) * 0.05}s forwards`
+                          : "none",
+                      cursor: isCovered ? "pointer" : "default",
+                    }}
+                    onMouseEnter={() =>
+                      isCovered && countryId !== undefined &&
+                      useWorldMapStore.getState().setHoveredCountry(String(countryId))
+                    }
+                    onMouseLeave={() =>
+                      useWorldMapStore.getState().setHoveredCountry(null)
+                    }
+                  />
+                );
+              })}
+            </g>
+          </svg>
         </div>
       </div>
 

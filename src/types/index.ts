@@ -38,6 +38,7 @@ export interface ContactFormData {
   industry: string;
   message: string;
   devicesUsed?: string;
+  phoneContact: boolean;
 }
 
 export interface FormState {

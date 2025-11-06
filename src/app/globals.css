@@ -207,7 +207,7 @@
   }
   /* Main content wrapper to accommodate fixed header */
   .main-content-wrapper {
-    @apply pt-16; /* Header height */
+    @apply pt-16 sm:pt-20; /* Header height - responsive */
   }
 
   /* Ensure smooth scrolling and proper spacing */
@@ -253,6 +253,31 @@
 .textarea:focus-visible {
   outline: 2px solid var(--color-brand-600);
   outline-offset: 2px;
+}
+
+/* Touch optimization for mobile */
+header,
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure minimum touch target size on mobile only */
+@media (max-width: 767px) {
+  button:not(.no-min-touch),
+  a[role="button"]:not(.no-min-touch),
+  input[type="submit"]:not(.no-min-touch),
+  input[type="button"]:not(.no-min-touch) {
+    min-height: 44px;
+  }
+  
+  /* Ensure buttons with icon-only have minimum width */
+  button:not(.no-min-touch):has(svg:only-child),
+  a[role="button"]:not(.no-min-touch):has(svg:only-child) {
+    min-width: 44px;
+  }
 }
 
 /* Smooth transitions */

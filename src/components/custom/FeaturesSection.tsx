@@ -30,7 +30,7 @@ export function FeaturesSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 py-20 sm:py-28"
+      className="relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 py-12 sm:py-16 md:py-20"
     >
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
@@ -39,13 +39,13 @@ export function FeaturesSection() {
         <div className="absolute left-1/4 bottom-1/3 h-80 w-80 rounded-full bg-cyber-neon-cyan/10 blur-[140px]" />
       </div>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6">
         {/* Section header */}
-        <div className="text-center mb-16 sm:mb-20">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
+        <div className="text-center mb-12 sm:mb-16 md:mb-20">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cyber-gray-100 mb-3 sm:mb-4">
             LiDAR 3D Solution with Pay-As-You-Go 3D Hosting
           </h2>
-          <p className="text-lg sm:text-xl text-cyber-gray-300 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300 max-w-3xl mx-auto">
             Professional-grade features designed for creators
           </p>
         </div>
@@ -67,7 +67,7 @@ export function FeaturesSection() {
                 <button
                   onClick={() => useFeaturesStore.getState().prevFeature()}
                   disabled={activeFeature === 0}
-                  className="w-9 h-9 flex items-center justify-center rounded-lg bg-black/60 hover:bg-black/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all backdrop-blur-sm border border-white/10"
+                  className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg bg-black/60 hover:bg-black/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all backdrop-blur-sm border border-white/10 min-h-[44px] min-w-[44px] touch-none"
                   type="button"
                   aria-label="上一个特性"
                 >
@@ -86,7 +86,7 @@ export function FeaturesSection() {
                     useFeaturesStore.getState().nextFeature(FEATURES.length)
                   }
                   disabled={activeFeature === FEATURES.length - 1}
-                  className="w-9 h-9 flex items-center justify-center rounded-lg bg-black/60 hover:bg-black/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all backdrop-blur-sm border border-white/10"
+                  className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg bg-black/60 hover:bg-black/80 disabled:opacity-30 disabled:cursor-not-allowed transition-all backdrop-blur-sm border border-white/10 min-h-[44px] min-w-[44px] touch-none"
                   type="button"
                   aria-label="下一个特性"
                 >
@@ -120,7 +120,7 @@ export function FeaturesSection() {
                       {/* 标题按钮 - 响应式固定高度 */}
                       <button
                         onClick={() => setActiveFeature(index)}
-                        className="w-full flex items-center justify-between px-3 lg:px-3.5 xl:px-4 py-2 lg:py-2.5 xl:py-3 text-left shrink-0 h-11 lg:h-12 xl:h-14"
+                        className="w-full flex items-center justify-between px-3 lg:px-3.5 xl:px-4 py-2 lg:py-2.5 xl:py-3 text-left shrink-0 h-11 lg:h-12 xl:h-14 min-h-[44px] touch-none"
                         type="button"
                       >
                         <div className="flex items-center gap-2 lg:gap-2.5 xl:gap-3 flex-1 min-w-0">
@@ -168,7 +168,7 @@ export function FeaturesSection() {
         </div>
 
         {/* Mobile: Stacked layout */}
-        <div className="lg:hidden space-y-6">
+        <div className="lg:hidden space-y-4 sm:space-y-6">
           {FEATURES.map((feature, index) => (
             <div
               key={feature.id}
@@ -184,20 +184,20 @@ export function FeaturesSection() {
                 onClick={() =>
                   setActiveFeature(activeFeature === index ? -1 : index)
                 }
-                className="w-full flex items-center justify-between p-6 text-left"
+                className="w-full flex items-center justify-between p-4 sm:p-6 text-left min-h-[44px] touch-none"
               >
-                <div className="flex items-center gap-4 flex-1">
+                <div className="flex items-center gap-3 sm:gap-4 flex-1">
                   <div
-                    className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 ${
+                    className={`flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full transition-all duration-300 ${
                       activeFeature === index
                         ? "bg-cyber-brand-500 text-white scale-110"
                         : "bg-cyber-gray-700 text-cyber-gray-400 scale-100"
                     }`}
                   >
-                    <span className="font-bold">{index + 1}</span>
+                    <span className="font-bold text-sm sm:text-base">{index + 1}</span>
                   </div>
                   <h3
-                    className={`text-base sm:text-lg font-semibold transition-colors duration-300 ${
+                    className={`text-sm sm:text-base md:text-lg font-semibold transition-colors duration-300 ${
                       activeFeature === index
                         ? "text-cyber-brand-500"
                         : "text-cyber-gray-100"
@@ -208,7 +208,7 @@ export function FeaturesSection() {
                 </div>
                 <Icon
                   icon="lucide:chevron-down"
-                  className={`w-5 h-5 text-cyber-gray-400 transition-all duration-300 shrink-0 ${
+                  className={`w-4 h-4 sm:w-5 sm:h-5 text-cyber-gray-400 transition-all duration-300 shrink-0 ${
                     activeFeature === index ? "rotate-0" : "-rotate-90"
                   }`}
                 />
@@ -222,14 +222,14 @@ export function FeaturesSection() {
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="px-6 pb-6 space-y-4">
+                <div className="px-4 sm:px-6 pb-4 sm:pb-6 space-y-3 sm:space-y-4">
                   {/* Feature video */}
                   <div className="relative aspect-video rounded-lg overflow-hidden border border-cyber-brand-500/30 bg-cyber-gray-900">
                     <CyberVideoPlayer key={feature.video} src={feature.video} />
                   </div>
 
                   {/* Description */}
-                  <p className="text-cyber-gray-300 leading-relaxed text-sm">
+                  <p className="text-sm sm:text-base text-cyber-gray-300 leading-relaxed">
                     {feature.description}
                   </p>
                 </div>

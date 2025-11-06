@@ -21,16 +21,24 @@ export function proxy(request: NextRequest) {
   // Note: request.geo is deprecated in Next.js 15+
   // Use @vercel/functions instead
   const geo = geolocation(request);
-  const country = geo?.country || "US";
+  // Don't set default country - let it be undefined if not detected
+  // This way, RetailPartners will be hidden for unknown locations
+  const country = geo?.country || undefined;
   const region = geo?.region || "";
   const city = geo?.city || "";
   const latitude = geo?.latitude || "";
   const longitude = geo?.longitude || "";
 
   // Add custom headers for SEO and analytics
-  response.headers.set("X-Geo-Country", country);
-  response.headers.set("X-Geo-Region", region);
-  response.headers.set("X-Geo-City", city);
+  if(country) {
+    response.headers.set("X-Geo-Country", country);
+  }
+  if(region) {
+    response.headers.set("X-Geo-Region", region);
+  }
+  if(city) {
+    response.headers.set("X-Geo-City", city);
+  }
 
   // Security headers for SEO trust signals
   response.headers.set(
@@ -42,10 +50,15 @@ export function proxy(request: NextRequest) {
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
 
   // Performance headers
-  response.headers.set(
-    "Cache-Control",
-    "public, s-maxage=3600, stale-while-revalidate=86400",
-  );
+  // Disable caching in development environment
+  if (process.env.NODE_ENV === "development") {
+    response.headers.set("Cache-Control", "no-cache, no-store, must-revalidate");
+  } else {
+    response.headers.set(
+      "Cache-Control",
+      "public, s-maxage=3600, stale-while-revalidate=86400",
+    );
+  }
 
   // SEO-friendly headers
   response.headers.set("X-Robots-Tag", "index, follow");

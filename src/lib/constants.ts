@@ -90,7 +90,7 @@ export const PRODUCTS: ProductSKU[] = [
           "OBJ Downloads",
           "E57 Downloads",
         ],
-        value: "Value at $625",
+        value: "Value at $675",
       },
     ],
   },
@@ -288,12 +288,6 @@ export const KOL_VIDEOS: KOLVideo[] = [
     youtubeId: "IWnjwSZraLE",
     title: "Galois Review by Film Sandwich",
     creator: "Film Sandwich",
-  },
-  {
-    id: "7",
-    youtubeId: "JsB2u-TS-3o",
-    title: "Galois Review by Jonathan Shilton",
-    creator: "Jonathan Shilton",
   },
   {
     id: "8",

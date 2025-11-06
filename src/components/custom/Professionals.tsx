@@ -30,31 +30,31 @@ export function Professionals() {
   };
 
   return (
-    <section className="relative overflow-visible bg-gradient-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-28">
+    <section className="relative overflow-visible bg-gradient-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-12 sm:py-16 md:py-20 lg:py-28">
       <div className="absolute inset-0 -z-10">
         <div className="cyber-grid absolute inset-0 opacity-10" />
         <div className="absolute left-[10%] top-12 h-80 w-80 rounded-full bg-cyber-brand-500/18 blur-[140px]" />
         <div className="absolute right-[15%] bottom-0 h-72 w-72 rounded-full bg-cyber-neon-cyan/18 blur-[150px]" />
       </div>
 
-      <div className="container mx-auto px-6">
-        <div className="mb-16 flex flex-col items-center text-center">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="mb-12 sm:mb-16 flex flex-col items-center text-center">
           <div className="inline-flex items-center">
             <div className="rounded-full bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-neon-magenta p-[1.5px] shadow-[0_0_28px_rgba(51,102,255,0.35)]">
-              <div className="flex items-center gap-2 rounded-full bg-cyber-gray-900/85 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-cyber-gray-100">
+              <div className="flex items-center gap-2 rounded-full bg-cyber-gray-900/85 px-3 sm:px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.35em] text-cyber-gray-100">
                 <Icon
                   icon="heroicons:sparkles"
-                  width={16}
-                  className="text-cyber-neon-cyan"
+                  width={14}
+                  className="sm:w-4 text-cyber-neon-cyan"
                 />
                 Verified Creators
               </div>
             </div>
           </div>
-          <h2 className="mt-6 text-3xl font-bold tracking-tight text-cyber-gray-100 md:text-5xl">
+          <h2 className="mt-4 sm:mt-6 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-cyber-gray-100">
             Realsee Galois Professionals
           </h2>
-          <p className="mt-4 max-w-3xl text-base text-cyber-gray-300 md:text-lg">
+          <p className="mt-3 sm:mt-4 max-w-3xl text-sm sm:text-base md:text-lg text-cyber-gray-300">
             Explore a global roster of certified creators delivering premium
             spatial capture, 3D storytelling, and immersive experiences.
           </p>
