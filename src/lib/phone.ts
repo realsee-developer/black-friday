@@ -13,7 +13,7 @@ export interface CountryData {
 }
 
 // 国家代码到国家名称的映射（英文）
-const countryNames: Record<CountryCode, string> = {
+const countryNames: Partial<Record<CountryCode, string>> = {
   US: "United States",
   CA: "Canada",
   GB: "United Kingdom",

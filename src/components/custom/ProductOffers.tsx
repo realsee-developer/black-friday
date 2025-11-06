@@ -281,7 +281,7 @@ export function ProductOffers() {
                         trackProductContactClick(
                           product.id,
                           product.name,
-                          product.price,
+                          product.discountedPrice,
                         )
                       }
                       className="flex-1 flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 hover:scale-105 cyber-btn-secondary min-h-[44px] touch-none"
@@ -296,7 +296,7 @@ export function ProductOffers() {
                         trackProductBuyClick(
                           product.id,
                           product.name,
-                          product.price,
+                          product.discountedPrice,
                           product.buyUrl,
                         )
                       }
