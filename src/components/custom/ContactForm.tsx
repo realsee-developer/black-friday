@@ -2,8 +2,9 @@
 
 import { Icon } from "@iconify/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ResponsiveBackgroundImage } from "@/components/custom/ResponsiveBackgroundImage";
+import { PhoneInput } from "@/components/custom/PhoneInput";
 import { useFormStore } from "@/store/useFormStore";
 import {
   trackFormSubmit,
@@ -11,6 +12,8 @@ import {
   trackDownloadAppClick,
 } from "@/lib/analytics/gtm";
 import type { ContactFormData } from "@/types";
+import { getAllCountriesData, getDialingCode } from "@/lib/phone";
+import type { CountryCode } from "libphonenumber-js";
 
 // 声明全局 grecaptcha 对象
 declare global {
@@ -25,7 +28,11 @@ declare global {
   }
 }
 
-export function ContactForm() {
+interface ContactFormProps {
+  initialCountryCode?: string;
+}
+
+export function ContactForm({ initialCountryCode }: ContactFormProps = {}) {
   const {
     isSubmitting,
     submitSuccess,
@@ -40,18 +47,124 @@ export function ContactForm() {
     name: "",
     email: "",
     phone: "",
-    countryCode: "+1",
+    countryCode: "",
     country: "",
     companyName: "",
     industry: "",
     message: "",
     devicesUsed: "",
-    phoneContact: false,
+    phoneContact: true, // 输入手机号即认为同意联系
   });
 
   const [errors, setErrors] = useState<
     Partial<Record<keyof ContactFormData, string>>
   >({});
+
+  // 字段验证状态：valid, invalid, untouched
+  const [fieldStatus, setFieldStatus] = useState<
+    Partial<Record<keyof ContactFormData, "valid" | "invalid" | "untouched">>
+  >({});
+
+  // 字段是否被触碰过
+  const [touched, setTouched] = useState<
+    Partial<Record<keyof ContactFormData, boolean>>
+  >({});
+
+  // Geo 检测提示状态
+  const [showGeoDetectedBadge, setShowGeoDetectedBadge] = useState(false);
+
+  // 表单是否在视口中（用于浮动工具栏）
+  const formRef = useRef<HTMLFormElement>(null);
+  const [showFloatingToolbar, setShowFloatingToolbar] = useState(false);
+
+  // 计算表单完成度（必填字段）- 需要在 useEffect 之前定义
+  const formProgress = useMemo(() => {
+    const requiredFields: (keyof ContactFormData)[] = [
+      "name",
+      "email",
+      "phone",
+      "industry",
+      "message",
+    ];
+    const filledFields = requiredFields.filter((field) => {
+      const value = formData[field];
+      return typeof value === "string" && value.trim() !== "";
+    });
+    return Math.round((filledFields.length / requiredFields.length) * 100);
+  }, [formData]);
+
+  // 从 localStorage 恢复表单数据或使用 geo 默认值
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedData = localStorage.getItem("contact-form-draft");
+      if (savedData) {
+        try {
+          const parsedData = JSON.parse(savedData);
+          setFormData(parsedData);
+          return; // 如果有保存的数据，优先使用
+        } catch (error) {
+          console.error("Failed to parse saved form data:", error);
+        }
+      }
+
+      // 如果没有保存的数据，使用 geo 信息默认填充
+      if (initialCountryCode) {
+        const allCountries = getAllCountriesData();
+        const countryData = allCountries.find(
+          (c) => c.countryCode === (initialCountryCode as CountryCode),
+        );
+        if (countryData) {
+          setFormData((prev) => ({
+            ...prev,
+            country: countryData.country,
+            countryCode: countryData.code,
+          }));
+          // 显示地理位置检测提示，5秒后自动隐藏
+          setShowGeoDetectedBadge(true);
+          setTimeout(() => {
+            setShowGeoDetectedBadge(false);
+          }, 5000);
+        }
+      }
+    }
+  }, [initialCountryCode]);
+
+  // 自动保存表单数据到 localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const timeoutId = setTimeout(() => {
+        localStorage.setItem("contact-form-draft", JSON.stringify(formData));
+      }, 1000); // 防抖 1 秒
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [formData]);
+
+  // 监听滚动，控制浮动工具栏显示（仅移动端）
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth >= 768) {
+        setShowFloatingToolbar(false);
+        return;
+      }
+
+      if (formRef.current) {
+        const rect = formRef.current.getBoundingClientRect();
+        // 当表单不在视口中时显示浮动工具栏
+        const isFormVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        setShowFloatingToolbar(!isFormVisible && formProgress > 0);
+      }
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [formProgress]);
 
   // 加载 reCAPTCHA v3 脚本
   useEffect(() => {
@@ -87,78 +200,47 @@ export function ContactForm() {
     "Other",
   ];
 
-  const countryCodes = [
-    { code: "+1", country: "United States", region: "Americas" },
-    { code: "+1", country: "Canada", region: "Americas" },
-    { code: "+44", country: "United Kingdom", region: "Europe" },
-    { code: "+49", country: "Germany", region: "Europe" },
-    { code: "+33", country: "France", region: "Europe" },
-    { code: "+39", country: "Italy", region: "Europe" },
-    { code: "+34", country: "Spain", region: "Europe" },
-    { code: "+31", country: "Netherlands", region: "Europe" },
-    { code: "+32", country: "Belgium", region: "Europe" },
-    { code: "+41", country: "Switzerland", region: "Europe" },
-    { code: "+43", country: "Austria", region: "Europe" },
-    { code: "+46", country: "Sweden", region: "Europe" },
-    { code: "+47", country: "Norway", region: "Europe" },
-    { code: "+45", country: "Denmark", region: "Europe" },
-    { code: "+48", country: "Poland", region: "Europe" },
-    { code: "+7", country: "Russia", region: "Europe" },
-    { code: "+86", country: "China", region: "Asia" },
-    { code: "+852", country: "Hong Kong", region: "Asia" },
-    { code: "+853", country: "Macau", region: "Asia" },
-    { code: "+886", country: "Taiwan", region: "Asia" },
-    { code: "+81", country: "Japan", region: "Asia" },
-    { code: "+82", country: "South Korea", region: "Asia" },
-    { code: "+65", country: "Singapore", region: "Asia" },
-    { code: "+60", country: "Malaysia", region: "Asia" },
-    { code: "+66", country: "Thailand", region: "Asia" },
-    { code: "+84", country: "Vietnam", region: "Asia" },
-    { code: "+63", country: "Philippines", region: "Asia" },
-    { code: "+62", country: "Indonesia", region: "Asia" },
-    { code: "+91", country: "India", region: "Asia" },
-    { code: "+61", country: "Australia", region: "Oceania" },
-    { code: "+64", country: "New Zealand", region: "Oceania" },
-    { code: "+971", country: "United Arab Emirates", region: "Middle East" },
-    { code: "+966", country: "Saudi Arabia", region: "Middle East" },
-    { code: "+974", country: "Qatar", region: "Middle East" },
-    { code: "+965", country: "Kuwait", region: "Middle East" },
-    { code: "+972", country: "Israel", region: "Middle East" },
-    { code: "+90", country: "Turkey", region: "Middle East" },
-    { code: "+55", country: "Brazil", region: "Americas" },
-    { code: "+54", country: "Argentina", region: "Americas" },
-    { code: "+56", country: "Chile", region: "Americas" },
-    { code: "+57", country: "Colombia", region: "Americas" },
-    { code: "+52", country: "Mexico", region: "Americas" },
-    { code: "+27", country: "South Africa", region: "Africa" },
-    { code: "+20", country: "Egypt", region: "Africa" },
-    { code: "+234", country: "Nigeria", region: "Africa" },
-    { code: "+254", country: "Kenya", region: "Africa" },
-  ];
-
-  const countries = Array.from(
-    new Set(countryCodes.map((c) => c.country)),
-  ).sort();
-
-  const handleCountryChange = (selectedCountry: string) => {
-    const countryData = countryCodes.find((c) => c.country === selectedCountry);
-    if (countryData) {
-      setFormData({
-        ...formData,
-        country: selectedCountry,
-        countryCode: countryData.code,
-      });
-    }
+  // 行业图标映射
+  const industryIcons: Record<string, string> = {
+    "Photography Service": "lucide:camera",
+    "Residential Real Estate": "lucide:home",
+    "Commercial Real Estate": "lucide:building-2",
+    "Architecture, Engineering, Construction": "lucide:hammer",
+    "Travel, Hospitality": "lucide:plane",
+    "Retail, Restaurant": "lucide:shopping-bag",
+    Other: "lucide:more-horizontal",
   };
 
-  const handleCountryCodeChange = (selectedCode: string) => {
-    const countryData = countryCodes.find((c) => c.code === selectedCode);
-    setFormData({
-      ...formData,
-      countryCode: selectedCode,
-      country: countryData?.country || "",
-    });
-  };
+  // 实时验证单个字段
+  const validateField = useCallback(
+    (field: keyof ContactFormData, value: string | boolean): string => {
+      if (field === "name" && typeof value === "string") {
+        return value.trim() ? "" : "Name is required";
+      }
+
+      if (field === "email" && typeof value === "string") {
+        if (!value.trim()) return "Email is required";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
+          return "Invalid email format";
+        return "";
+      }
+
+      if (field === "phone" && typeof value === "string") {
+        return value.trim() ? "" : "Phone number is required";
+      }
+
+      if (field === "industry" && typeof value === "string") {
+        return value ? "" : "Industry is required";
+      }
+
+      if (field === "message" && typeof value === "string") {
+        return value.trim() ? "" : "Message is required";
+      }
+
+      return "";
+    },
+    [],
+  );
 
   const validateForm = (): boolean => {
     const newErrors: Partial<Record<keyof ContactFormData, string>> = {};
@@ -239,27 +321,17 @@ export function ContactForm() {
       }
 
       // Track form submission in GTM
+      // 输入手机号即认为同意联系
       trackFormSubmit(
         formData.industry,
         formData.country,
         formData.devicesUsed,
-        formData.phoneContact ? "yes" : "no",
+        "yes", // 输入手机号即认为同意联系
         !!formData.companyName,
       );
 
       setSubmitSuccess(true);
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        countryCode: "+1",
-        country: "",
-        companyName: "",
-        industry: "",
-        message: "",
-        devicesUsed: "",
-        phoneContact: false,
-      });
+      clearForm();
     } catch (error) {
       const errorMessage =
         error instanceof Error
@@ -271,12 +343,78 @@ export function ContactForm() {
     }
   };
 
-  const handleChange = (field: keyof ContactFormData, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
+  const handleChange = useCallback(
+    (field: keyof ContactFormData, value: string | boolean) => {
+      setFormData((prev) => ({ ...prev, [field]: value }));
+      setTouched((prev) => ({ ...prev, [field]: true }));
+
+      // 实时验证
+      if (typeof value === "string") {
+        const error = validateField(field, value);
+        setErrors((prev) => ({ ...prev, [field]: error || undefined }));
+        setFieldStatus((prev) => ({
+          ...prev,
+          [field]: error ? "invalid" : "valid",
+        }));
+      }
+    },
+    [validateField],
+  );
+
+  const handleBlur = useCallback(
+    (field: keyof ContactFormData) => {
+      setTouched((prev) => ({ ...prev, [field]: true }));
+      const value = formData[field];
+      if (typeof value === "string") {
+        const error = validateField(field, value);
+        setErrors((prev) => ({ ...prev, [field]: error || undefined }));
+        setFieldStatus((prev) => ({
+          ...prev,
+          [field]: error ? "invalid" : "valid",
+        }));
+      }
+    },
+    [formData, validateField],
+  );
+
+  const clearForm = useCallback(() => {
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+      countryCode: "",
+      country: "",
+      companyName: "",
+      industry: "",
+      message: "",
+      devicesUsed: "",
+      phoneContact: true, // 输入手机号即认为同意联系
+    });
+    setErrors({});
+    setFieldStatus({});
+    setTouched({});
+    localStorage.removeItem("contact-form-draft");
+  }, []);
+
+  // 获取输入框的边框样式类
+  const getInputBorderClass = useCallback(
+    (field: keyof ContactFormData) => {
+      const status = fieldStatus[field];
+      const isTouched = touched[field];
+      const hasError = errors[field];
+
+      if (hasError && isTouched) {
+        return "border-red-500 focus:ring-red-500";
+      }
+
+      if (status === "valid" && isTouched) {
+        return "border-green-500 focus:ring-green-500";
+      }
+
+      return "border-cyber-gray-600 focus:ring-cyber-brand-500";
+    },
+    [fieldStatus, touched, errors],
+  );
 
   if (submitSuccess) {
     return (
@@ -342,223 +480,323 @@ export function ContactForm() {
           {/* 左侧：表单 (PC在左，Mobile在下) */}
           <div className="w-full md:w-1/2">
             <form
+              ref={formRef}
               onSubmit={handleSubmit}
               className="cyber-card-neon p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6"
             >
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
-                >
-                  Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => handleChange("name", e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border ${
-                    errors.name ? "border-red-500" : "border-cyber-gray-600"
-                  } text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors`}
-                  placeholder="Your name"
-                />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
-                >
-                  Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={(e) => handleChange("email", e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border ${
-                    errors.email ? "border-red-500" : "border-cyber-gray-600"
-                  } text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors`}
-                  placeholder="your@email.com"
-                />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="country"
-                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
-                >
-                  Country/Region & Phone <span className="text-red-500">*</span>
-                </label>
-                <div className="flex gap-2 mb-2">
-                  <select
-                    id="country"
-                    value={formData.country}
-                    onChange={(e) => handleCountryChange(e.target.value)}
-                    className="flex-1 px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors"
-                  >
-                    <option value="">Select your country or region</option>
-                    {countries.map((country) => (
-                      <option key={country} value={country}>
-                        {country}
-                      </option>
-                    ))}
-                  </select>
+              {/* 进度条 */}
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium text-cyber-gray-300">
+                    Form Progress
+                  </span>
+                  <span className="text-sm font-bold text-cyber-brand-500">
+                    {formProgress}%
+                  </span>
                 </div>
-                <div className="flex gap-2">
-                  <select
-                    value={formData.countryCode}
-                    onChange={(e) => handleCountryCodeChange(e.target.value)}
-                    className="px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors min-w-[120px]"
-                  >
-                    {Array.from(new Set(countryCodes.map((c) => c.code))).map(
-                      (code) => (
-                        <option key={code} value={code}>
-                          {code}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                  <input
-                    type="tel"
-                    id="phone"
-                    value={formData.phone}
-                    onChange={(e) => handleChange("phone", e.target.value)}
-                    className={`flex-1 px-4 py-3 rounded-lg bg-cyber-gray-800 border ${
-                      errors.phone ? "border-red-500" : "border-cyber-gray-600"
-                    } text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors`}
-                    placeholder="123-456-7890"
+                <div className="relative h-2 bg-cyber-gray-700 rounded-full overflow-hidden">
+                  <div
+                    className="absolute top-0 left-0 h-full rounded-full transition-all duration-500 ease-out"
+                    style={{
+                      width: `${formProgress}%`,
+                      background:
+                        "linear-gradient(90deg, #3366ff 0%, #00ffff 100%)",
+                      boxShadow:
+                        formProgress > 0
+                          ? "0 0 10px rgba(51, 102, 255, 0.5)"
+                          : "none",
+                    }}
                   />
                 </div>
-                {errors.phone && (
-                  <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
-                )}
+              </div>
+              {/* Personal Information Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
+                  <span className="text-xs font-semibold text-cyber-gray-400 uppercase tracking-wider">
+                    Personal Information
+                  </span>
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
+                </div>
+
+                {/* Name Field */}
+                <div className="group">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-cyber-gray-200 mb-2 transition-colors group-focus-within:text-cyber-brand-500"
+                  >
+                    <Icon
+                      icon="lucide:user"
+                      className="inline-block w-4 h-4 mr-1"
+                    />
+                    Name <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      id="name"
+                      value={formData.name}
+                      onChange={(e) => handleChange("name", e.target.value)}
+                      onBlur={() => handleBlur("name")}
+                      className={`w-full px-4 py-3 pr-10 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
+                        "name",
+                      )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-[1.01]`}
+                      placeholder="John Doe"
+                    />
+                    {fieldStatus.name === "valid" && touched.name && (
+                      <Icon
+                        icon="lucide:check-circle"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500 animate-in fade-in zoom-in duration-300"
+                      />
+                    )}
+                  </div>
+                  {errors.name && touched.name && (
+                    <p className="mt-1 text-sm text-red-500 animate-in slide-in-from-top-1 duration-200">
+                      {errors.name}
+                    </p>
+                  )}
+                </div>
+
+                {/* Email Field */}
+                <div className="group">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-cyber-gray-200 mb-2 transition-colors group-focus-within:text-cyber-brand-500"
+                  >
+                    <Icon
+                      icon="lucide:mail"
+                      className="inline-block w-4 h-4 mr-1"
+                    />
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="email"
+                      id="email"
+                      value={formData.email}
+                      onChange={(e) => handleChange("email", e.target.value)}
+                      onBlur={() => handleBlur("email")}
+                      className={`w-full px-4 py-3 pr-10 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
+                        "email",
+                      )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-[1.01]`}
+                      placeholder="john.doe@company.com"
+                    />
+                    {fieldStatus.email === "valid" && touched.email && (
+                      <Icon
+                        icon="lucide:check-circle"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-500 animate-in fade-in zoom-in duration-300"
+                      />
+                    )}
+                  </div>
+                  {errors.email && touched.email && (
+                    <p className="mt-1 text-sm text-red-500 animate-in slide-in-from-top-1 duration-200">
+                      {errors.email}
+                    </p>
+                  )}
+                </div>
               </div>
 
-              <div>
-                <label
-                  htmlFor="companyName"
-                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
-                >
-                  Company Name
-                </label>
-                <input
-                  type="text"
-                  id="companyName"
-                  value={formData.companyName}
-                  onChange={(e) => handleChange("companyName", e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors"
-                  placeholder="Your company name"
-                />
-              </div>
+              {/* Contact Information Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
+                  <span className="text-xs font-semibold text-cyber-gray-400 uppercase tracking-wider">
+                    Contact Information
+                  </span>
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
+                </div>
 
-              <div>
-                <label
-                  htmlFor="industry"
-                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
-                >
-                  Industry <span className="text-red-500">*</span>
-                </label>
-                <select
-                  id="industry"
-                  value={formData.industry}
-                  onChange={(e) => handleChange("industry", e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border ${
-                    errors.industry ? "border-red-500" : "border-cyber-gray-600"
-                  } text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors`}
-                >
-                  <option value="">Select your industry</option>
-                  {industries.map((industry) => (
-                    <option key={industry} value={industry}>
-                      {industry}
-                    </option>
-                  ))}
-                </select>
-                {errors.industry && (
-                  <p className="mt-1 text-sm text-red-500">{errors.industry}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
-                >
-                  Message <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  value={formData.message}
-                  onChange={(e) => handleChange("message", e.target.value)}
-                  rows={5}
-                  className={`w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border ${
-                    errors.message ? "border-red-500" : "border-cyber-gray-600"
-                  } text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors resize-none`}
-                  placeholder="Please provide more details about your questions so we can help you better."
-                />
-                {errors.message && (
-                  <p className="mt-1 text-sm text-red-500">{errors.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="devicesUsed"
-                  className="block text-sm font-medium text-cyber-gray-200 mb-2"
-                >
-                  What devices or platforms do you use for 3D tours?
-                </label>
-                <input
-                  type="text"
-                  id="devicesUsed"
-                  value={formData.devicesUsed}
-                  onChange={(e) => handleChange("devicesUsed", e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-colors"
-                  placeholder="e.g., Matterport, iGuide, etc."
-                />
-              </div>
-
-              <div className="flex items-start gap-3">
-                <input
-                  type="checkbox"
-                  id="phoneContact"
-                  checked={formData.phoneContact}
-                  onChange={(e) => {
+                {/* Phone Input with Country Selector */}
+                <PhoneInput
+                  value={formData.phone}
+                  countryCode={formData.countryCode}
+                  country={formData.country}
+                  onChange={(phone, countryCode, country) => {
                     setFormData((prev) => ({
                       ...prev,
-                      phoneContact: e.target.checked,
+                      phone,
+                      countryCode,
+                      country,
+                    }));
+                    setTouched((prev) => ({
+                      ...prev,
+                      phone: true,
+                      country: true,
                     }));
                   }}
-                  className="mt-1 w-4 h-4 rounded border-cyber-gray-600 bg-cyber-gray-800 text-cyber-brand-500 focus:ring-2 focus:ring-cyber-brand-500 transition-colors cursor-pointer"
+                  onBlur={() => handleBlur("phone")}
+                  error={errors.phone}
+                  touched={touched.phone}
                 />
-                <label
-                  htmlFor="phoneContact"
-                  className="text-sm text-cyber-gray-300 cursor-pointer"
-                >
-                  I agree to be contacted by phone to discuss my inquiry
-                </label>
+
+                {/* Geo Detection Badge */}
+                {showGeoDetectedBadge && formData.country && (
+                  <div className="mt-2 flex items-center gap-2 text-xs text-cyber-brand-400 animate-in slide-in-from-top-2 fade-in duration-300">
+                    <Icon
+                      icon="lucide:map-pin-check"
+                      className="w-4 h-4"
+                    />
+                    <span>Location detected automatically</span>
+                  </div>
+                )}
+
+                {/* Company Name Field (Optional) */}
+                <div className="group">
+                  <label
+                    htmlFor="companyName"
+                    className="block text-sm font-medium text-cyber-gray-400 mb-2"
+                  >
+                    <Icon
+                      icon="lucide:building"
+                      className="inline-block w-4 h-4 mr-1"
+                    />
+                    Company Name{" "}
+                    <span className="text-xs text-cyber-gray-500">
+                      (Optional)
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    id="companyName"
+                    value={formData.companyName}
+                    onChange={(e) => handleChange("companyName", e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-all duration-300"
+                    placeholder="Your company name"
+                  />
+                </div>
               </div>
 
+              {/* Business Information Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
+                  <span className="text-xs font-semibold text-cyber-gray-400 uppercase tracking-wider">
+                    Business Information
+                  </span>
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
+                </div>
+
+                {/* Industry Field */}
+                <div className="group">
+                  <label
+                    htmlFor="industry"
+                    className="block text-sm font-medium text-cyber-gray-200 mb-2 transition-colors group-focus-within:text-cyber-brand-500"
+                  >
+                    <Icon
+                      icon="lucide:briefcase"
+                      className="inline-block w-4 h-4 mr-1"
+                    />
+                    Industry <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="industry"
+                      value={formData.industry}
+                      onChange={(e) => handleChange("industry", e.target.value)}
+                      onBlur={() => handleBlur("industry")}
+                      className={`w-full px-4 py-3 pr-10 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
+                        "industry",
+                      )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 appearance-none cursor-pointer`}
+                    >
+                      <option value="">Select your industry</option>
+                      {industries.map((industry) => (
+                        <option key={industry} value={industry}>
+                          {industry}
+                        </option>
+                      ))}
+                    </select>
+                    <Icon
+                      icon="lucide:chevron-down"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-cyber-gray-400 pointer-events-none"
+                    />
+                  </div>
+                  {errors.industry && touched.industry && (
+                    <p className="mt-1 text-sm text-red-500 animate-in slide-in-from-top-1 duration-200">
+                      {errors.industry}
+                    </p>
+                  )}
+                </div>
+
+                {/* Message Field */}
+                <div className="group">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-cyber-gray-200 mb-2 transition-colors group-focus-within:text-cyber-brand-500"
+                  >
+                    <Icon
+                      icon="lucide:message-square"
+                      className="inline-block w-4 h-4 mr-1"
+                    />
+                    Message <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <textarea
+                      id="message"
+                      value={formData.message}
+                      onChange={(e) => handleChange("message", e.target.value)}
+                      onBlur={() => handleBlur("message")}
+                      rows={5}
+                      className={`w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
+                        "message",
+                      )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 resize-none`}
+                      placeholder="Tell us about your project or inquiry..."
+                    />
+                    {fieldStatus.message === "valid" && touched.message && (
+                      <Icon
+                        icon="lucide:check-circle"
+                        className="absolute right-3 top-3 w-5 h-5 text-green-500 animate-in fade-in zoom-in duration-300"
+                      />
+                    )}
+                  </div>
+                  {errors.message && touched.message && (
+                    <p className="mt-1 text-sm text-red-500 animate-in slide-in-from-top-1 duration-200">
+                      {errors.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Devices Used Field (Optional) */}
+                <div className="group">
+                  <label
+                    htmlFor="devicesUsed"
+                    className="block text-sm font-medium text-cyber-gray-400 mb-2"
+                  >
+                    <Icon
+                      icon="lucide:camera"
+                      className="inline-block w-4 h-4 mr-1"
+                    />
+                    Devices or Platforms for 3D Tours{" "}
+                    <span className="text-xs text-cyber-gray-500">
+                      (Optional)
+                    </span>
+                  </label>
+                  <input
+                    type="text"
+                    id="devicesUsed"
+                    value={formData.devicesUsed}
+                    onChange={(e) => handleChange("devicesUsed", e.target.value)}
+                    className="w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-all duration-300"
+                    placeholder="e.g., Matterport, iGuide, Ricoh Theta"
+                  />
+                </div>
+              </div>
+
+              {/* Error Message */}
               {submitError && (
-                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 flex items-start gap-3">
+                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 flex items-start gap-3 animate-in slide-in-from-top-2 duration-300">
                   <Icon
                     icon="lucide:alert-circle"
-                    className="w-5 h-5 shrink-0 mt-0.5"
+                    className="w-5 h-5 shrink-0 mt-0.5 animate-pulse"
                   />
                   <span>{submitError}</span>
                 </div>
               )}
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full cyber-btn-primary py-3 sm:py-4 text-base sm:text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] touch-none"
+                className="group relative w-full cyber-btn-primary py-3 sm:py-4 text-base sm:text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] touch-none overflow-hidden"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -569,10 +807,81 @@ export function ContactForm() {
                     Sending...
                   </span>
                 ) : (
-                  "Submit"
+                  <>
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <Icon icon="lucide:send" className="w-5 h-5" />
+                      Submit
+                    </span>
+                    <div className="absolute inset-0 -z-10 bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-brand-500 bg-[length:200%_100%] animate-gradient-x opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </>
                 )}
               </button>
+
+              {/* Auto-save indicator */}
+              {formProgress > 0 && formProgress < 100 && (
+                <p className="text-xs text-center text-cyber-gray-400 flex items-center justify-center gap-1">
+                  <Icon
+                    icon="lucide:save"
+                    className="w-3 h-3 animate-pulse"
+                  />
+                  Your progress is automatically saved
+                </p>
+              )}
             </form>
+
+            {/* Floating Toolbar (Mobile Only) */}
+            {showFloatingToolbar && (
+              <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-cyber-gray-900/95 backdrop-blur-lg border-t border-cyber-brand-500/30 shadow-[0_-4px_20px_rgba(51,102,255,0.3)] animate-in slide-in-from-bottom duration-300">
+                <div className="container mx-auto px-4 py-3">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-medium text-cyber-gray-300">
+                          Progress
+                        </span>
+                        <span className="text-xs font-bold text-cyber-brand-500">
+                          {formProgress}%
+                        </span>
+                      </div>
+                      <div className="h-1.5 bg-cyber-gray-700 rounded-full overflow-hidden">
+                        <div
+                          className="h-full rounded-full transition-all duration-500"
+                          style={{
+                            width: `${formProgress}%`,
+                            background:
+                              "linear-gradient(90deg, #3366ff 0%, #00ffff 100%)",
+                            boxShadow: "0 0 8px rgba(51, 102, 255, 0.5)",
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={clearForm}
+                        className="px-4 py-2 rounded-lg bg-cyber-gray-800 text-cyber-gray-300 text-sm font-medium hover:bg-cyber-gray-700 transition-colors flex items-center gap-1"
+                      >
+                        <Icon icon="lucide:trash-2" className="w-4 h-4" />
+                        Clear
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          formRef.current?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                          });
+                        }}
+                        className="px-4 py-2 rounded-lg bg-cyber-brand-500 text-white text-sm font-medium hover:bg-cyber-brand-600 transition-colors flex items-center gap-1 shadow-lg"
+                      >
+                        <Icon icon="lucide:arrow-up" className="w-4 h-4" />
+                        Back to Form
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 右侧：标题+下载卡片 (PC在右，Mobile在上) */}

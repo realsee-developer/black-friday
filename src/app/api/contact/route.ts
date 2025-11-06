@@ -57,6 +57,7 @@ export async function POST(request: Request) {
     console.log(`Production mode: ${isProduction}`);
 
     // 5. 构建请求体
+    // 根据法务要求：输入手机号即认为同意通过手机号联系
     const requestBody: ContactFormRequest = {
       form: "contact-form",
       content: {
@@ -67,7 +68,7 @@ export async function POST(request: Request) {
         company: data.companyName,
         more_words: data.message,
         industry: data.industry,
-        phone_contact: data.phoneContact,
+        phone_contact: true, // 输入手机号即认为同意联系
         device_words: data.devicesUsed,
         message: body.pageUrl || "",
         referrer: body.referrer || "",

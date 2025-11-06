@@ -33,7 +33,7 @@ export interface ContactFormData {
   email: string;
   phone: string;
   countryCode: string;
-  country?: string;
+  country: string;
   companyName?: string;
   industry: string;
   message: string;

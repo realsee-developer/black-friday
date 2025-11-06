@@ -2220,6 +2220,305 @@ body::-webkit-scrollbar-thumb:hover {
   transform: translateX(100%);
 }
 
+/* ===================================
+   ContactForm 表单增强动画
+   =================================== */
+
+/* 输入框聚焦霓虹扫光效果 */
+@keyframes input-focus-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(51, 102, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 2px rgba(51, 102, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 10px 1px rgba(51, 102, 255, 0.3);
+  }
+}
+
+/* 成功状态边框脉冲 */
+@keyframes success-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+  50% {
+    box-shadow: 0 0 15px 2px rgba(34, 197, 94, 0.3);
+  }
+}
+
+/* 错误状态抖动 */
+@keyframes error-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-4px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(4px);
+  }
+}
+
+/* 渐变背景动画（用于提交按钮）*/
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 3s ease infinite;
+}
+
+/* 表单输入框增强样式 */
+.contact-form-input:focus {
+  animation: input-focus-glow 0.6s ease-out;
+}
+
+.contact-form-input.is-valid {
+  animation: success-pulse 2s ease-in-out infinite;
+}
+
+.contact-form-input.is-invalid {
+  animation: error-shake 0.5s ease-in-out;
+}
+
+/* 进度条动画 */
+@keyframes progress-fill {
+  from {
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  to {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
+
+/* 浮动工具栏滑入动画 */
+@keyframes slide-in-from-bottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Tailwind animate-in 工具类支持 */
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.zoom-in {
+  animation: zoom-in 0.3s ease-out;
+}
+
+@keyframes zoom-in {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.slide-in-from-top-1 {
+  animation: slide-in-from-top-1 0.2s ease-out;
+}
+
+@keyframes slide-in-from-top-1 {
+  from {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-from-top-2 {
+  animation: slide-in-from-top-2 0.3s ease-out;
+}
+
+@keyframes slide-in-from-top-2 {
+  from {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-from-bottom {
+  animation: slide-in-from-bottom 0.3s ease-out;
+}
+
+/* 国家搜索下拉框动画 */
+@keyframes dropdown-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ContactForm 性能优化 */
+/* 使用 will-change 优化动画性能 */
+.contact-form-input {
+  will-change: border-color, box-shadow, transform;
+}
+
+.contact-form-input:not(:focus):not(:hover) {
+  will-change: auto;
+}
+
+/* 进度条使用 transform 优化性能 */
+.form-progress-bar {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* 浮动工具栏优化 */
+.floating-toolbar {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* 减少重绘 */
+.form-section-divider {
+  contain: layout style;
+}
+
+/* GPU 加速 */
+.contact-form-animated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* 国家选择下拉框滚动条样式 */
+.country-dropdown-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.country-dropdown-scrollbar::-webkit-scrollbar-track {
+  background: rgba(26, 26, 26, 0.5);
+  border-radius: 4px;
+}
+
+.country-dropdown-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(51, 102, 255, 0.3);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.country-dropdown-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(51, 102, 255, 0.5);
+}
+
+/* Firefox */
+.country-dropdown-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(51, 102, 255, 0.3) rgba(26, 26, 26, 0.5);
+}
+
+/* ===================================
+   浏览器自动填充样式覆盖
+   =================================== */
+
+/* 覆盖 Chrome/Edge/Safari 自动填充的默认黄色/白色背景 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus,
+select:-webkit-autofill:active {
+  /* 使用超长的 transition-delay 来覆盖浏览器默认样式 */
+  -webkit-text-fill-color: #f5f5f5 !important;
+  -webkit-box-shadow: 0 0 0 1000px #1a1a1a inset !important;
+  box-shadow: 0 0 0 1000px #1a1a1a inset !important;
+  background-color: #1a1a1a !important;
+  background-image: none !important;
+  color: #f5f5f5 !important;
+  border-color: #404040 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* 针对深色主题的输入框（cyber-gray-800 背景）*/
+.bg-cyber-gray-800 input:-webkit-autofill,
+.bg-cyber-gray-800 input:-webkit-autofill:hover,
+.bg-cyber-gray-800 input:-webkit-autofill:focus,
+.bg-cyber-gray-800 input:-webkit-autofill:active,
+input.bg-cyber-gray-800:-webkit-autofill,
+input.bg-cyber-gray-800:-webkit-autofill:hover,
+input.bg-cyber-gray-800:-webkit-autofill:focus,
+input.bg-cyber-gray-800:-webkit-autofill:active,
+textarea.bg-cyber-gray-800:-webkit-autofill,
+textarea.bg-cyber-gray-800:-webkit-autofill:hover,
+textarea.bg-cyber-gray-800:-webkit-autofill:focus,
+textarea.bg-cyber-gray-800:-webkit-autofill:active {
+  -webkit-text-fill-color: #f5f5f5 !important;
+  -webkit-box-shadow: 0 0 0 1000px #1a1a1a inset !important;
+  box-shadow: 0 0 0 1000px #1a1a1a inset !important;
+  background-color: #1a1a1a !important;
+  caret-color: #f5f5f5 !important;
+}
+
+/* 保持焦点时的边框颜色 */
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill:focus {
+  border-color: #3366ff !important;
+}
+
+/* 错误状态的自动填充样式 */
+input.border-red-500:-webkit-autofill,
+input.border-red-500:-webkit-autofill:hover,
+input.border-red-500:-webkit-autofill:focus {
+  border-color: #ef4444 !important;
+}
+
+/* 成功状态的自动填充样式 */
+input.border-green-500:-webkit-autofill,
+input.border-green-500:-webkit-autofill:hover,
+input.border-green-500:-webkit-autofill:focus {
+  border-color: #22c55e !important;
+}
+
 /* 黑五减少动画 */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -2283,6 +2582,24 @@ body::-webkit-scrollbar-thumb:hover {
   }
   .carousel-nav-btn {
     transition: none;
+  }
+
+  /* ContactForm 动画禁用 */
+  .contact-form-input:focus,
+  .contact-form-input.is-valid,
+  .contact-form-input.is-invalid {
+    animation: none;
+  }
+  .animate-in,
+  .fade-in,
+  .zoom-in,
+  .slide-in-from-top-1,
+  .slide-in-from-top-2,
+  .slide-in-from-bottom {
+    animation: none;
+  }
+  .animate-gradient-x {
+    animation: none;
   }
 }
 
