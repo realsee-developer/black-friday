@@ -5,6 +5,11 @@ import Image from "next/image";
 import { PRODUCTS } from "@/lib/constants";
 import { formatPrice } from "@/lib/utils";
 import { useProductStore } from "@/store/useProductStore";
+import {
+  trackProductContactClick,
+  trackProductBuyClick,
+  trackProductDetailsView,
+} from "@/lib/analytics/gtm";
 
 export function ProductOffers() {
   // ✅ 使用 selector 只订阅需要渲染的状态
@@ -193,9 +198,14 @@ export function ProductOffers() {
                   <div className="hidden md:block">
                     <button
                       type="button"
-                      onClick={() =>
-                        useProductStore.getState().toggleExpand(product.id)
-                      }
+                      onClick={() => {
+                        useProductStore.getState().toggleExpand(product.id);
+                        trackProductDetailsView(
+                          product.id,
+                          product.name,
+                          isExpanded ? "collapse" : "expand",
+                        );
+                      }}
                       className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-cyber-gray-300 hover:text-cyber-gray-100 min-h-[44px] touch-none"
                     >
                       <span className="font-medium">What's Included</span>
@@ -248,9 +258,14 @@ export function ProductOffers() {
                   <div className="md:hidden">
                     <button
                       type="button"
-                      onClick={() =>
-                        useProductStore.getState().showDetails(product.id)
-                      }
+                      onClick={() => {
+                        useProductStore.getState().showDetails(product.id);
+                        trackProductDetailsView(
+                          product.id,
+                          product.name,
+                          "expand",
+                        );
+                      }}
                       className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-cyber-gray-300 hover:text-cyber-gray-100 min-h-[44px] touch-none"
                     >
                       <span className="font-medium">What's Included</span>
@@ -262,6 +277,13 @@ export function ProductOffers() {
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                     <a
                       href="#contact"
+                      onClick={() =>
+                        trackProductContactClick(
+                          product.id,
+                          product.name,
+                          product.price,
+                        )
+                      }
                       className="flex-1 flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 hover:scale-105 cyber-btn-secondary min-h-[44px] touch-none"
                     >
                       Contact Us
@@ -270,6 +292,14 @@ export function ProductOffers() {
                       href={product.buyUrl}
                       target="_blank"
                       rel="noopener"
+                      onClick={() =>
+                        trackProductBuyClick(
+                          product.id,
+                          product.name,
+                          product.price,
+                          product.buyUrl,
+                        )
+                      }
                       className="flex-1 flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 hover:scale-105 cyber-btn-primary min-h-[44px] touch-none"
                     >
                       Buy Now

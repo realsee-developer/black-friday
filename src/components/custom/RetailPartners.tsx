@@ -3,6 +3,7 @@
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import { RETAIL_PARTNERS } from "@/lib/constants";
+import { trackRetailShopClick } from "@/lib/analytics/gtm";
 
 interface RetailPartnersProps {
   className?: string;
@@ -103,6 +104,7 @@ export function RetailPartners({ className, countryCode }: RetailPartnersProps) 
                 href={partner.url}
                 target="_blank"
                 rel="noopener "
+                onClick={() => trackRetailShopClick(partner.name, partner.url)}
                 className="mt-4 sm:mt-6 flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base text-white font-semibold shadow-lg transition-all duration-300 min-h-[44px] touch-none"
                 style={{
                   background: `linear-gradient(to right, ${partner.themeColor.from}, ${partner.themeColor.to})`,

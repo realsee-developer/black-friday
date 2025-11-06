@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Orbitron } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 import { generateGlobalAlternates, buildSEOImageUrl } from "@/lib/seo-utils";
 
@@ -182,6 +183,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
+
   return (
     <html
       lang="en"
@@ -197,6 +200,8 @@ export default function RootLayout({
           Skip to main content
         </a>
         {children}
+        {/* Google Tag Manager - only load if GTM ID is configured */}
+        {gtmId && gtmId !== "GTM-XXXXXXX" && <GoogleTagManager gtmId={gtmId} />}
       </body>
     </html>
   );
