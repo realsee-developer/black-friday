@@ -792,6 +792,28 @@ export function ContactForm({ initialCountryCode }: ContactFormProps = {}) {
                 </div>
               )}
 
+              {/* reCAPTCHA 隐私政策说明 */}
+              <p className="text-xs text-center text-cyber-gray-400">
+                This form is protected by reCAPTCHA and the Google{" "}
+                <a
+                  href="https://policies.google.com/privacy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cyber-brand-500 hover:text-cyber-brand-400 underline"
+                >
+                  Privacy Policy
+                </a>{" "}
+                and{" "}
+                <a
+                  href="https://policies.google.com/terms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-cyber-brand-500 hover:text-cyber-brand-400 underline"
+                >
+                  Terms of Service
+                </a>
+              </p>
+
               {/* Submit Button */}
               <button
                 type="submit"
