@@ -47,14 +47,14 @@ export function SiteHeader() {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <a
             href="https://home.realsee.ai/en/home"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 group"
+            className="flex items-center gap-2 sm:gap-3 group"
           >
             <div className="relative group">
               <div className="absolute -inset-2 bg-linear-to-r from-cyber-brand-500/30 via-cyber-neon-cyan/20 to-cyber-brand-500/30 rounded-3xl blur-md group-hover:blur-lg transition-all duration-500" />
@@ -101,7 +101,7 @@ export function SiteHeader() {
             onClick={() =>
               useUIStore.getState().setMobileMenuOpen(!isMobileMenuOpen)
             }
-            className="lg:hidden p-2 rounded-lg text-cyber-gray-100 hover:bg-white/10 transition-colors"
+            className="lg:hidden p-2 rounded-lg text-cyber-gray-100 hover:bg-white/10 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center touch-none"
             aria-label="Toggle menu"
           >
             <Icon
@@ -126,7 +126,7 @@ export function SiteHeader() {
               key={tab.id}
               href={tab.href}
               onClick={(e) => handleNavClick(e, tab.href, tab.id)}
-              className={`px-4 py-3 rounded-lg font-medium text-sm transition-all duration-200 ${
+              className={`px-4 py-3 rounded-lg font-medium text-sm transition-all duration-200 min-h-[44px] flex items-center touch-none ${
                 activeSection === tab.id
                   ? "bg-cyber-brand-500/20 text-white shadow-[0_0_15px_rgba(51,102,255,0.3)]"
                   : "text-cyber-gray-300 hover:text-cyber-gray-100 hover:bg-white/5"

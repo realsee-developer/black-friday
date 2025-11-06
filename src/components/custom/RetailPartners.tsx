@@ -6,14 +6,22 @@ import { RETAIL_PARTNERS } from "@/lib/constants";
 
 interface RetailPartnersProps {
   className?: string;
+  countryCode?: string | null;
 }
 
-export function RetailPartners({ className }: RetailPartnersProps) {
+export function RetailPartners({ className, countryCode }: RetailPartnersProps) {
+  // Only show for US and Canada
+  // If countryCode is null/undefined, don't show (default to hiding for unknown locations)
+  const isNorthAmerica = countryCode === "US" || countryCode === "CA";
+  
+  if (!isNorthAmerica) {
+    return null;
+  }
   return (
     <section
       id="partners"
       aria-label="Authorized Retail Partners"
-      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-800 via-cyber-gray-900 to-cyber-gray-900 py-20 sm:py-28 ${className || ""}`}
+      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-800 via-cyber-gray-900 to-cyber-gray-900 py-12 sm:py-16 md:py-20 lg:py-28 ${className || ""}`}
     >
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
@@ -22,13 +30,13 @@ export function RetailPartners({ className }: RetailPartnersProps) {
         <div className="absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full bg-cyber-brand-500/15 blur-[140px]" />
       </div>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6">
         {/* Section header */}
-        <div className="text-center mb-16 sm:mb-20">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
+        <div className="text-center mb-12 sm:mb-16 md:mb-20">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cyber-gray-100 mb-3 sm:mb-4">
             Available at Trusted Retailers
           </h2>
-          <p className="text-lg sm:text-xl text-cyber-gray-300 max-w-3xl mx-auto mb-4">
+          <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300 max-w-3xl mx-auto mb-3 sm:mb-4">
             Purchase Galois from our authorized retail partners worldwide
           </p>
           {/* Trust badge */}
@@ -95,7 +103,7 @@ export function RetailPartners({ className }: RetailPartnersProps) {
                 href={partner.url}
                 target="_blank"
                 rel="noopener "
-                className="mt-6 flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-white font-semibold shadow-lg transition-all duration-300"
+                className="mt-4 sm:mt-6 flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base text-white font-semibold shadow-lg transition-all duration-300 min-h-[44px] touch-none"
                 style={{
                   background: `linear-gradient(to right, ${partner.themeColor.from}, ${partner.themeColor.to})`,
                   boxShadow: `0 10px 25px -5px rgba(${partner.themeColor.shadow}, 0.3)`,

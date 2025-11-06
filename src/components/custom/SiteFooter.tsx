@@ -39,10 +39,10 @@ export function SiteFooter() {
 
       <div className="relative">
         {/* Main Content */}
-        <div className="container mx-auto px-6 py-20">
+        <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-20">
           {/* Brand Section */}
-          <div className="mb-20 text-center">
-            <div className="flex items-center justify-center gap-4 mb-8">
+          <div className="mb-12 sm:mb-16 md:mb-20 text-center">
+            <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8">
               <div className="relative group">
                 <div className="absolute -inset-2 bg-linear-to-r from-cyber-brand-500/30 via-cyber-neon-cyan/20 to-cyber-brand-500/30 rounded-3xl blur-md group-hover:blur-lg transition-all duration-500" />
                 <Image
@@ -50,21 +50,21 @@ export function SiteFooter() {
                   alt="Realsee Logo"
                   width={64}
                   height={64}
-                  className="relative w-16 h-16 rounded-2xl shadow-2xl ring-2 ring-cyber-brand-500/50 group-hover:ring-cyber-neon-cyan/70 transition-all duration-500"
+                  className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-2xl shadow-2xl ring-2 ring-cyber-brand-500/50 group-hover:ring-cyber-neon-cyan/70 transition-all duration-500"
                   priority
                 />
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-linear-to-br from-cyber-brand-500 to-cyber-neon-cyan rounded-full border-2 border-cyber-gray-900 shadow-lg shadow-cyber-neon-cyan/50" />
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 sm:w-5 sm:h-5 bg-linear-to-br from-cyber-brand-500 to-cyber-neon-cyan rounded-full border-2 border-cyber-gray-900 shadow-lg shadow-cyber-neon-cyan/50" />
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-4xl font-bold font-display bg-linear-to-r from-cyber-brand-600 via-cyber-neon-cyan to-cyber-brand-600 bg-clip-text text-transparent">
+                <span className="text-2xl sm:text-3xl md:text-4xl font-bold font-display bg-linear-to-r from-cyber-brand-600 via-cyber-neon-cyan to-cyber-brand-600 bg-clip-text text-transparent">
                   Realsee
                 </span>
-                <span className="text-cyber-brand-500 text-lg font-semibold -mt-1 tracking-wider">
+                <span className="text-cyber-brand-500 text-sm sm:text-base md:text-lg font-semibold -mt-1 tracking-wider">
                   BLACK FRIDAY
                 </span>
               </div>
             </div>
-            <p className="text-cyber-gray-200 max-w-3xl mx-auto text-xl leading-relaxed">
+            <p className="text-cyber-gray-200 max-w-3xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed px-4">
               Professional 3D scanning technology for creators worldwide.
               <br className="hidden sm:block" />
               Limited time offers on Galois 3D LiDAR Camera.
@@ -72,14 +72,14 @@ export function SiteFooter() {
           </div>
 
           {/* Links Grid */}
-          <div className="grid gap-16 sm:grid-cols-2 lg:grid-cols-3 mb-20">
+          <div className="grid gap-12 sm:gap-16 mb-12 sm:mb-16 md:mb-20 sm:grid-cols-2 lg:grid-cols-3">
             {/* Products */}
-            <div className="space-y-8 group">
-              <h3 className="text-lg font-bold uppercase tracking-widest text-cyber-brand-600 border-b-2 border-cyber-brand-500/30 pb-3 relative">
+            <div className="space-y-6 sm:space-y-8 group">
+              <h3 className="text-base sm:text-lg font-bold uppercase tracking-widest text-cyber-brand-600 border-b-2 border-cyber-brand-500/30 pb-2 sm:pb-3 relative">
                 Products
                 <div className="absolute -bottom-0.5 left-0 w-12 h-0.5 bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan group-hover:w-full transition-all duration-700" />
               </h3>
-              <ul className="space-y-6">
+              <ul className="space-y-4 sm:space-y-6">
                 {[
                   {
                     name: "Galois",
@@ -129,12 +129,12 @@ export function SiteFooter() {
             </div>
 
             {/* Solutions */}
-            <div className="space-y-8 group">
-              <h3 className="text-lg font-bold uppercase tracking-widest text-cyber-brand-600 border-b-2 border-cyber-brand-500/30 pb-3 relative">
+            <div className="space-y-6 sm:space-y-8 group">
+              <h3 className="text-base sm:text-lg font-bold uppercase tracking-widest text-cyber-brand-600 border-b-2 border-cyber-brand-500/30 pb-2 sm:pb-3 relative">
                 Solutions
                 <div className="absolute -bottom-0.5 left-0 w-12 h-0.5 bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan group-hover:w-full transition-all duration-700" />
               </h3>
-              <ul className="space-y-6">
+              <ul className="space-y-4 sm:space-y-6">
                 {[
                   {
                     name: "Real Estate",
@@ -179,12 +179,12 @@ export function SiteFooter() {
             </div>
 
             {/* Resources */}
-            <div className="space-y-8 group">
-              <h3 className="text-lg font-bold uppercase tracking-widest text-cyber-brand-600 border-b-2 border-cyber-brand-500/30 pb-3 relative">
+            <div className="space-y-6 sm:space-y-8 group">
+              <h3 className="text-base sm:text-lg font-bold uppercase tracking-widest text-cyber-brand-600 border-b-2 border-cyber-brand-500/30 pb-2 sm:pb-3 relative">
                 Resources
                 <div className="absolute -bottom-0.5 left-0 w-12 h-0.5 bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan group-hover:w-full transition-all duration-700" />
               </h3>
-              <ul className="space-y-6">
+              <ul className="space-y-4 sm:space-y-6">
                 {[
                   {
                     name: "Realsee App",
@@ -237,7 +237,7 @@ export function SiteFooter() {
 
         {/* Bottom Bar */}
         <div className="border-t border-cyber-brand-300/20 bg-linear-to-r from-cyber-gray-900/80 via-cyber-gray-800/60 to-cyber-gray-900/80 backdrop-blur-md">
-          <div className="container mx-auto px-6 py-8">
+          <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
             <div className="flex flex-col items-center lg:flex-row lg:items-center lg:justify-between gap-8 text-center lg:text-left">
               {/* Copyright */}
               <div className="text-sm text-cyber-gray-300 order-2 lg:order-1 max-w-md lg:max-w-none">
@@ -252,11 +252,11 @@ export function SiteFooter() {
               </div>
 
               {/* Social Links */}
-              <div className="flex flex-wrap items-center justify-center gap-4 order-1 lg:order-2">
+              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 order-1 lg:order-2">
                 <span className="text-xs text-cyber-gray-400 uppercase tracking-wider mr-2">
                   Connect
                 </span>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                   {[
                     {
                       icon: "mdi:facebook",
@@ -297,12 +297,12 @@ export function SiteFooter() {
                     <Link
                       key={social.label}
                       aria-label={social.label}
-                      className="p-3 rounded-xl text-cyber-gray-100 border border-cyber-gray-600/40 bg-cyber-gray-800/70 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-cyber-brand-400 hover:text-cyber-neon-cyan hover:shadow-md hover:shadow-cyber-brand-500/20 focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
+                      className="p-2 sm:p-3 rounded-xl text-cyber-gray-100 border border-cyber-gray-600/40 bg-cyber-gray-800/70 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-cyber-brand-400 hover:text-cyber-neon-cyan hover:shadow-md hover:shadow-cyber-brand-500/20 focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2 min-h-[44px] min-w-[44px] flex items-center justify-center touch-none"
                       href={social.link}
                       target="_blank"
                       rel="noopener "
                     >
-                      <Icon icon={social.icon} width={20} />
+                      <Icon icon={social.icon} width={18} className="sm:w-5" />
                     </Link>
                   ))}
                 </div>

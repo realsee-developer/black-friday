@@ -98,18 +98,18 @@ function TimeUnit({ value, label }: TimeUnitProps) {
   return (
     <div className="flex flex-col items-center group">
       {/* 简化的数字卡片 */}
-      <div className="relative bg-cyber-gray-800/60 border border-cyber-gray-700/50 rounded-lg backdrop-blur-sm min-w-[60px] sm:min-w-[70px] md:min-w-[85px] lg:min-w-[100px] px-3 sm:px-4 md:px-5 py-3 sm:py-4 md:py-5 transition-all duration-300 hover:border-cyber-brand-500/50 hover:bg-cyber-gray-800/80">
+      <div className="relative bg-cyber-gray-800/60 border border-cyber-gray-700/50 rounded-lg backdrop-blur-sm min-w-[50px] sm:min-w-[60px] md:min-w-[70px] lg:min-w-[85px] xl:min-w-[100px] px-2 sm:px-3 md:px-4 lg:px-5 py-2 sm:py-3 md:py-4 lg:py-5 transition-all duration-300 hover:border-cyber-brand-500/50 hover:bg-cyber-gray-800/80">
         {/* 柔和的背景光晕 */}
         <div className="absolute inset-0 rounded-lg bg-cyber-brand-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
         {/* 数字 */}
-        <div className="relative text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-cyber-gray-100 tabular-nums leading-none transition-transform duration-300 group-hover:scale-105">
+        <div className="relative text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-cyber-gray-100 tabular-nums leading-none transition-transform duration-300 group-hover:scale-105">
           {String(value).padStart(2, "0")}
         </div>
       </div>
 
       {/* 标签 */}
-      <div className="text-xs sm:text-sm text-cyber-gray-400 mt-2 sm:mt-2.5 font-medium uppercase tracking-wide">
+      <div className="text-xs sm:text-sm text-cyber-gray-400 mt-1.5 sm:mt-2 md:mt-2.5 font-medium uppercase tracking-wide">
         {label}
       </div>
     </div>
@@ -118,7 +118,7 @@ function TimeUnit({ value, label }: TimeUnitProps) {
 
 function Separator() {
   return (
-    <div className="self-start pt-3 sm:pt-4 md:pt-5 text-2xl sm:text-3xl md:text-4xl font-bold text-cyber-brand-500/50">
+    <div className="self-start pt-2 sm:pt-3 md:pt-4 lg:pt-5 text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-cyber-brand-500/50">
       :
     </div>
   );

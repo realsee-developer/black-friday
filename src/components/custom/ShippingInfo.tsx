@@ -10,7 +10,7 @@ export function ShippingInfo({ className }: ShippingInfoProps) {
     <section
       id="shipping"
       aria-label="Shipping and Service Information"
-      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-20 sm:py-28 ${className || ""}`}
+      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-900/95 to-cyber-gray-800 py-12 sm:py-16 md:py-20 lg:py-28 ${className || ""}`}
     >
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
@@ -19,13 +19,13 @@ export function ShippingInfo({ className }: ShippingInfoProps) {
         <div className="absolute right-[20%] bottom-12 h-72 w-72 rounded-full bg-cyber-neon-cyan/10 blur-[150px]" />
       </div>
 
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-4 sm:px-6">
         {/* Section header */}
-        <div className="text-center mb-16 sm:mb-20">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
+        <div className="text-center mb-12 sm:mb-16 md:mb-20">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cyber-gray-100 mb-3 sm:mb-4">
             Shop Now, Worry-Free
           </h2>
-          <p className="text-lg sm:text-xl text-cyber-gray-300 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300 max-w-3xl mx-auto">
             Your satisfaction, our commitment. Discover the advantages that set
             us apart.
           </p>

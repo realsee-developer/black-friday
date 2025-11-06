@@ -11,9 +11,21 @@ import { SiteHeader } from "@/components/custom/SiteHeader";
 import { TestimonialSection } from "@/components/custom/TestimonialSection";
 import { ToursShowcase } from "@/components/custom/ToursShowcase";
 import { getAllStructuredData } from "@/lib/structured-data";
+import { headers } from "next/headers";
 
-export default function Home() {
+export default async function Home() {
   const structuredData = getAllStructuredData();
+  
+  // Try to get country code from headers set by proxy.ts
+  const headersList = await headers();
+  let countryCode = headersList.get("x-geo-country") || 
+                    headersList.get("X-Geo-Country");
+  
+  // Only show RetailPartners for US and CA
+  // If countryCode is missing or not US/CA, set to null to hide the section
+  if (!countryCode || (countryCode !== "US" && countryCode !== "CA")) {
+    countryCode = null;
+  }
 
   return (
     <div className="relative">
@@ -45,7 +57,7 @@ export default function Home() {
         <ShippingInfo />
 
         {/* Retail Partners */}
-        <RetailPartners />
+        <RetailPartners countryCode={countryCode} />
 
         {/* 3D Tour Showcases */}
         <ToursShowcase />

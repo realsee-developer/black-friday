@@ -51,7 +51,7 @@ export function HeroSection({ className }: HeroSectionProps) {
     <section
       id="hero"
       aria-label="Black Friday Event Hero Section"
-      className={`relative min-h-screen flex items-center justify-center overflow-hidden ${className || ""}`}
+      className={`relative min-h-[600px] h-screen max-h-[650px] md:max-h-[900px] lg:max-h-[1000px] overflow-hidden ${className || ""}`}
       onMouseMove={handleMouseMove}
     >
       {/* Background Image - Responsive */}
@@ -110,48 +110,38 @@ export function HeroSection({ className }: HeroSectionProps) {
         )}
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 py-16 sm:py-20">
-        <div className="flex flex-col items-center md:items-start justify-center text-center md:text-left space-y-6 sm:space-y-8 md:space-y-10 max-w-6xl mx-auto md:mx-0 md:max-w-2xl lg:max-w-3xl">
-          {/* Main title */}
-          <div className="space-y-3 sm:space-y-4" style={getParallaxStyle(1)}>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-cyber-gray-100 via-cyber-brand-400 to-cyber-neon-cyan drop-shadow-[0_0_30px_rgba(51,102,255,0.3)]">
-                Realsee Black Friday 2025
-              </span>
+      {/* Mobile: 贴顶且垂直居中，Desktop/Tablet: 左侧垂直居中对齐 */}
+      <div className="absolute inset-0 flex justify-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-24 pb-8 sm:pt-0 sm:pb-0 sm:h-full sm:flex sm:items-center md:pt-16">
+          <div className="flex flex-col items-center sm:items-start justify-start text-center sm:text-left space-y-5 sm:space-y-4 md:space-y-5 max-w-6xl mx-auto sm:mx-0 sm:max-w-md md:max-w-lg lg:max-w-2xl w-full">
+          {/* Main title - center aligned on mobile, left on tablet/desktop */}
+          <div className="space-y-3 sm:space-y-2.5 md:space-y-3" style={getParallaxStyle(1)}>
+            {/* 主标题：Galois 3D LiDAR Camera Sale */}
+            <h1 className="text-3xl sm:text-2xl md:text-3xl lg:text-5xl xl:text-6xl font-bold leading-tight tracking-tight bg-gradient-to-r from-cyber-brand-400 via-cyber-brand-500 to-cyber-neon-cyan bg-clip-text text-transparent sm:whitespace-nowrap">
+              Galois 3D LiDAR Camera Sale
             </h1>
 
-            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-cyber-gray-200 tracking-wide">
-              Galois 3D LiDAR Camera Sale
-            </h2>
-
-            <p className="text-base sm:text-lg md:text-xl text-cyber-brand-400 font-medium">
+            <p className="text-base sm:text-sm md:text-base lg:text-xl text-cyber-brand-400 font-medium">
               Nov 17th - Dec 7th, 2025 | Worldwide Shipping
+            </p>
+
+            <p className="text-base sm:text-base md:text-lg lg:text-xl text-cyber-gray-300 max-w-full md:max-w-xl lg:max-w-2xl">
+              Experience professional 3D scanning with up to <span className="text-cyber-brand-400 font-bold">$1,425 OFF</span>
             </p>
           </div>
 
-          {/* Description */}
-          <p 
-            className="text-base sm:text-lg md:text-xl text-cyber-gray-300 max-w-3xl leading-relaxed px-4"
-            style={getParallaxStyle(0.5)}
-          >
-            Experience professional 3D scanning with up to{" "}
-            <span className="text-cyber-brand-400 font-bold text-lg sm:text-xl md:text-2xl">
-              $1,425 OFF
-            </span>{" "}
-            during our exclusive Black Friday sale.
-          </p>
-
           {/* CTA button */}
-          <div className="flex justify-center md:justify-start pt-2 sm:pt-4" style={getParallaxStyle(0.3)}>
+          <div className="flex justify-center sm:justify-start pt-4 sm:pt-3 md:pt-4" style={getParallaxStyle(0.3)}>
             <a
               href="#offers"
               aria-label="View Black Friday special offers for Galois 3D LiDAR Camera"
-              className="group relative cyber-btn-primary px-10 sm:px-14 md:px-16 py-4 sm:py-5 md:py-6 text-lg sm:text-xl md:text-2xl font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyber-brand-500/50 active:scale-100 shadow-lg shadow-cyber-brand-500/30"
+              className="group relative cyber-btn-primary px-10 sm:px-8 md:px-10 lg:px-16 py-4 sm:py-3.5 md:py-4 lg:py-6 text-lg sm:text-base md:text-lg lg:text-2xl font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyber-brand-500/50 active:scale-100 shadow-lg shadow-cyber-brand-500/30 min-h-[52px] sm:min-h-[48px] md:min-h-[52px] flex items-center justify-center touch-none"
             >
               {/* Extra glow on hover */}
               <div className="absolute inset-0 rounded-xl bg-linear-to-r from-cyber-brand-500 to-cyber-neon-cyan opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-300 -z-10" />
               <span className="relative z-10">View Offers Now</span>
             </a>
+          </div>
           </div>
         </div>
       </div>

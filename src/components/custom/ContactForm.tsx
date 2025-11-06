@@ -2,10 +2,23 @@
 
 import { Icon } from "@iconify/react";
 import Image from "next/image";
-import { useState } from "react";
-import { useFormStore } from "@/store/useFormStore";
+import { useEffect, useState } from "react";
 import { ResponsiveBackgroundImage } from "@/components/custom/ResponsiveBackgroundImage";
+import { useFormStore } from "@/store/useFormStore";
 import type { ContactFormData } from "@/types";
+
+// 声明全局 grecaptcha 对象
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (callback: () => void) => void;
+      execute: (
+        siteKey: string,
+        options: { action: string },
+      ) => Promise<string>;
+    };
+  }
+}
 
 export function ContactForm() {
   const {
@@ -28,11 +41,36 @@ export function ContactForm() {
     industry: "",
     message: "",
     devicesUsed: "",
+    phoneContact: false,
   });
 
   const [errors, setErrors] = useState<
     Partial<Record<keyof ContactFormData, string>>
   >({});
+
+  // 加载 reCAPTCHA v3 脚本
+  useEffect(() => {
+    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+    if (!siteKey) {
+      console.warn("reCAPTCHA site key not configured");
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    return () => {
+      // 清理脚本
+      const existingScript = document.querySelector(
+        `script[src^="https://www.google.com/recaptcha/api.js"]`,
+      );
+      if (existingScript) {
+        document.head.removeChild(existingScript);
+      }
+    };
+  }, []);
 
   const industries = [
     "Photography Service",
@@ -157,16 +195,42 @@ export function ContactForm() {
     setSubmitError(null);
 
     try {
+      // 获取 reCAPTCHA token
+      let recaptchaToken: string | undefined;
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
+      if (siteKey && typeof window !== "undefined" && window.grecaptcha) {
+        try {
+          await new Promise<void>((resolve) => {
+            window.grecaptcha.ready(() => resolve());
+          });
+          recaptchaToken = await window.grecaptcha.execute(siteKey, {
+            action: "submit",
+          });
+        } catch (error) {
+          console.error("reCAPTCHA execution failed:", error);
+          // 继续提交，后端会处理缺少 token 的情况
+        }
+      }
+
+      // 提交表单
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          formData,
+          recaptchaToken,
+          pageUrl: window.location.href,
+          referrer: document.referrer,
+        }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to submit form");
+        throw new Error(result.error || "Failed to submit form");
       }
 
       setSubmitSuccess(true);
@@ -180,9 +244,14 @@ export function ContactForm() {
         industry: "",
         message: "",
         devicesUsed: "",
+        phoneContact: false,
       });
-    } catch (_error) {
-      setSubmitError("Failed to submit form. Please try again.");
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to submit form. Please try again.";
+      setSubmitError(errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -197,7 +266,10 @@ export function ContactForm() {
 
   if (submitSuccess) {
     return (
-      <section id="contact" className="relative overflow-hidden py-20 sm:py-28">
+      <section
+        id="contact"
+        className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-28"
+      >
         <div className="absolute inset-0 z-0">
           <ResponsiveBackgroundImage
             basePath="/assets/contact/contact-bg"
@@ -206,25 +278,25 @@ export function ContactForm() {
           />
         </div>
 
-        <div className="container mx-auto px-6 max-w-3xl relative z-10">
-          <div className="cyber-card-neon p-12 text-center">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
+        <div className="container mx-auto px-4 sm:px-6 max-w-3xl relative z-10">
+          <div className="cyber-card-neon p-6 sm:p-8 md:p-12 text-center">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
               <Icon
                 icon="lucide:check-circle"
-                className="w-12 h-12 text-green-500"
+                className="w-10 h-10 sm:w-12 sm:h-12 text-green-500"
               />
             </div>
-            <h2 className="text-3xl font-bold text-cyber-gray-100 mb-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-cyber-gray-100 mb-3 sm:mb-4">
               Thank You!
             </h2>
-            <p className="text-lg text-cyber-gray-300 mb-8">
+            <p className="text-base sm:text-lg text-cyber-gray-300 mb-6 sm:mb-8">
               Your message has been sent successfully. We'll get back to you
               soon.
             </p>
             <button
               type="button"
               onClick={resetForm}
-              className="cyber-btn-secondary px-6 py-3"
+              className="cyber-btn-secondary px-6 py-3 min-h-[44px] touch-none"
             >
               Send Another Message
             </button>
@@ -235,7 +307,10 @@ export function ContactForm() {
   }
 
   return (
-    <section id="contact" className="relative overflow-hidden py-20 sm:py-28">
+    <section
+      id="contact"
+      className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-28"
+    >
       <div className="absolute inset-0 z-0">
         <ResponsiveBackgroundImage
           basePath="/assets/contact/contact-bg"
@@ -248,13 +323,13 @@ export function ContactForm() {
         <div className="cyber-grid absolute inset-0 opacity-5" />
       </div>
 
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="flex flex-col-reverse md:flex-row gap-8 md:gap-12 lg:gap-16 items-start">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
+        <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-12 lg:gap-16 items-start">
           {/* 左侧：表单 (PC在左，Mobile在下) */}
           <div className="w-full md:w-1/2">
             <form
               onSubmit={handleSubmit}
-              className="cyber-card-neon p-6 sm:p-8 space-y-6"
+              className="cyber-card-neon p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6"
             >
               <div>
                 <label
@@ -435,6 +510,27 @@ export function ContactForm() {
                 />
               </div>
 
+              <div className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  id="phoneContact"
+                  checked={formData.phoneContact}
+                  onChange={(e) => {
+                    setFormData((prev) => ({
+                      ...prev,
+                      phoneContact: e.target.checked,
+                    }));
+                  }}
+                  className="mt-1 w-4 h-4 rounded border-cyber-gray-600 bg-cyber-gray-800 text-cyber-brand-500 focus:ring-2 focus:ring-cyber-brand-500 transition-colors cursor-pointer"
+                />
+                <label
+                  htmlFor="phoneContact"
+                  className="text-sm text-cyber-gray-300 cursor-pointer"
+                >
+                  I agree to be contacted by phone to discuss my inquiry
+                </label>
+              </div>
+
               {submitError && (
                 <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-500 flex items-start gap-3">
                   <Icon
@@ -448,7 +544,7 @@ export function ContactForm() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full cyber-btn-primary py-4 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full cyber-btn-primary py-3 sm:py-4 text-base sm:text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] touch-none"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center gap-2">
@@ -466,21 +562,21 @@ export function ContactForm() {
           </div>
 
           {/* 右侧：标题+下载卡片 (PC在右，Mobile在上) */}
-          <div className="w-full md:w-1/2 space-y-8">
+          <div className="w-full md:w-1/2 space-y-6 sm:space-y-8">
             <div className="text-center md:text-left">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-gray-100 mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cyber-gray-100 mb-3 sm:mb-4">
                 Contact us
               </h2>
-              <p className="text-lg sm:text-xl text-cyber-gray-300">
+              <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300">
                 Please leave your information, we will contact you within 48
                 hours.
-                <br />
+                <br className="hidden sm:block" />
                 Discover our product, explore pricing options, schedule a demo,
                 find solutions tailored to your needs, and more.
               </p>
             </div>
 
-            <div className="cyber-card-neon p-6 sm:p-8 space-y-6">
+            <div className="cyber-card-neon p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
               <div className="flex items-center gap-4">
                 <div className="relative w-16 h-16 shrink-0">
                   <Image
@@ -505,7 +601,7 @@ export function ContactForm() {
                 href="https://home.realsee.ai/en/download-realsee-vr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 cyber-btn-secondary px-6 py-3 rounded-xl text-base font-semibold transition-all duration-300 hover:scale-105"
+                className="inline-flex items-center gap-2 cyber-btn-secondary px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-105 min-h-[44px] touch-none"
               >
                 <Icon icon="lucide:download" className="w-5 h-5" />
                 Download
@@ -513,7 +609,7 @@ export function ContactForm() {
             </div>
 
             {/* WhatsApp Contact Section */}
-            <div className="cyber-card-neon p-6 sm:p-8 space-y-6">
+            <div className="cyber-card-neon p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
               <div className="flex items-center gap-4">
                 <div className="relative w-16 h-16 shrink-0 flex items-center justify-center bg-[#25D366] rounded-2xl shadow-lg">
                   <Icon icon="mdi:whatsapp" className="w-10 h-10 text-white" />
@@ -532,7 +628,7 @@ export function ContactForm() {
                 href="https://wa.me/message/CGR6XJOODRABC1"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 w-full justify-center bg-[#25D366] hover:bg-[#22c55e] px-6 py-3 rounded-xl text-white text-base font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+                className="inline-flex items-center gap-2 w-full justify-center bg-[#25D366] hover:bg-[#22c55e] px-6 py-3 rounded-xl text-white text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-105 shadow-lg min-h-[44px] touch-none"
               >
                 <Icon icon="mdi:whatsapp" className="w-5 h-5" />
                 Chat on WhatsApp

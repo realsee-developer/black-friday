@@ -42,7 +42,7 @@ export function ToursShowcase() {
     <section
       id="showcases"
       aria-label="3D Virtual Tour Showcases"
-      className="hero min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-4.5rem)] w-screen bg-cyber-gray-900 p-0 relative overflow-hidden"
+      className="hero w-screen bg-cyber-gray-900 p-0 relative overflow-hidden"
     >
       {/* 赛博朋克背景渐变 */}
       <div className="absolute inset-0 bg-linear-to-br from-cyber-brand-500/10 via-transparent to-cyber-neon-cyan/5 pointer-events-none z-0" />
@@ -87,8 +87,8 @@ export function ToursShowcase() {
             useToursStore.getState().resumeAutoPlay(slides.length, DURATION_MS);
           }}
         >
-          {/* Visual container full-bleed with subtle Ken Burns */}
-          <div className="relative w-full h-[100svh]">
+          {/* Visual container with responsive aspect ratios: mobile 9:16, tablet 1:1, desktop 4:3 */}
+          <div className="relative w-full aspect-[9/16] sm:aspect-square lg:aspect-[4/3]">
             {slides.map((s, i) => {
               const isVisible = i === current || i === previous;
               return (
@@ -108,7 +108,7 @@ export function ToursShowcase() {
                     alt={`${s.title} - 3D Virtual Tour created with Galois LiDAR Camera - ${s.category}`}
                     fill
                     priority={i === 0}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1536px) 100vw, 2048px"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 100vw, 2048px"
                     quality={85}
                     placeholder="blur"
                     blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%230a0f1a'/%3E%3C/svg%3E"
@@ -118,23 +118,23 @@ export function ToursShowcase() {
                   />
                   {/* Immersive centered hero content with enhanced design */}
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="px-6 md:px-12 w-full max-w-6xl">
+                    <div className="px-4 sm:px-6 md:px-12 w-full max-w-6xl">
                       <div className="text-white text-center">
                         {/* Main Title */}
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight mb-6">
+                        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight mb-4 sm:mb-6">
                           <span className="bg-linear-to-r from-white via-white to-white/80 bg-clip-text text-transparent drop-shadow-2xl">
                             {s.title}
                           </span>
                         </h1>
 
-                        <div className="mt-6 mb-8 flex items-center justify-center gap-3 flex-wrap">
+                        <div className="mt-4 sm:mt-6 mb-6 sm:mb-8 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
                           <CategoryBadge category={s.category} size="lg" />
                         </div>
 
                         {/* 赛博朋克 CTA 按钮 */}
-                        <div className="mt-8 pointer-events-auto">
+                        <div className="mt-6 sm:mt-8 pointer-events-auto">
                           <Link
-                            className="cyber-btn-primary btn-lg px-10 py-4 rounded-full text-lg font-semibold shadow-2xl shadow-primary/50 hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-sm gap-3 cyber-gentle-pulse font-display"
+                            className="cyber-btn-primary px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 md:py-3 rounded-full text-xs sm:text-sm md:text-base font-semibold shadow-2xl shadow-primary/50 hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-sm gap-1.5 sm:gap-2 cyber-gentle-pulse font-display min-h-[40px] sm:min-h-[44px] md:min-h-[48px] flex items-center justify-center touch-none inline-flex"
                             href={s.url}
                             target="_blank"
                             rel="noopener "
@@ -142,14 +142,15 @@ export function ToursShowcase() {
                           >
                             <Icon
                               icon="solar:rocket-2-bold-duotone"
-                              width={24}
+                              width={16}
+                              className="sm:w-5 md:w-5"
                             />
                             <span>Launch Tour</span>
                           </Link>
                         </div>
 
                         {/* Additional description */}
-                        <p className="mt-6 text-white/80 text-lg md:text-xl lg:text-2xl max-w-2xl mx-auto">
+                        <p className="mt-4 sm:mt-6 text-white/80 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl max-w-2xl mx-auto px-4">
                           Immersive 3D virtual experience - Explore every detail
                           of real spaces
                         </p>
@@ -163,8 +164,16 @@ export function ToursShowcase() {
 
           {/* Enhanced Indicators with modern design */}
           {slides.length > 1 ? (
-            <div className="absolute bottom-28 md:bottom-32 left-1/2 -translate-x-1/2 z-20">
-              <div className="relative flex items-center gap-2 md:gap-3 overflow-hidden rounded-full border border-cyber-brand-400/40 bg-cyber-gray-900/92 px-4 py-3 shadow-lg shadow-cyber-brand-500/15 backdrop-blur-xl">
+            <div className="absolute bottom-6 sm:bottom-8 md:bottom-12 lg:bottom-16 left-1/2 -translate-x-1/2 z-20 px-4">
+              {/* 移动端：页码显示 */}
+              <div className="md:hidden rounded-full border border-white/20 bg-black/60 px-3.5 py-1.5 shadow-xl shadow-black/40 backdrop-blur-md">
+                <span className="text-xs text-white font-semibold tabular-nums tracking-wider">
+                  {current + 1} <span className="text-white/50 mx-0.5">/</span> {slides.length}
+                </span>
+              </div>
+              
+              {/* 平板和桌面：指示点 */}
+              <div className="hidden md:flex relative items-center gap-2 lg:gap-3 overflow-hidden rounded-full border border-cyber-brand-400/40 bg-cyber-gray-900/92 px-3 lg:px-4 py-2 lg:py-3 shadow-lg shadow-cyber-brand-500/15 backdrop-blur-xl">
                 <div className="pointer-events-none absolute inset-0 -z-10 bg-cyber-brand-500/15" />
                 {slides.map((_, i) => {
                   const isActive = i === current;
@@ -176,10 +185,10 @@ export function ToursShowcase() {
                         useToursStore.getState().goTo(i, slides.length)
                       }
                       aria-label={`Go to slide ${i + 1}`}
-                      className={`relative overflow-hidden rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-neon-cyan/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent ${
+                      className={`relative overflow-hidden rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-neon-cyan/80 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent touch-none ${
                         isActive
-                          ? "h-2 md:h-2.5 w-10 md:w-20 bg-white/90"
-                          : "h-2 md:h-2.5 w-2.5 md:w-3 bg-cyber-gray-400/40 hover:bg-cyber-brand-200/60"
+                          ? "h-2 lg:h-2.5 w-10 lg:w-14 bg-white/90"
+                          : "h-2 lg:h-2.5 w-2 lg:w-2.5 bg-cyber-gray-400/40 hover:bg-cyber-brand-200/60"
                       }`}
                       style={
                         {
