@@ -105,9 +105,8 @@ function buildMarkdownMessage(
   // 构建精简的 Markdown 内容 - 随机表情版
   // 只保留最核心的识别信息，详细内容查看 Zoho CRM
   const titleEmoji = randomEmoji(excitementEmojis);
-  const contactEmoji = data.phoneContact
-    ? randomEmoji(phoneEmojis)
-    : randomEmoji(emailEmojis);
+  // 根据法务要求：输入手机号即认为同意联系，所以始终使用电话表情
+  const contactEmoji = randomEmoji(phoneEmojis);
 
   let content = `# ${titleEmoji} 您有新的商机请跟进 ${contactEmoji}\n\n`;
   content += `> ⏰ <font color="warning">**${timestamp}**</font>\n\n`;
@@ -131,13 +130,9 @@ function buildMarkdownMessage(
 
   content += `🏭 ${data.industry}\n\n`;
 
-  // 是否允许电话
-  if (data.phoneContact) {
-    const phoneHighlight = randomEmoji(phoneEmojis);
-    content += `> ${phoneHighlight} <font color="warning">**可直接致电！**</font> ✅\n\n`;
-  } else {
-    content += `> 📧 请优先邮件沟通\n\n`;
-  }
+  // 根据法务要求：输入手机号即认为同意联系
+  const phoneHighlight = randomEmoji(phoneEmojis);
+  content += `> ${phoneHighlight} <font color="warning">**可直接致电！**</font> ✅\n\n`;
 
   // CTA
   const ctaEmoji = randomEmoji(ctaEmojis);

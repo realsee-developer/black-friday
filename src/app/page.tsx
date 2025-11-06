@@ -18,11 +18,11 @@ export default async function Home() {
   
   // Try to get country code from headers set by proxy.ts
   const headersList = await headers();
-  let countryCode = headersList.get("x-geo-country") || 
-                    headersList.get("X-Geo-Country");
+  const geoCountryCode = headersList.get("x-geo-country") || 
+                         headersList.get("X-Geo-Country");
   
   // Only show RetailPartners for US and CA
-  // If countryCode is missing or not US/CA, set to null to hide the section
+  let countryCode = geoCountryCode;
   if (!countryCode || (countryCode !== "US" && countryCode !== "CA")) {
     countryCode = null;
   }
@@ -72,7 +72,7 @@ export default async function Home() {
         <TestimonialSection />
 
         {/* Contact Form */}
-        <ContactForm />
+        <ContactForm initialCountryCode={geoCountryCode || undefined} />
       </main>
 
       {/* Footer */}

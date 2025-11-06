@@ -43,16 +43,16 @@ export function ToursShowcase() {
     <section
       id="showcases"
       aria-label="3D Virtual Tour Showcases"
-      className="hero w-screen bg-cyber-gray-900 p-0 relative overflow-hidden"
+      className="relative overflow-hidden bg-cyber-gray-900 py-12 sm:py-16 md:py-20"
     >
       {/* 赛博朋克背景渐变 */}
-      <div className="absolute inset-0 bg-linear-to-br from-cyber-brand-500/10 via-transparent to-cyber-neon-cyan/5 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-linear-to-br from-cyber-brand-500/5 via-transparent to-cyber-neon-cyan/5 pointer-events-none z-0" />
       {/* 网格背景 */}
-      <div className="absolute inset-0 cyber-grid opacity-10 pointer-events-none z-0" />
+      <div className="absolute inset-0 cyber-grid opacity-5 pointer-events-none z-0" />
 
-      <div className="hero-content p-0 w-full max-w-none relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div
-          className="relative w-full overflow-hidden rounded-none shadow-none focus:outline-none focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
+          className="relative w-full overflow-hidden rounded-2xl shadow-lg focus:outline-none focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2"
           role="region"
           aria-label="Featured 3D Tours Carousel"
           onKeyDown={(e) => {
@@ -88,8 +88,8 @@ export function ToursShowcase() {
             useToursStore.getState().resumeAutoPlay(slides.length, DURATION_MS);
           }}
         >
-          {/* Visual container with responsive aspect ratios: mobile 9:16, tablet 1:1, desktop 4:3 */}
-          <div className="relative w-full aspect-[9/16] sm:aspect-square lg:aspect-[4/3]">
+          {/* Visual container with responsive aspect ratios: mobile 4:3, tablet 16:9, desktop 21:9 */}
+          <div className="relative w-full aspect-[4/3] sm:aspect-video lg:aspect-[21/9]">
             {slides.map((s, i) => {
               const isVisible = i === current || i === previous;
               return (
@@ -122,7 +122,7 @@ export function ToursShowcase() {
                     <div className="px-4 sm:px-6 md:px-12 w-full max-w-6xl">
                       <div className="text-white text-center">
                         {/* Main Title */}
-                        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black tracking-tight mb-4 sm:mb-6">
+                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight mb-4 sm:mb-6">
                           <span className="bg-linear-to-r from-white via-white to-white/80 bg-clip-text text-transparent drop-shadow-2xl">
                             {s.title}
                           </span>
@@ -154,7 +154,7 @@ export function ToursShowcase() {
                         </div>
 
                         {/* Additional description */}
-                        <p className="mt-4 sm:mt-6 text-white/80 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl max-w-2xl mx-auto px-4">
+                        <p className="mt-4 sm:mt-6 text-white/80 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4">
                           Immersive 3D virtual experience - Explore every detail
                           of real spaces
                         </p>
@@ -168,7 +168,7 @@ export function ToursShowcase() {
 
           {/* Enhanced Indicators with modern design */}
           {slides.length > 1 ? (
-            <div className="absolute bottom-6 sm:bottom-8 md:bottom-12 lg:bottom-16 left-1/2 -translate-x-1/2 z-20 px-4">
+            <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-20 px-4">
               {/* 移动端：页码显示 */}
               <div className="md:hidden rounded-full border border-white/20 bg-black/60 px-3.5 py-1.5 shadow-xl shadow-black/40 backdrop-blur-md">
                 <span className="text-xs text-white font-semibold tabular-nums tracking-wider">
