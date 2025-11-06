@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { CategoryBadge } from "@/components/custom/badges";
 import { TOUR_CASES } from "@/lib/constants";
 import { useToursStore } from "@/store/useToursStore";
+import { trackTourLaunchClick } from "@/lib/analytics/gtm";
 
 export function ToursShowcase() {
   // ✅ 使用 selector 只订阅需要渲染的状态
@@ -139,6 +140,9 @@ export function ToursShowcase() {
                             target="_blank"
                             rel="noopener "
                             aria-label={`Explore ${s.title} 3D Virtual Tour`}
+                            onClick={() =>
+                              trackTourLaunchClick(s.title, s.url, s.category)
+                            }
                           >
                             <Icon
                               icon="solar:rocket-2-bold-duotone"

@@ -3,6 +3,7 @@
 
 import { useEffect, useState } from "react";
 import { ResponsiveBackgroundImage } from "@/components/custom/ResponsiveBackgroundImage";
+import { trackHeroCTAClick } from "@/lib/analytics/gtm";
 
 // Hero section with particle effects and parallax
 interface HeroSectionProps {
@@ -135,6 +136,7 @@ export function HeroSection({ className }: HeroSectionProps) {
             <a
               href="#offers"
               aria-label="View Black Friday special offers for Galois 3D LiDAR Camera"
+              onClick={() => trackHeroCTAClick("View Offers Now", "#offers")}
               className="group relative cyber-btn-primary px-10 sm:px-8 md:px-10 lg:px-16 py-4 sm:py-3.5 md:py-4 lg:py-6 text-lg sm:text-base md:text-lg lg:text-2xl font-bold rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-cyber-brand-500/50 active:scale-100 shadow-lg shadow-cyber-brand-500/30 min-h-[52px] sm:min-h-[48px] md:min-h-[52px] flex items-center justify-center touch-none"
             >
               {/* Extra glow on hover */}

@@ -5,6 +5,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { ResponsiveBackgroundImage } from "@/components/custom/ResponsiveBackgroundImage";
 import { useFormStore } from "@/store/useFormStore";
+import {
+  trackFormSubmit,
+  trackWhatsAppClick,
+  trackDownloadAppClick,
+} from "@/lib/analytics/gtm";
 import type { ContactFormData } from "@/types";
 
 // 声明全局 grecaptcha 对象
@@ -232,6 +237,15 @@ export function ContactForm() {
       if (!response.ok) {
         throw new Error(result.error || "Failed to submit form");
       }
+
+      // Track form submission in GTM
+      trackFormSubmit(
+        formData.industry,
+        formData.country,
+        formData.devicesUsed,
+        formData.phoneContact ? "yes" : "no",
+        !!formData.companyName,
+      );
 
       setSubmitSuccess(true);
       setFormData({
@@ -601,6 +615,7 @@ export function ContactForm() {
                 href="https://home.realsee.ai/en/download-realsee-vr"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackDownloadAppClick("contact_form")}
                 className="inline-flex items-center gap-2 cyber-btn-secondary px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-105 min-h-[44px] touch-none"
               >
                 <Icon icon="lucide:download" className="w-5 h-5" />
@@ -628,6 +643,7 @@ export function ContactForm() {
                 href="https://wa.me/message/CGR6XJOODRABC1"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackWhatsAppClick("contact_form")}
                 className="inline-flex items-center gap-2 w-full justify-center bg-[#25D366] hover:bg-[#22c55e] px-6 py-3 rounded-xl text-white text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-105 shadow-lg min-h-[44px] touch-none"
               >
                 <Icon icon="mdi:whatsapp" className="w-5 h-5" />
