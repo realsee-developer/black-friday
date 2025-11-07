@@ -88,8 +88,8 @@ export function ToursShowcase() {
             useToursStore.getState().resumeAutoPlay(slides.length, DURATION_MS);
           }}
         >
-          {/* Visual container with responsive aspect ratios: mobile 4:3, tablet 16:9, desktop 21:9 */}
-          <div className="relative w-full aspect-[4/3] sm:aspect-video lg:aspect-[21/9]">
+          {/* Visual container with responsive aspect ratios: mobile 9:16, tablet 16:9, desktop 21:9 */}
+          <div className="relative w-full aspect-[9/16] sm:aspect-video lg:aspect-[21/9]">
             {slides.map((s, i) => {
               const isVisible = i === current || i === previous;
               return (
