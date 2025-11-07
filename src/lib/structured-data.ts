@@ -561,6 +561,8 @@ export function getProductListSchema() {
         item: {
           "@type": "Product",
           name: "Realsee Galois Premium Bundle - 3D LiDAR Camera",
+          description:
+            "Realsee Galois Professional 3D LiDAR scanning camera with 134MP true color, pay-as-you-go credits plan, and complete accessories package. Perfect for real estate, architecture, and virtual tours. Black Friday special pricing with worldwide shipping available.",
           url: "https://black-friday.realsee.ai#offers",
           image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
           offers: {
@@ -569,6 +571,40 @@ export function getProductListSchema() {
             priceCurrency: "USD",
             availability: "https://schema.org/InStock",
             priceValidUntil: "2025-12-07T23:59:59-08:00",
+            shippingDetails: [
+              {
+                "@type": "OfferShippingDetails",
+                shippingRate: {
+                  "@type": "MonetaryAmount",
+                  value: "0",
+                  currency: "USD",
+                },
+                shippingDestination: [
+                  { "@type": "DefinedRegion", addressCountry: "US" },
+                  { "@type": "DefinedRegion", addressCountry: "CA" },
+                  { "@type": "DefinedRegion", addressCountry: "GB" },
+                  { "@type": "DefinedRegion", addressCountry: "AU" },
+                  { "@type": "DefinedRegion", addressCountry: "DE" },
+                  { "@type": "DefinedRegion", addressCountry: "FR" },
+                  { "@type": "DefinedRegion", addressCountry: "JP" },
+                ],
+                deliveryTime: {
+                  "@type": "ShippingDeliveryTime",
+                  handlingTime: {
+                    "@type": "QuantitativeValue",
+                    minValue: 1,
+                    maxValue: 2,
+                    unitCode: "DAY",
+                  },
+                  transitTime: {
+                    "@type": "QuantitativeValue",
+                    minValue: 3,
+                    maxValue: 10,
+                    unitCode: "DAY",
+                  },
+                },
+              },
+            ],
           },
         },
       },
@@ -578,6 +614,8 @@ export function getProductListSchema() {
         item: {
           "@type": "Product",
           name: "Realsee Galois Standard Kit - 3D LiDAR Camera",
+          description:
+            "Realsee Galois Professional 3D LiDAR scanning camera with essential accessories. Ideal for getting started with professional 3D scanning and virtual tour creation. Black Friday special pricing with worldwide shipping available.",
           url: "https://black-friday.realsee.ai#offers",
           image: buildSEOImageUrl("/assets/products/galois-standard-kit.jpg"),
           offers: {
@@ -586,6 +624,40 @@ export function getProductListSchema() {
             priceCurrency: "USD",
             availability: "https://schema.org/InStock",
             priceValidUntil: "2025-12-07T23:59:59-08:00",
+            shippingDetails: [
+              {
+                "@type": "OfferShippingDetails",
+                shippingRate: {
+                  "@type": "MonetaryAmount",
+                  value: "0",
+                  currency: "USD",
+                },
+                shippingDestination: [
+                  { "@type": "DefinedRegion", addressCountry: "US" },
+                  { "@type": "DefinedRegion", addressCountry: "CA" },
+                  { "@type": "DefinedRegion", addressCountry: "GB" },
+                  { "@type": "DefinedRegion", addressCountry: "AU" },
+                  { "@type": "DefinedRegion", addressCountry: "DE" },
+                  { "@type": "DefinedRegion", addressCountry: "FR" },
+                  { "@type": "DefinedRegion", addressCountry: "JP" },
+                ],
+                deliveryTime: {
+                  "@type": "ShippingDeliveryTime",
+                  handlingTime: {
+                    "@type": "QuantitativeValue",
+                    minValue: 1,
+                    maxValue: 2,
+                    unitCode: "DAY",
+                  },
+                  transitTime: {
+                    "@type": "QuantitativeValue",
+                    minValue: 3,
+                    maxValue: 10,
+                    unitCode: "DAY",
+                  },
+                },
+              },
+            ],
           },
         },
       },
@@ -626,6 +698,9 @@ export function getProductReviewsSchema() {
       itemReviewed: {
         "@type": "Product",
         name: "Realsee Galois Premium Bundle - 3D LiDAR Camera",
+        description:
+          "Realsee Galois Professional 3D LiDAR scanning camera with 134MP true color, pay-as-you-go credits plan, and complete accessories package. Perfect for real estate, architecture, and virtual tours. Black Friday special pricing with worldwide shipping available.",
+        image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
         brand: {
           "@type": "Brand",
           name: "Realsee Galois",
@@ -636,6 +711,40 @@ export function getProductReviewsSchema() {
           priceCurrency: "USD",
           availability: "https://schema.org/InStock",
           priceValidUntil: "2025-12-07T23:59:59-08:00",
+          shippingDetails: [
+            {
+              "@type": "OfferShippingDetails",
+              shippingRate: {
+                "@type": "MonetaryAmount",
+                value: "0",
+                currency: "USD",
+              },
+              shippingDestination: [
+                { "@type": "DefinedRegion", addressCountry: "US" },
+                { "@type": "DefinedRegion", addressCountry: "CA" },
+                { "@type": "DefinedRegion", addressCountry: "GB" },
+                { "@type": "DefinedRegion", addressCountry: "AU" },
+                { "@type": "DefinedRegion", addressCountry: "DE" },
+                { "@type": "DefinedRegion", addressCountry: "FR" },
+                { "@type": "DefinedRegion", addressCountry: "JP" },
+              ],
+              deliveryTime: {
+                "@type": "ShippingDeliveryTime",
+                handlingTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: 1,
+                  maxValue: 2,
+                  unitCode: "DAY",
+                },
+                transitTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: 3,
+                  maxValue: 10,
+                  unitCode: "DAY",
+                },
+              },
+            },
+          ],
         },
       },
       author: {
@@ -658,6 +767,9 @@ export function getProductReviewsSchema() {
       itemReviewed: {
         "@type": "Product",
         name: "Realsee Galois Standard Kit - 3D LiDAR Camera",
+        description:
+          "Realsee Galois Professional 3D LiDAR scanning camera with essential accessories. Ideal for getting started with professional 3D scanning and virtual tour creation. Black Friday special pricing with worldwide shipping available.",
+        image: buildSEOImageUrl("/assets/products/galois-standard-kit.jpg"),
         brand: {
           "@type": "Brand",
           name: "Realsee Galois",
@@ -668,6 +780,40 @@ export function getProductReviewsSchema() {
           priceCurrency: "USD",
           availability: "https://schema.org/InStock",
           priceValidUntil: "2025-12-07T23:59:59-08:00",
+          shippingDetails: [
+            {
+              "@type": "OfferShippingDetails",
+              shippingRate: {
+                "@type": "MonetaryAmount",
+                value: "0",
+                currency: "USD",
+              },
+              shippingDestination: [
+                { "@type": "DefinedRegion", addressCountry: "US" },
+                { "@type": "DefinedRegion", addressCountry: "CA" },
+                { "@type": "DefinedRegion", addressCountry: "GB" },
+                { "@type": "DefinedRegion", addressCountry: "AU" },
+                { "@type": "DefinedRegion", addressCountry: "DE" },
+                { "@type": "DefinedRegion", addressCountry: "FR" },
+                { "@type": "DefinedRegion", addressCountry: "JP" },
+              ],
+              deliveryTime: {
+                "@type": "ShippingDeliveryTime",
+                handlingTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: 1,
+                  maxValue: 2,
+                  unitCode: "DAY",
+                },
+                transitTime: {
+                  "@type": "QuantitativeValue",
+                  minValue: 3,
+                  maxValue: 10,
+                  unitCode: "DAY",
+                },
+              },
+            },
+          ],
         },
       },
       author: {
