@@ -121,12 +121,12 @@ export function ToursShowcase() {
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <div className="px-4 sm:px-6 md:px-12 w-full max-w-6xl">
                       <div className="text-white text-center">
-                        {/* Main Title */}
-                        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight mb-4 sm:mb-6">
+                        {/* Main Title - Using h2 for SEO best practices (only one h1 per page) */}
+                        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black tracking-tight mb-4 sm:mb-6">
                           <span className="bg-linear-to-r from-white via-white to-white/80 bg-clip-text text-transparent drop-shadow-2xl">
                             {s.title}
                           </span>
-                        </h1>
+                        </h2>
 
                         <div className="mt-4 sm:mt-6 mb-6 sm:mb-8 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
                           <CategoryBadge category={s.category} size="lg" />
@@ -138,7 +138,7 @@ export function ToursShowcase() {
                             className="cyber-btn-primary px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 md:py-3 rounded-full text-xs sm:text-sm md:text-base font-semibold shadow-2xl shadow-primary/50 hover:scale-105 active:scale-95 transition-all duration-300 backdrop-blur-sm gap-1.5 sm:gap-2 cyber-gentle-pulse font-display min-h-[40px] sm:min-h-[44px] md:min-h-[48px] flex items-center justify-center touch-none inline-flex"
                             href={s.url}
                             target="_blank"
-                            rel="noopener "
+                            rel="noopener noreferrer"
                             aria-label={`Explore ${s.title} 3D Virtual Tour`}
                             onClick={() =>
                               trackTourLaunchClick(s.title, s.url, s.category)

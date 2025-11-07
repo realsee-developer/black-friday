@@ -24,8 +24,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: lastModified,
       changeFrequency: isEventActive ? "hourly" : "daily",
       priority: 1.0,
-      // Images are handled by Next.js automatically through metadata
-      // But we can add explicit image information for better indexing
+      // Add images for better image search indexing
+      images: [
+        {
+          url: `${baseUrl}/assets/realsee-black-friday-2025-galois-share.jpg`,
+          title: "Realsee Black Friday 2025 - Galois 3D LiDAR Camera",
+          alt: "Realsee Black Friday 2025 - Galois 3D LiDAR Camera Premium Bundle - Save $1,425",
+        },
+        {
+          url: `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
+          title: "Realsee Galois Premium Bundle - 3D LiDAR Camera",
+          alt: "Realsee Galois Premium Bundle - Professional 3D LiDAR Camera with accessories",
+        },
+        {
+          url: `${baseUrl}/assets/products/galois-standard-kit.jpg`,
+          title: "Realsee Galois Standard Kit - 3D LiDAR Camera",
+          alt: "Realsee Galois Standard Kit - Essential 3D LiDAR Camera package",
+        },
+      ],
     },
   ];
 }

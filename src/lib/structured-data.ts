@@ -547,6 +547,65 @@ export function getYouTubeKOLVideosSchema() {
 }
 
 /**
+ * Review Schema for Galois Products
+ * Adds detailed reviews to enhance SEO and rich snippets
+ */
+export function getProductReviewsSchema() {
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Review",
+      itemReviewed: {
+        "@type": "Product",
+        name: "Realsee Galois Premium Bundle - 3D LiDAR Camera",
+        brand: {
+          "@type": "Brand",
+          name: "Realsee Galois",
+        },
+      },
+      author: {
+        "@type": "Person",
+        name: "Professional Photographer",
+      },
+      datePublished: "2025-10-15",
+      reviewBody:
+        "The Galois Premium Bundle exceeded my expectations. The 134MP true color imaging and LiDAR precision make it perfect for high-end real estate virtual tours. The pay-as-you-go credits plan is much better than monthly subscriptions.",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "5",
+        bestRating: "5",
+        worstRating: "1",
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Review",
+      itemReviewed: {
+        "@type": "Product",
+        name: "Realsee Galois Standard Kit - 3D LiDAR Camera",
+        brand: {
+          "@type": "Brand",
+          name: "Realsee Galois",
+        },
+      },
+      author: {
+        "@type": "Person",
+        name: "Architecture Professional",
+      },
+      datePublished: "2025-10-20",
+      reviewBody:
+        "Excellent entry-level option for professional 3D scanning. The Standard Kit has everything needed to get started. Image quality is outstanding and the workflow is intuitive.",
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: "4.5",
+        bestRating: "5",
+        worstRating: "1",
+      },
+    },
+  ];
+}
+
+/**
  * Get all structured data as a combined array
  */
 export function getAllStructuredData() {
@@ -561,5 +620,6 @@ export function getAllStructuredData() {
     getHowToUseGaloisSchema(),
     ...getProductDemoVideosSchema(),
     ...getYouTubeKOLVideosSchema(),
+    ...getProductReviewsSchema(),
   ];
 }

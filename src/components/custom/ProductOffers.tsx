@@ -291,7 +291,7 @@ export function ProductOffers() {
                     <a
                       href={product.buyUrl}
                       target="_blank"
-                      rel="noopener"
+                      rel="noopener noreferrer"
                       onClick={() =>
                         trackProductBuyClick(
                           product.id,
