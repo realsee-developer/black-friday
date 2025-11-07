@@ -35,6 +35,3 @@ Allow: /
 # Sitemap location
 Sitemap: https://black-friday.realsee.ai/sitemap.xml
 
-# Host preference
-Host: https://black-friday.realsee.ai
-
