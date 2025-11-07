@@ -630,6 +630,13 @@ export function getProductReviewsSchema() {
           "@type": "Brand",
           name: "Realsee Galois",
         },
+        offers: {
+          "@type": "Offer",
+          price: "4999",
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
+          priceValidUntil: "2025-12-07T23:59:59-08:00",
+        },
       },
       author: {
         "@type": "Person",
@@ -654,6 +661,13 @@ export function getProductReviewsSchema() {
         brand: {
           "@type": "Brand",
           name: "Realsee Galois",
+        },
+        offers: {
+          "@type": "Offer",
+          price: "4599",
+          priceCurrency: "USD",
+          availability: "https://schema.org/InStock",
+          priceValidUntil: "2025-12-07T23:59:59-08:00",
         },
       },
       author: {
