@@ -107,7 +107,7 @@ export function SiteFooter() {
                       className="group/link block p-4 -m-4 rounded-xl hover:bg-linear-to-r hover:from-cyber-brand-500/5 hover:to-cyber-neon-cyan/5 border border-transparent hover:border-cyber-brand-500/20 transition-all duration-300 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
                       href={item.link}
                       target="_blank"
-                      rel="noopener "
+                      rel="noopener noreferrer"
                     >
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-cyber-gray-100 font-semibold text-lg group-hover/link:text-cyber-brand-500 transition-colors duration-300">
@@ -157,7 +157,7 @@ export function SiteFooter() {
                       className="group/link block p-4 -m-4 rounded-xl hover:bg-linear-to-r hover:from-cyber-brand-500/5 hover:to-cyber-neon-cyan/5 border border-transparent hover:border-cyber-brand-500/20 transition-all duration-300 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
                       href={item.link}
                       target="_blank"
-                      rel="noopener "
+                      rel="noopener noreferrer"
                     >
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-cyber-gray-100 font-semibold text-lg group-hover/link:text-cyber-brand-500 transition-colors duration-300">
@@ -212,7 +212,7 @@ export function SiteFooter() {
                       className="group/link block p-4 -m-4 rounded-xl hover:bg-linear-to-r hover:from-cyber-brand-500/5 hover:to-cyber-neon-cyan/5 border border-transparent hover:border-cyber-brand-500/20 transition-all duration-300 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2"
                       href={item.link}
                       target="_blank"
-                      rel="noopener "
+                      rel="noopener noreferrer"
                     >
                       <div className="flex items-center gap-3 mb-2">
                         <span className="text-cyber-gray-100 font-semibold text-lg group-hover/link:text-cyber-brand-500 transition-colors duration-300">
@@ -300,7 +300,7 @@ export function SiteFooter() {
                       className="p-2 sm:p-3 rounded-xl text-cyber-gray-100 border border-cyber-gray-600/40 bg-cyber-gray-800/70 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-cyber-brand-400 hover:text-cyber-neon-cyan hover:shadow-md hover:shadow-cyber-brand-500/20 focus-visible:outline-2 focus-visible:outline-cyber-brand-500 focus-visible:outline-offset-2 min-h-[44px] min-w-[44px] flex items-center justify-center touch-none"
                       href={social.link}
                       target="_blank"
-                      rel="noopener "
+                      rel="noopener noreferrer"
                     >
                       <Icon icon={social.icon} width={18} className="sm:w-5" />
                     </Link>

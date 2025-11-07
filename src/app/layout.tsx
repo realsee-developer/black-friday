@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     template: "%s | Realsee Black Friday",
   },
   description:
-    "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Premium Bundle $4,999 (reg. $6,424). Worldwide shipping available. Limited time offer Nov 17 - Dec 7, 2025.",
+    "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Premium Bundle $4,999 (reg. $6,424). Worldwide shipping. Limited offer Nov 17 - Dec 7.",
   keywords: [
     // 核心品牌+活动关键词
     "Realsee Black Friday",
@@ -111,7 +111,7 @@ export const metadata: Metadata = {
     title:
       "Realsee Black Friday 2025 - Galois 3D LiDAR Camera Sale | Save $1,425",
     description:
-      "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Premium Bundle $4,999 (reg. $6,424). Worldwide shipping available. Limited offer Nov 17 - Dec 7.",
+      "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Premium Bundle $4,999 (reg. $6,424). Worldwide shipping. Limited offer Nov 17 - Dec 7.",
     siteName: "Realsee Black Friday",
     images: [
       {
@@ -127,7 +127,7 @@ export const metadata: Metadata = {
     title:
       "Realsee Black Friday 2025 - Galois 3D LiDAR Camera Sale | Save $1,425",
     description:
-      "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Worldwide shipping. Limited time offer Nov 17 - Dec 7!",
+      "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Premium Bundle $4,999. Worldwide shipping. Limited offer Nov 17 - Dec 7!",
     images: [
       buildSEOImageUrl("/assets/realsee-black-friday-2025-galois-share.jpg"),
     ],
