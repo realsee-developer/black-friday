@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { buildSEOImageUrl } from "@/lib/seo-utils";
 
 /**
  * Dynamic sitemap for black-friday.realsee.ai
@@ -25,11 +26,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: isEventActive ? "hourly" : "daily",
       priority: 1.0,
       // Add images for better image search indexing
+      // Use buildSEOImageUrl to ensure hashed paths are used for cache busting
       // Note: Next.js sitemap images field accepts string array
       images: [
-        `${baseUrl}/assets/realsee-black-friday-2025-galois-share.jpg`,
-        `${baseUrl}/assets/products/galois-premium-bundle.jpg`,
-        `${baseUrl}/assets/products/galois-standard-kit.jpg`,
+        buildSEOImageUrl("/assets/realsee-black-friday-2025-galois-share.jpg"),
+        buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
+        buildSEOImageUrl("/assets/products/galois-standard-kit.jpg"),
       ],
     },
   ];

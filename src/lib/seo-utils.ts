@@ -3,6 +3,54 @@
  * Provides helpers for international SEO, hreflang tags, and AI crawler optimization
  */
 
+// Asset manifest mapping: original path -> hashed path
+// Try to import the manifest file (will be undefined if file doesn't exist)
+let assetManifest: Record<string, string> | null = null;
+
+/**
+ * Load asset manifest file (maps original paths to hashed paths)
+ * This is loaded lazily on first use
+ */
+function loadAssetManifest(): Record<string, string> {
+  if (assetManifest !== null) {
+    return assetManifest;
+  }
+
+  try {
+    // Try to load the manifest file using require (works in both server and client with Next.js)
+    // The file may not exist during development, so we handle that gracefully
+    const manifest = require('@/data/asset-manifest.json');
+    assetManifest = manifest as Record<string, string>;
+    return assetManifest;
+  } catch (error) {
+    // If manifest doesn't exist, return empty object (fallback to original paths)
+    // This allows the code to work even if assets haven't been uploaded yet
+    assetManifest = {};
+    return assetManifest;
+  }
+}
+
+/**
+ * Resolve asset path using manifest mapping
+ * If manifest exists and contains mapping, return hashed path; otherwise return original path
+ * @param originalPath - Original asset path (e.g., "assets/hero/image.jpg")
+ * @returns Resolved path (with hash if available)
+ */
+function resolveAssetPath(originalPath: string): string {
+  const manifest = loadAssetManifest();
+  
+  // Remove leading slash if present for consistency
+  const normalizedPath = originalPath.startsWith('/') ? originalPath.slice(1) : originalPath;
+  
+  // Check if mapping exists
+  if (manifest[normalizedPath]) {
+    return manifest[normalizedPath];
+  }
+  
+  // Fallback to original path
+  return normalizedPath;
+}
+
 /**
  * Generate hreflang alternates for global markets
  * All markets use English content with USD currency for now
@@ -169,10 +217,8 @@ export function buildSEOImageUrl(
   const projectPrefix =
     process.env.NEXT_PUBLIC_ASSET_PROJECT_PREFIX || "black-friday";
 
-  // Normalize image path (remove leading slash)
-  const normalizedPath = imagePath.startsWith("/")
-    ? imagePath.slice(1)
-    : imagePath;
+  // Resolve asset path using manifest (may include hash)
+  const resolvedPath = resolveAssetPath(imagePath);
 
   // If CDN is configured, use Cloudflare Image Resizing
   if (cdnBase) {
@@ -181,12 +227,12 @@ export function buildSEOImageUrl(
       `quality=${quality}`,
       "format=auto",
     ].join(",");
-    const fullPath = `${projectPrefix}/${normalizedPath}`;
+    const fullPath = `${projectPrefix}/${resolvedPath}`;
     return `${cdnBase}/cdn-cgi/image/${transforms}/${fullPath}`;
   }
 
   // Fallback to site URL
-  return `${baseUrl}/${normalizedPath}`;
+  return `${baseUrl}/${resolvedPath}`;
 }
 
 /**
@@ -205,18 +251,16 @@ export function buildAssetUrl(
   const projectPrefix =
     process.env.NEXT_PUBLIC_ASSET_PROJECT_PREFIX || "black-friday";
 
-  // Normalize asset path (remove leading slash)
-  const normalizedPath = assetPath.startsWith("/")
-    ? assetPath.slice(1)
-    : assetPath;
+  // Resolve asset path using manifest (may include hash)
+  const resolvedPath = resolveAssetPath(assetPath);
 
   // If CDN is configured, use direct CDN path (no image transformation)
   if (cdnBase) {
-    const fullPath = `${projectPrefix}/${normalizedPath}`;
+    const fullPath = `${projectPrefix}/${resolvedPath}`;
     return `${cdnBase}/${fullPath}`;
   }
 
   // Fallback to site URL
-  return `${baseUrl}/${normalizedPath}`;
+  return `${baseUrl}/${resolvedPath}`;
 }
 

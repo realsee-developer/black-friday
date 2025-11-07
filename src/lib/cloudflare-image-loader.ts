@@ -16,6 +16,53 @@ const PROJECT_PREFIX =
 
 const CDN_SEGMENT = "/cdn-cgi/image/";
 
+// Asset manifest mapping: original path -> hashed path
+let assetManifest: Record<string, string> | null = null;
+
+/**
+ * Load asset manifest file (maps original paths to hashed paths)
+ * This is loaded lazily on first use
+ */
+function loadAssetManifest(): Record<string, string> {
+  if (assetManifest !== null) {
+    return assetManifest;
+  }
+
+  try {
+    // Try to load the manifest file using require (works in Next.js client-side code)
+    // The file may not exist during development, so we handle that gracefully
+    const manifest = require('@/data/asset-manifest.json');
+    assetManifest = manifest as Record<string, string>;
+    return assetManifest;
+  } catch (error) {
+    // If manifest doesn't exist, return empty object (fallback to original paths)
+    // This allows the code to work even if assets haven't been uploaded yet
+    assetManifest = {};
+    return assetManifest;
+  }
+}
+
+/**
+ * Resolve asset path using manifest mapping
+ * If manifest exists and contains mapping, return hashed path; otherwise return original path
+ * @param originalPath - Original asset path (e.g., "assets/hero/image.jpg")
+ * @returns Resolved path (with hash if available)
+ */
+function resolveAssetPath(originalPath: string): string {
+  const manifest = loadAssetManifest();
+  
+  // Remove leading slash if present for consistency
+  const normalizedPath = originalPath.startsWith('/') ? originalPath.slice(1) : originalPath;
+  
+  // Check if mapping exists
+  if (manifest[normalizedPath]) {
+    return manifest[normalizedPath];
+  }
+  
+  // Fallback to original path
+  return normalizedPath;
+}
+
 /**
  * 从已经包含 Cloudflare Image Resizing 转换的路径中提取原始资源路径
  */
@@ -82,9 +129,10 @@ const cloudflareImageLoader: ImageLoader = ({ src, width, quality }) => {
     }
   }
 
-  // 处理相对路径，添加项目前缀
+  // 处理相对路径，先通过映射文件解析（可能包含 hash），然后添加项目前缀
   const normalized = ensureRelative(src);
-  const fullPath = `${PROJECT_PREFIX}/${normalized}`;
+  const resolvedPath = resolveAssetPath(normalized);
+  const fullPath = `${PROJECT_PREFIX}/${resolvedPath}`;
   return `${base}/cdn-cgi/image/${transforms.join(",")}/${fullPath}`;
 };
 
