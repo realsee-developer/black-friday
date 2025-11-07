@@ -61,55 +61,23 @@ export async function POST(request: Request) {
 }
 
 /**
- * GET endpoint to manually trigger indexing of the main page
- * Usage: curl -X GET https://black-friday.realsee.ai/api/indexnow?key=YOUR_KEY
+ * GET endpoint to return the IndexNow key for verification
+ * This endpoint should return the key as plain text
+ * Used by scripts CLI to fetch the key before submitting URLs
  */
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const key = searchParams.get("key");
-
-  // Verify the key
+export async function GET(_request: Request) {
   const apiKey = process.env.INDEXNOW_KEY;
-  if (!apiKey || key !== apiKey) {
-    return NextResponse.json(
-      { error: "Invalid or missing API key" },
-      { status: 401 },
-    );
+  
+  // Return the IndexNow key for verification
+  // This endpoint should return the key as plain text
+  if (!apiKey) {
+    return new NextResponse("IndexNow key not configured", { status: 404 });
   }
 
-  // Submit the main page
-  try {
-    const indexNowUrl = "https://api.indexnow.org/indexnow";
-    const response = await fetch(indexNowUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify({
-        host: "black-friday.realsee.ai",
-        key: apiKey,
-        keyLocation: `https://black-friday.realsee.ai/${apiKey}.txt`,
-        urlList: ["https://black-friday.realsee.ai"],
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`IndexNow API returned ${response.status}`);
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: "Main page submitted to IndexNow successfully",
-      url: "https://black-friday.realsee.ai",
-    });
-  } catch (error) {
-    console.error("IndexNow submission error:", error);
-    return NextResponse.json(
-      {
-        error: "Failed to submit to IndexNow",
-        details: error instanceof Error ? error.message : "Unknown error",
-      },
-      { status: 500 },
-    );
-  }
+  return new NextResponse(apiKey, {
+    status: 200,
+    headers: {
+      "Content-Type": "text/plain",
+    },
+  });
 }
