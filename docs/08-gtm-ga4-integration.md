@@ -12,10 +12,9 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
 
 # Google Analytics 4 Measurement ID (在 GTM 中配置)
 NEXT_PUBLIC_GA4_ID=G-XXXXXXXXXX
-
-# Microsoft Clarity Project ID
-NEXT_PUBLIC_CLARITY_ID=abc123def4
 ```
+
+> **注意**: Microsoft Clarity 通过 Google Tag Manager 自动集成，无需在代码中手动配置。
 
 参考 `.env.example` 文件查看所有可用的环境变量。
 
@@ -88,20 +87,18 @@ NEXT_PUBLIC_CLARITY_ID=abc123def4
 
 Microsoft Clarity 是一个免费的用户行为分析工具，提供会话回放和热力图功能。
 
-#### 获取 Clarity Project ID
+#### 集成方式
+
+Microsoft Clarity 通过 **Google Tag Manager** 自动集成，无需在代码中手动添加脚本。
+
+#### 在 GTM 中配置 Clarity
 
 1. 访问 [Microsoft Clarity 官网](https://clarity.microsoft.com/)
 2. 使用 Microsoft 或 Google 账户注册并登录
 3. 创建新项目，输入项目名称和应用详情
-4. 在项目设置中，前往"安装"部分，选择"手动安装"
-5. 复制提供的 Project ID（格式类似：`abc123def4`）
-
-#### 技术实现
-
-- **组件**: Clarity 脚本已在 `src/app/layout.tsx` 中集成
-- **加载方式**: 使用 Next.js `Script` 组件的 `afterInteractive` 策略，在页面交互后加载，不影响初始页面性能
-- **条件加载**: 仅在配置了有效的 Clarity ID 时加载脚本
-- **脚本格式**: `https://www.clarity.ms/tag/{PROJECT_ID}`
+4. 在项目设置中，前往"安装"部分，选择"通过 Google Tag Manager 安装"
+5. 按照 GTM 集成指南，在 GTM 中创建 Clarity 标签
+6. 配置触发器为 "All Pages"
 
 #### Clarity 功能
 
@@ -112,9 +109,9 @@ Microsoft Clarity 是一个免费的用户行为分析工具，提供会话回�
 
 #### 注意事项
 
-- Clarity 没有官方的 npm SDK，只能通过脚本标签集成
-- 脚本会自动异步加载，不会阻塞页面渲染
+- Clarity 通过 GTM 管理，便于统一管理和更新
 - 数据收集可能需要最多 2 小时才能在 Clarity 仪表板中显示
+- 可以通过 GTM Preview 模式验证 Clarity 是否正确加载
 
 ## GTM 配置建议
 
@@ -125,7 +122,12 @@ Microsoft Clarity 是一个免费的用户行为分析工具，提供会话回�
    - Measurement ID: 使用环境变量 `{{GA4 Measurement ID}}`
    - 触发器: All Pages
 
-2. **GA4 Event Tags**
+2. **Microsoft Clarity Tag**
+   - 标签类型: Custom HTML
+   - HTML 代码: 从 Clarity 控制台获取的跟踪代码
+   - 触发器: All Pages
+
+3. **GA4 Event Tags**
    为每个自定义事件创建 GA4 Event 标签：
    - `form_submit`
    - `hero_cta_click`
@@ -137,12 +139,12 @@ Microsoft Clarity 是一个免费的用户行为分析工具，提供会话回�
    - `whatsapp_click`
    - `download_app_click`
 
-3. **触发器配置**
+4. **触发器配置**
    - 触发器类型: Custom Event
    - 事件名称: 对应上述事件名称
    - 触发条件: All Custom Events
 
-4. **变量配置**
+5. **变量配置**
    创建 Data Layer Variables 来捕获事件参数：
    - 产品相关: `product_id`, `product_name`, `product_price`
    - 表单相关: `industry`, `country`, `has_company`
@@ -251,6 +253,5 @@ Microsoft Clarity 是一个免费的用户行为分析工具，提供会话回�
   - 实现所有关键转化点追踪
   - 添加完整的 TypeScript 类型支持
 - **2024-12**: 集成 Microsoft Clarity
-  - 使用 Next.js Script 组件添加 Clarity 跟踪脚本
-  - 支持环境变量配置
-  - 使用 afterInteractive 策略优化性能
+  - 通过 Google Tag Manager 自动集成
+  - 无需在代码中手动配置脚本
