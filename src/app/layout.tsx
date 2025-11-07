@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Orbitron } from "next/font/google";
 import { GoogleTagManager } from "@next/third-parties/google";
-import Script from "next/script";
 import "./globals.css";
 import { generateGlobalAlternates, buildSEOImageUrl } from "@/lib/seo-utils";
 
@@ -187,7 +186,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
-  const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID;
 
   return (
     <html
@@ -206,22 +204,6 @@ export default function RootLayout({
         {children}
         {/* Google Tag Manager - only load if GTM ID is configured */}
         {gtmId && gtmId !== "GTM-XXXXXXX" && <GoogleTagManager gtmId={gtmId} />}
-        {/* Microsoft Clarity - only load if Clarity ID is configured */}
-        {clarityId && clarityId.trim() !== "" && (
-          <Script
-            id="microsoft-clarity"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(c,l,a,r,i,t,y){
-                  c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-                  t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-                  y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-                })(window, document, "clarity", "script", "${clarityId}");
-              `,
-            }}
-          />
-        )}
       </body>
     </html>
   );
