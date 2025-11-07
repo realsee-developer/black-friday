@@ -175,6 +175,8 @@ export const metadata: Metadata = {
     "product:availability": "in stock",
     "product:condition": "new",
     "product:price:currency": "USD",
+    // Performance optimization hints
+    "resource-hints": "preconnect, dns-prefetch",
   },
 };
 

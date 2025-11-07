@@ -284,6 +284,18 @@ export function getWebsiteSchema() {
       "@type": "Organization",
       name: "Realsee",
     },
+    potentialAction: {
+      "@type": "ReadAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://black-friday.realsee.ai#offers",
+      },
+      "expectsAcceptanceOf": {
+        "@type": "Offer",
+        price: "4999",
+        priceCurrency: "USD",
+      },
+    },
   };
 }
 
@@ -547,6 +559,74 @@ export function getYouTubeKOLVideosSchema() {
 }
 
 /**
+ * ItemList Schema for product offerings
+ * Helps search engines understand the product catalog structure
+ */
+export function getProductListSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Realsee Black Friday 2025 Product Offers",
+    description: "Black Friday special offers for Realsee Galois 3D LiDAR Camera products",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        item: {
+          "@type": "Product",
+          name: "Realsee Galois Premium Bundle - 3D LiDAR Camera",
+          url: "https://black-friday.realsee.ai#offers",
+          image: buildSEOImageUrl("/assets/products/galois-premium-bundle.jpg"),
+          offers: {
+            "@type": "Offer",
+            price: "4999",
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+          },
+        },
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        item: {
+          "@type": "Product",
+          name: "Realsee Galois Standard Kit - 3D LiDAR Camera",
+          url: "https://black-friday.realsee.ai#offers",
+          image: buildSEOImageUrl("/assets/products/galois-standard-kit.jpg"),
+          offers: {
+            "@type": "Offer",
+            price: "4599",
+            priceCurrency: "USD",
+            availability: "https://schema.org/InStock",
+          },
+        },
+      },
+    ],
+  };
+}
+
+/**
+ * Brand Schema for Realsee Galois
+ * Enhanced brand information for better brand recognition
+ */
+export function getBrandSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Brand",
+    name: "Realsee Galois",
+    description:
+      "Realsee Galois is a professional 3D LiDAR scanning camera brand offering cutting-edge technology for real estate, architecture, and virtual tour creation.",
+    logo: buildSEOImageUrl("/assets/brand/realsee-logo.jpeg"),
+    url: "https://realsee.ai",
+    sameAs: [
+      "https://twitter.com/REALSEE_Moment",
+      "https://www.youtube.com/@realsee3d",
+      "https://www.linkedin.com/company/realsee",
+    ],
+  };
+}
+
+/**
  * Review Schema for Galois Products
  * Adds detailed reviews to enhance SEO and rich snippets
  */
@@ -612,7 +692,9 @@ export function getAllStructuredData() {
   return [
     getOrganizationSchema(),
     getWebsiteSchema(),
+    getBrandSchema(),
     getEventSchema(),
+    getProductListSchema(),
     getPremiumBundleProductSchema(),
     getStandardKitProductSchema(),
     getBreadcrumbSchema(),

@@ -134,7 +134,7 @@ export function ProductOffers() {
                 <div className="relative -mx-4 sm:-mx-6 md:-mx-8 -mt-4 sm:-mt-6 md:-mt-8 mb-4 sm:mb-6 overflow-hidden rounded-t-lg bg-cyber-gray-800/50">
                   <Image
                     src={product.image}
-                    alt={`${product.name} - ${product.subtitle} - Black Friday Special Offer`}
+                    alt={`${product.name} - ${product.subtitle} - Black Friday Special Offer - Realsee Galois 3D LiDAR Camera`}
                     width={800}
                     height={600}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
