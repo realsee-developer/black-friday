@@ -70,8 +70,16 @@ const nextConfig: NextConfig = {
           // 添加资源预连接提示，加速外部资源加载
           {
             key: "Link",
-            value:
-              "<https://global-public.realsee-cdn.com>; rel=preconnect; crossorigin, <https://fonts.googleapis.com>; rel=preconnect; crossorigin, <https://fonts.gstatic.com>; rel=preconnect; crossorigin",
+            value: [
+              "<https://discover-assets.realsee.dev>; rel=preconnect; crossorigin",
+              "<https://fonts.googleapis.com>; rel=preconnect; crossorigin",
+              "<https://fonts.gstatic.com>; rel=preconnect; crossorigin",
+              "<https://www.googletagmanager.com>; rel=preconnect; crossorigin",
+              "<https://www.google-analytics.com>; rel=dns-prefetch",
+              "<https://www.youtube.com>; rel=dns-prefetch",
+              "<https://api.iconify.design>; rel=dns-prefetch",
+              "<https://cdn.plyr.io>; rel=dns-prefetch",
+            ].join(", "),
           },
         ],
       },
