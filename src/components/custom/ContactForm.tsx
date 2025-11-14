@@ -960,6 +960,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
                 href="https://home.realsee.ai/en/download-realsee-vr"
                 target="_blank"
                 rel="noopener noreferrer"
+                title="Download Realsee App - Free Trial Available"
                 onClick={() => trackDownloadAppClick("contact_form")}
                 className="inline-flex items-center gap-2 cyber-btn-secondary px-6 py-3 rounded-xl text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-105 min-h-[44px] touch-none"
               >

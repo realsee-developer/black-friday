@@ -68,6 +68,7 @@ export function Professionals() {
               href={`https://discover.realsee.ai/professional/${p.slug ?? p.id}`}
               target="_blank"
               rel="noopener noreferrer"
+              title={`View ${p.name}'s profile${p.Location ? ` in ${p.Location}` : ""} - Realsee Galois Professional`}
               className="group hover-shine relative flex flex-col items-center overflow-hidden rounded-2xl border border-cyber-gray-600 bg-cyber-gray-900/70 px-6 pb-6 pt-10 text-center shadow-lg shadow-black/20 transition-transform duration-500 hover:-translate-y-2 hover:border-cyber-brand-400 hover:shadow-cyber-brand-500/25"
               aria-label={`Open ${p.name}`}
             >
@@ -114,6 +115,7 @@ export function Professionals() {
                     href={`https://discover.realsee.ai/professional/${p.slug ?? p.id}`}
                     target="_blank"
                     rel="noopener noreferrer"
+                    title={`View ${p.name}'s profile${p.Location ? ` in ${p.Location}` : ""} - Realsee Galois Professional`}
                     className="group hover-shine relative flex w-[220px] flex-shrink-0 transform-gpu flex-col items-center overflow-hidden rounded-2xl border border-cyber-gray-600 bg-cyber-gray-900/70 px-6 pb-6 pt-10 text-center shadow-lg shadow-black/25 transition-transform duration-500 hover:scale-[1.06] hover:-translate-y-2 hover:border-cyber-brand-400 hover:shadow-cyber-brand-500/30 xl:w-[260px]"
                     aria-label={`Open ${p.name}`}
                   >

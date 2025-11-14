@@ -140,6 +140,7 @@ export function ToursShowcase() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label={`Explore ${s.title} 3D Virtual Tour`}
+                            title={`Explore ${s.title} 3D Virtual Tour`}
                             onClick={() =>
                               trackTourLaunchClick(s.title, s.url, s.category)
                             }

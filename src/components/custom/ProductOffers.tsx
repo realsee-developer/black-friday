@@ -279,6 +279,7 @@ export function ProductOffers() {
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                     <a
                       href="#contact"
+                      title={`Contact us about ${product.name}`}
                       onClick={() =>
                         trackProductContactClick(
                           product.id,
@@ -294,6 +295,7 @@ export function ProductOffers() {
                       href={product.buyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
+                      title={`Buy ${product.name} - Black Friday Special Offer`}
                       onClick={() => {
                         trackProductBuyClick(
                           product.id,
