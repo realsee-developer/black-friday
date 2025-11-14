@@ -78,6 +78,10 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
+  other: {
+    "X-Robots-Tag":
+      "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+  },
 };
 
 export default async function ContactUsPage() {
