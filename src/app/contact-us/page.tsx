@@ -12,7 +12,10 @@ import { TestimonialSection } from "@/components/custom/TestimonialSection";
 import { ToursShowcase } from "@/components/custom/ToursShowcase";
 import { getContactPageSchema } from "@/lib/structured-data";
 import { generateGlobalAlternates, buildSEOImageUrl } from "@/lib/seo-utils";
-import { headers } from "next/headers";
+import {
+  getGeoCountryCode,
+  getRetailPartnersCountryCode,
+} from "@/lib/geo";
 
 export const metadata: Metadata = {
   title: "Contact Us - Realsee Black Friday 2025",
@@ -80,16 +83,11 @@ export const metadata: Metadata = {
 export default async function ContactUsPage() {
   const contactPageSchema = getContactPageSchema();
   
-  // Try to get country code from headers set by proxy.ts
-  const headersList = await headers();
-  const geoCountryCode = headersList.get("x-geo-country") || 
-                         headersList.get("X-Geo-Country");
+  // Get country code from headers set by proxy.ts
+  const geoCountryCode = await getGeoCountryCode();
   
   // Only show RetailPartners for US and CA
-  let countryCode = geoCountryCode;
-  if (!countryCode || (countryCode !== "US" && countryCode !== "CA")) {
-    countryCode = null;
-  }
+  const countryCode = getRetailPartnersCountryCode(geoCountryCode);
 
   return (
     <div className="relative">

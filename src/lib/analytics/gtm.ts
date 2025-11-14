@@ -19,6 +19,12 @@ import type {
   FacebookLeadEvent,
   FacebookInitiateCheckoutEvent,
 } from "@/types/analytics";
+import {
+  CURRENCY_USD,
+  FACEBOOK_EVENT_LEAD,
+  FACEBOOK_EVENT_INITIATE_CHECKOUT,
+  FACEBOOK_CONTENT_TYPE_PRODUCT,
+} from "@/lib/analytics-constants";
 
 /**
  * Check if GTM is enabled via environment variable
@@ -197,16 +203,21 @@ export const trackFacebookLead = (
   contentName?: string,
   contentCategory?: string,
   value?: number,
-  currency: string = "USD",
+  currency: string = CURRENCY_USD,
 ): void => {
-  const event: FacebookLeadEvent = {
-    event: "Lead",
-    content_name: contentName,
-    content_category: contentCategory,
-    value: value,
-    currency: currency,
-  };
-  sendGTMEvent(event);
+  try {
+    const event: FacebookLeadEvent = {
+      event: FACEBOOK_EVENT_LEAD,
+      content_name: contentName,
+      content_category: contentCategory,
+      value: value,
+      currency: currency,
+    };
+    sendGTMEvent(event);
+  } catch (error) {
+    // Silently fail to prevent tracking errors from affecting user experience
+    console.error("[Analytics - Facebook Lead Error]", error);
+  }
 };
 
 /**
@@ -216,18 +227,23 @@ export const trackFacebookInitiateCheckout = (
   contentName: string,
   contentIds: string[],
   value: number,
-  currency: string = "USD",
+  currency: string = CURRENCY_USD,
   numItems: number = 1,
 ): void => {
-  const event: FacebookInitiateCheckoutEvent = {
-    event: "InitiateCheckout",
-    content_name: contentName,
-    content_ids: contentIds,
-    content_type: "product",
-    value: value,
-    currency: currency,
-    num_items: numItems,
-  };
-  sendGTMEvent(event);
+  try {
+    const event: FacebookInitiateCheckoutEvent = {
+      event: FACEBOOK_EVENT_INITIATE_CHECKOUT,
+      content_name: contentName,
+      content_ids: contentIds,
+      content_type: FACEBOOK_CONTENT_TYPE_PRODUCT,
+      value: value,
+      currency: currency,
+      num_items: numItems,
+    };
+    sendGTMEvent(event);
+  } catch (error) {
+    // Silently fail to prevent tracking errors from affecting user experience
+    console.error("[Analytics - Facebook InitiateCheckout Error]", error);
+  }
 };
 

@@ -11,6 +11,7 @@ import {
   trackProductDetailsView,
   trackFacebookInitiateCheckout,
 } from "@/lib/analytics/gtm";
+import { CURRENCY_USD } from "@/lib/analytics-constants";
 
 export function ProductOffers() {
   // ✅ 使用 selector 只订阅需要渲染的状态
@@ -305,7 +306,7 @@ export function ProductOffers() {
                           product.name,
                           [product.id],
                           product.discountedPrice,
-                          "USD",
+                          CURRENCY_USD,
                           1,
                         );
                       }}

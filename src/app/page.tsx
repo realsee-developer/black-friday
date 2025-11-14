@@ -11,21 +11,19 @@ import { SiteHeader } from "@/components/custom/SiteHeader";
 import { TestimonialSection } from "@/components/custom/TestimonialSection";
 import { ToursShowcase } from "@/components/custom/ToursShowcase";
 import { getAllStructuredData } from "@/lib/structured-data";
-import { headers } from "next/headers";
+import {
+  getGeoCountryCode,
+  getRetailPartnersCountryCode,
+} from "@/lib/geo";
 
 export default async function Home() {
   const structuredData = getAllStructuredData();
   
-  // Try to get country code from headers set by proxy.ts
-  const headersList = await headers();
-  const geoCountryCode = headersList.get("x-geo-country") || 
-                         headersList.get("X-Geo-Country");
+  // Get country code from headers set by proxy.ts
+  const geoCountryCode = await getGeoCountryCode();
   
   // Only show RetailPartners for US and CA
-  let countryCode = geoCountryCode;
-  if (!countryCode || (countryCode !== "US" && countryCode !== "CA")) {
-    countryCode = null;
-  }
+  const countryCode = getRetailPartnersCountryCode(geoCountryCode);
 
   return (
     <div className="relative">
