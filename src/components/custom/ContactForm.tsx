@@ -326,6 +326,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
         throw new Error(result.error || "Failed to submit form");
       }
 
+      // 表单提交成功后才追踪事件
       // Track form submission in GTM
       // 输入手机号即认为同意联系
       trackFormSubmit(
@@ -336,7 +337,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
         !!formData.companyName,
       );
 
-      // Track Facebook Pixel Lead event
+      // Track Facebook Pixel Lead event (only after successful submission)
       trackFacebookLead(
         FACEBOOK_LEAD_CONTENT_NAME,
         formData.industry,
