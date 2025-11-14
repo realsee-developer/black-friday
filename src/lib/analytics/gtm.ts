@@ -197,6 +197,16 @@ export const trackDownloadAppClick = (source: string): void => {
 };
 
 /**
+ * Check if Facebook Pixel is loaded and available
+ */
+const isFacebookPixelAvailable = (): boolean => {
+  return (
+    typeof window !== "undefined" &&
+    typeof (window as any).fbq === "function"
+  );
+};
+
+/**
  * Track Facebook Pixel Lead event (form submission)
  */
 export const trackFacebookLead = (
@@ -213,7 +223,21 @@ export const trackFacebookLead = (
       value: value,
       currency: currency,
     };
+    
+    // Send to GTM (dataLayer)
     sendGTMEvent(event);
+    
+    // Also send directly to Facebook Pixel API if available
+    if (isFacebookPixelAvailable()) {
+      const fbqParams: Record<string, string | number | undefined> = {};
+      if (contentName) fbqParams.content_name = contentName;
+      if (contentCategory) fbqParams.content_category = contentCategory;
+      if (value !== undefined) fbqParams.value = value;
+      if (currency) fbqParams.currency = currency;
+      
+      (window as any).fbq("track", FACEBOOK_EVENT_LEAD, fbqParams);
+      console.log("[Analytics - Facebook Pixel Direct]", FACEBOOK_EVENT_LEAD, fbqParams);
+    }
   } catch (error) {
     // Silently fail to prevent tracking errors from affecting user experience
     console.error("[Analytics - Facebook Lead Error]", error);
@@ -240,7 +264,24 @@ export const trackFacebookInitiateCheckout = (
       currency: currency,
       num_items: numItems,
     };
+    
+    // Send to GTM (dataLayer)
     sendGTMEvent(event);
+    
+    // Also send directly to Facebook Pixel API if available
+    if (isFacebookPixelAvailable()) {
+      const fbqParams: Record<string, string | number | string[] | undefined> = {
+        content_name: contentName,
+        content_ids: contentIds,
+        content_type: FACEBOOK_CONTENT_TYPE_PRODUCT,
+        value: value,
+        currency: currency,
+        num_items: numItems,
+      };
+      
+      (window as any).fbq("track", FACEBOOK_EVENT_INITIATE_CHECKOUT, fbqParams);
+      console.log("[Analytics - Facebook Pixel Direct]", FACEBOOK_EVENT_INITIATE_CHECKOUT, fbqParams);
+    }
   } catch (error) {
     // Silently fail to prevent tracking errors from affecting user experience
     console.error("[Analytics - Facebook InitiateCheckout Error]", error);

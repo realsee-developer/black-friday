@@ -16,7 +16,8 @@ NEXT_PUBLIC_GA4_ID=G-XXXXXXXXXX
 
 > **注意**: 
 > - Microsoft Clarity 通过 Google Tag Manager 自动集成，无需在代码中手动配置。
-> - Facebook Pixel 基础代码通过 Google Tag Manager 安装，代码层面仅推送事件到 dataLayer。
+> - Facebook Pixel 基础代码通过 Google Tag Manager 安装。
+> - Facebook Pixel 事件会同时发送到 GTM dataLayer 和直接调用 Facebook Pixel API，确保事件可靠上报。
 
 参考 `.env.example` 文件查看所有可用的环境变量。
 
@@ -105,7 +106,11 @@ Facebook Pixel 用于追踪用户行为和转化事件，支持 Facebook 广告�
 
 #### 集成方式
 
-Facebook Pixel **基础代码通过 Google Tag Manager 安装**，代码层面仅推送事件到 dataLayer，由 GTM 转发到 Facebook Pixel。
+Facebook Pixel **基础代码通过 Google Tag Manager 安装**。代码层面采用双重上报机制：
+1. **发送到 GTM dataLayer**：事件推送到 dataLayer，由 GTM 转发到 Facebook Pixel（如果 GTM 配置正确）
+2. **直接调用 Facebook Pixel API**：如果 Facebook Pixel 已加载，直接调用 `fbq('track', ...)` API 发送事件，确保事件可靠上报
+
+这种双重上报机制确保了即使 GTM 配置有问题，事件也能直接上报到 Facebook Pixel。
 
 #### 在 GTM 中配置 Facebook Pixel
 
@@ -160,9 +165,12 @@ Facebook Pixel **基础代码通过 Google Tag Manager 安装**，代码层面�
 #### 注意事项
 
 - Facebook Pixel 基础代码通过 GTM 管理，便于统一配置和更新
-- 事件通过 dataLayer 推送，使用 Facebook 标准事件名称
+- 事件采用双重上报机制：同时发送到 GTM dataLayer 和直接调用 Facebook Pixel API
+- 使用 Facebook 标准事件名称（`Lead`, `InitiateCheckout`）
+- Facebook Pixel 的自动事件追踪功能已启用，会自动检测按钮点击等用户行为
 - 可以使用 [Facebook Pixel Helper](https://chrome.google.com/webstore/detail/facebook-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc) Chrome 扩展验证事件是否正确触发
 - 事件数据会在 Facebook Events Manager 中显示，通常需要几分钟延迟
+- 在浏览器控制台可以看到 `[Analytics - Facebook Pixel Direct]` 日志，确认直接调用成功
 
 ### 4. Microsoft Clarity 集成
 
@@ -280,7 +288,12 @@ Microsoft Clarity 通过 **Google Tag Manager** 自动集成，无需在代码�
 
 ```
 [Analytics - Sent] { event: 'form_submit', industry: '...', ... }
+[Analytics - Facebook Pixel Direct] InitiateCheckout { content_name: '...', ... }
 ```
+
+Facebook Pixel 事件会显示两条日志：
+- `[Analytics - Sent]`：发送到 GTM dataLayer 的事件
+- `[Analytics - Facebook Pixel Direct]`：直接调用 Facebook Pixel API 的事件
 
 ## 类型定义
 
@@ -355,5 +368,7 @@ Microsoft Clarity 通过 **Google Tag Manager** 自动集成，无需在代码�
   - 无需在代码中手动配置脚本
 - **2025-01**: 集成 Facebook Pixel
   - Facebook Pixel 基础代码通过 GTM 安装
-  - 代码层面推送 `Lead` 和 `InitiateCheckout` 事件到 dataLayer
+  - 实现双重上报机制：同时发送到 GTM dataLayer 和直接调用 Facebook Pixel API
+  - 代码层面推送 `Lead` 和 `InitiateCheckout` 事件
+  - 保留 Facebook Pixel 自动事件追踪功能
   - 支持 Facebook 广告效果分析和再营销
