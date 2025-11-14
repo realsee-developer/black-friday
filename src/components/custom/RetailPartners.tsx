@@ -70,6 +70,7 @@ export function RetailPartners({ className, countryCode }: RetailPartnersProps) 
                   href={partner.url}
                   target="_blank"
                   rel="noopener noreferrer"
+                  title={`Shop Realsee Galois at ${partner.name} - Black Friday Sale`}
                   className="block relative aspect-[16/9] overflow-hidden rounded-2xl transition-all duration-300"
                   style={{
                     boxShadow: `0 4px 20px rgba(${partner.themeColor.shadow}, 0.2)`,
@@ -104,6 +105,7 @@ export function RetailPartners({ className, countryCode }: RetailPartnersProps) 
                 href={partner.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                title={`Shop Now at ${partner.name} - Realsee Galois Black Friday Deal`}
                 onClick={() => trackRetailShopClick(partner.name, partner.url)}
                 className="mt-4 sm:mt-6 flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base text-white font-semibold shadow-lg transition-all duration-300 min-h-[44px] touch-none"
                 style={{
