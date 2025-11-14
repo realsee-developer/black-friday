@@ -16,6 +16,8 @@ import type {
   FormSubmitEvent,
   WhatsAppClickEvent,
   DownloadAppClickEvent,
+  FacebookLeadEvent,
+  FacebookInitiateCheckoutEvent,
 } from "@/types/analytics";
 
 /**
@@ -184,6 +186,47 @@ export const trackDownloadAppClick = (source: string): void => {
   const event: DownloadAppClickEvent = {
     event: "download_app_click",
     source: source,
+  };
+  sendGTMEvent(event);
+};
+
+/**
+ * Track Facebook Pixel Lead event (form submission)
+ */
+export const trackFacebookLead = (
+  contentName?: string,
+  contentCategory?: string,
+  value?: number,
+  currency: string = "USD",
+): void => {
+  const event: FacebookLeadEvent = {
+    event: "Lead",
+    content_name: contentName,
+    content_category: contentCategory,
+    value: value,
+    currency: currency,
+  };
+  sendGTMEvent(event);
+};
+
+/**
+ * Track Facebook Pixel InitiateCheckout event (Buy Now button click)
+ */
+export const trackFacebookInitiateCheckout = (
+  contentName: string,
+  contentIds: string[],
+  value: number,
+  currency: string = "USD",
+  numItems: number = 1,
+): void => {
+  const event: FacebookInitiateCheckoutEvent = {
+    event: "InitiateCheckout",
+    content_name: contentName,
+    content_ids: contentIds,
+    content_type: "product",
+    value: value,
+    currency: currency,
+    num_items: numItems,
   };
   sendGTMEvent(event);
 };

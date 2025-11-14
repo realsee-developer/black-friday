@@ -9,6 +9,7 @@ import {
   trackProductContactClick,
   trackProductBuyClick,
   trackProductDetailsView,
+  trackFacebookInitiateCheckout,
 } from "@/lib/analytics/gtm";
 
 export function ProductOffers() {
@@ -292,14 +293,22 @@ export function ProductOffers() {
                       href={product.buyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      onClick={() =>
+                      onClick={() => {
                         trackProductBuyClick(
                           product.id,
                           product.name,
                           product.discountedPrice,
                           product.buyUrl,
-                        )
-                      }
+                        );
+                        // Track Facebook Pixel InitiateCheckout event
+                        trackFacebookInitiateCheckout(
+                          product.name,
+                          [product.id],
+                          product.discountedPrice,
+                          "USD",
+                          1,
+                        );
+                      }}
                       className="flex-1 flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 hover:scale-105 cyber-btn-primary min-h-[44px] touch-none"
                     >
                       Buy Now
