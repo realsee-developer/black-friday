@@ -8,7 +8,7 @@
 // Base event structure
 export interface GTMEvent {
   event: string;
-  [key: string]: string | number | boolean | undefined;
+  [key: string]: string | number | boolean | string[] | undefined;
 }
 
 // Hero Section Events
@@ -95,7 +95,6 @@ export interface FacebookInitiateCheckoutEvent extends GTMEvent {
   value?: number;
   currency?: string;
   num_items?: number;
-  [key: string]: string | number | boolean | string[] | undefined;
 }
 
 // Union type of all possible events

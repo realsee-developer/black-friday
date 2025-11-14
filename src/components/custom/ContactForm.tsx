@@ -12,6 +12,10 @@ import {
   trackDownloadAppClick,
   trackFacebookLead,
 } from "@/lib/analytics/gtm";
+import {
+  CURRENCY_USD,
+  FACEBOOK_LEAD_CONTENT_NAME,
+} from "@/lib/analytics-constants";
 import type { ContactFormData } from "@/types";
 import { getAllCountriesData, getDialingCode } from "@/lib/phone";
 import type { CountryCode } from "libphonenumber-js";
@@ -334,10 +338,10 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
 
       // Track Facebook Pixel Lead event
       trackFacebookLead(
-        "Contact Form Submission",
+        FACEBOOK_LEAD_CONTENT_NAME,
         formData.industry,
         undefined,
-        "USD",
+        CURRENCY_USD,
       );
 
       setSubmitSuccess(true);
