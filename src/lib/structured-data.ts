@@ -834,6 +834,48 @@ export function getProductReviewsSchema() {
 }
 
 /**
+ * ContactPage Schema for contact-us page
+ */
+export function getContactPageSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: "Contact Us - Realsee Black Friday 2025",
+    description:
+      "Contact Realsee for Black Friday 2025 deals on Galois 3D LiDAR Camera. Get in touch for inquiries, pricing, demos, and more.",
+    url: "https://black-friday.realsee.ai/contact-us",
+    mainEntity: {
+      "@type": "Organization",
+      name: "Realsee",
+      url: "https://realsee.ai",
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "Customer Service",
+        availableLanguage: ["English"],
+        areaServed: "Worldwide",
+      },
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://black-friday.realsee.ai",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Contact Us",
+          item: "https://black-friday.realsee.ai/contact-us",
+        },
+      ],
+    },
+  };
+}
+
+/**
  * Get all structured data as a combined array
  */
 export function getAllStructuredData() {

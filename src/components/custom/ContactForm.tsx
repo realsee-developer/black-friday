@@ -10,6 +10,7 @@ import {
   trackFormSubmit,
   trackWhatsAppClick,
   trackDownloadAppClick,
+  trackFacebookLead,
 } from "@/lib/analytics/gtm";
 import type { ContactFormData } from "@/types";
 import { getAllCountriesData, getDialingCode } from "@/lib/phone";
@@ -30,9 +31,10 @@ declare global {
 
 interface ContactFormProps {
   initialCountryCode?: string;
+  hideWhatsApp?: boolean;
 }
 
-export function ContactForm({ initialCountryCode }: ContactFormProps = {}) {
+export function ContactForm({ initialCountryCode, hideWhatsApp = false }: ContactFormProps = {}) {
   const {
     isSubmitting,
     submitSuccess,
@@ -328,6 +330,14 @@ export function ContactForm({ initialCountryCode }: ContactFormProps = {}) {
         formData.devicesUsed,
         "yes", // 输入手机号即认为同意联系
         !!formData.companyName,
+      );
+
+      // Track Facebook Pixel Lead event
+      trackFacebookLead(
+        "Contact Form Submission",
+        formData.industry,
+        undefined,
+        "USD",
       );
 
       setSubmitSuccess(true);
@@ -910,7 +920,7 @@ export function ContactForm({ initialCountryCode }: ContactFormProps = {}) {
           <div className="w-full md:w-1/2 space-y-6 sm:space-y-8">
             <div className="text-center md:text-left">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cyber-gray-100 mb-3 sm:mb-4">
-                Contact us
+                {hideWhatsApp ? "Black Friday: The Deal Event of the Year" : "Contact us"}
               </h2>
               <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300">
                 Please leave your information, we will contact you within 48
@@ -954,33 +964,35 @@ export function ContactForm({ initialCountryCode }: ContactFormProps = {}) {
               </a>
             </div>
 
-            {/* WhatsApp Contact Section */}
-            <div className="cyber-card-neon p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="relative w-16 h-16 shrink-0 flex items-center justify-center bg-[#25D366] rounded-2xl shadow-lg">
-                  <Icon icon="mdi:whatsapp" className="w-10 h-10 text-white" />
+            {/* WhatsApp Contact Section - Only show if hideWhatsApp is false */}
+            {!hideWhatsApp && (
+              <div className="cyber-card-neon p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="relative w-16 h-16 shrink-0 flex items-center justify-center bg-[#25D366] rounded-2xl shadow-lg">
+                    <Icon icon="mdi:whatsapp" className="w-10 h-10 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-cyber-gray-100">
+                      Quick Contact
+                    </h3>
+                    <p className="text-sm text-cyber-gray-300">
+                      Contact us directly via WhatsApp
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-bold text-cyber-gray-100">
-                    Quick Contact
-                  </h3>
-                  <p className="text-sm text-cyber-gray-300">
-                    Contact us directly via WhatsApp
-                  </p>
-                </div>
-              </div>
 
-              <a
-                href="https://wa.me/message/CGR6XJOODRABC1"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackWhatsAppClick("contact_form")}
-                className="inline-flex items-center gap-2 w-full justify-center bg-[#25D366] hover:bg-[#22c55e] px-6 py-3 rounded-xl text-white text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-105 shadow-lg min-h-[44px] touch-none"
-              >
-                <Icon icon="mdi:whatsapp" className="w-5 h-5" />
-                Chat on WhatsApp
-              </a>
-            </div>
+                <a
+                  href="https://wa.me/message/CGR6XJOODRABC1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackWhatsAppClick("contact_form")}
+                  className="inline-flex items-center gap-2 w-full justify-center bg-[#25D366] hover:bg-[#22c55e] px-6 py-3 rounded-xl text-white text-sm sm:text-base font-semibold transition-all duration-300 hover:scale-105 shadow-lg min-h-[44px] touch-none"
+                >
+                  <Icon icon="mdi:whatsapp" className="w-5 h-5" />
+                  Chat on WhatsApp
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>

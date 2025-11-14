@@ -34,5 +34,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         buildSEOImageUrl("/assets/products/galois-standard-kit.jpg"),
       ],
     },
+    {
+      url: `${baseUrl}/contact-us`,
+      lastModified: lastModified,
+      changeFrequency: isEventActive ? "hourly" : "daily",
+      priority: 0.8,
+    },
   ];
 }

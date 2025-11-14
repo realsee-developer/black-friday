@@ -77,6 +77,27 @@ export interface DownloadAppClickEvent extends GTMEvent {
   source: "contact_form" | string;
 }
 
+// Facebook Pixel Events
+export interface FacebookLeadEvent extends GTMEvent {
+  event: "Lead";
+  content_name?: string;
+  content_category?: string;
+  value?: number;
+  currency?: string;
+  [key: string]: string | number | boolean | undefined;
+}
+
+export interface FacebookInitiateCheckoutEvent extends GTMEvent {
+  event: "InitiateCheckout";
+  content_name?: string;
+  content_ids?: string[];
+  content_type?: string;
+  value?: number;
+  currency?: string;
+  num_items?: number;
+  [key: string]: string | number | boolean | string[] | undefined;
+}
+
 // Union type of all possible events
 export type AnalyticsEvent =
   | HeroCTAClickEvent
@@ -87,7 +108,9 @@ export type AnalyticsEvent =
   | RetailShopClickEvent
   | FormSubmitEvent
   | WhatsAppClickEvent
-  | DownloadAppClickEvent;
+  | DownloadAppClickEvent
+  | FacebookLeadEvent
+  | FacebookInitiateCheckoutEvent;
 
 // Event parameter types for convenience
 export type EventParams<T extends AnalyticsEvent> = Omit<T, "event">;

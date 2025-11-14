@@ -14,7 +14,9 @@ NEXT_PUBLIC_GTM_ID=GTM-XXXXXXX
 NEXT_PUBLIC_GA4_ID=G-XXXXXXXXXX
 ```
 
-> **注意**: Microsoft Clarity 通过 Google Tag Manager 自动集成，无需在代码中手动配置。
+> **注意**: 
+> - Microsoft Clarity 通过 Google Tag Manager 自动集成，无需在代码中手动配置。
+> - Facebook Pixel 基础代码通过 Google Tag Manager 安装，代码层面仅推送事件到 dataLayer。
 
 参考 `.env.example` 文件查看所有可用的环境变量。
 
@@ -83,7 +85,86 @@ NEXT_PUBLIC_GA4_ID=G-XXXXXXXXXX
 - 参数: 来源位置
 - 触发时机: 点击下载按钮
 
-### 3. Microsoft Clarity 集成
+**Facebook Pixel 事件**
+
+- `Lead`: 表单提交事件
+  - 位置: `ContactForm.tsx`
+  - 参数: content_name, content_category, currency
+  - 触发时机: 表单成功提交后
+  - 事件名称: `Lead` (Facebook 标准事件)
+
+- `InitiateCheckout`: 开始结账事件
+  - 位置: `ProductOffers.tsx`
+  - 参数: content_name, content_ids, value, currency, num_items
+  - 触发时机: 点击 "Buy Now" 按钮
+  - 事件名称: `InitiateCheckout` (Facebook 标准事件)
+
+### 3. Facebook Pixel 集成
+
+Facebook Pixel 用于追踪用户行为和转化事件，支持 Facebook 广告效果分析和再营销。
+
+#### 集成方式
+
+Facebook Pixel **基础代码通过 Google Tag Manager 安装**，代码层面仅推送事件到 dataLayer，由 GTM 转发到 Facebook Pixel。
+
+#### 在 GTM 中配置 Facebook Pixel
+
+1. 访问 [Facebook Events Manager](https://business.facebook.com/events_manager2)
+2. 创建或选择 Facebook Pixel
+3. 在 GTM 中创建 **Facebook Pixel** 标签：
+   - 标签类型: Facebook Pixel
+   - Pixel ID: 从 Facebook Events Manager 获取
+   - 触发器: All Pages（用于基础代码加载）
+
+#### 配置事件转发规则
+
+在 GTM 中为每个 Facebook Pixel 事件创建触发器：
+
+1. **Lead 事件触发器**
+   - 触发器类型: Custom Event
+   - 事件名称: `Lead`
+   - 触发条件: Event equals `Lead`
+
+2. **InitiateCheckout 事件触发器**
+   - 触发器类型: Custom Event
+   - 事件名称: `InitiateCheckout`
+   - 触发条件: Event equals `InitiateCheckout`
+
+3. **创建 Facebook Pixel 事件标签**
+   - 标签类型: Facebook Pixel - Track Event
+   - Event Name: 使用 Data Layer Variable `{{Event}}`
+   - 参数映射:
+     - `content_name` → `{{content_name}}`
+     - `content_category` → `{{content_category}}`
+     - `value` → `{{value}}`
+     - `currency` → `{{currency}}`
+     - `content_ids` → `{{content_ids}}`
+     - `num_items` → `{{num_items}}`
+
+#### 事件参数说明
+
+**Lead 事件参数**:
+- `content_name`: 事件内容名称（如 "Contact Form Submission"）
+- `content_category`: 内容分类（如行业信息）
+- `value`: 可选，事件价值
+- `currency`: 货币代码（默认 "USD"）
+
+**InitiateCheckout 事件参数**:
+- `content_name`: 产品名称
+- `content_ids`: 产品 ID 数组
+- `content_type`: 内容类型（固定为 "product"）
+- `value`: 产品价格
+- `currency`: 货币代码（默认 "USD"）
+- `num_items`: 商品数量（默认 1）
+
+#### 注意事项
+
+- Facebook Pixel 基础代码通过 GTM 管理，便于统一配置和更新
+- 事件通过 dataLayer 推送，使用 Facebook 标准事件名称
+- 可以使用 [Facebook Pixel Helper](https://chrome.google.com/webstore/detail/facebook-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc) Chrome 扩展验证事件是否正确触发
+- 事件数据会在 Facebook Events Manager 中显示，通常需要几分钟延迟
+
+### 4. Microsoft Clarity 集成
 
 Microsoft Clarity 是一个免费的用户行为分析工具，提供会话回放和热力图功能。
 
@@ -127,7 +208,11 @@ Microsoft Clarity 通过 **Google Tag Manager** 自动集成，无需在代码�
    - HTML 代码: 从 Clarity 控制台获取的跟踪代码
    - 触发器: All Pages
 
-3. **GA4 Event Tags**
+3. **Facebook Pixel 标签**
+   - Facebook Pixel 基础代码标签（All Pages 触发器）
+   - Facebook Pixel 事件标签（Lead, InitiateCheckout）
+
+4. **GA4 Event Tags**
    为每个自定义事件创建 GA4 Event 标签：
    - `form_submit`
    - `hero_cta_click`
@@ -139,12 +224,13 @@ Microsoft Clarity 通过 **Google Tag Manager** 自动集成，无需在代码�
    - `whatsapp_click`
    - `download_app_click`
 
-4. **触发器配置**
+5. **触发器配置**
    - 触发器类型: Custom Event
    - 事件名称: 对应上述事件名称
    - 触发条件: All Custom Events
+   - Facebook Pixel 事件触发器: `Lead`, `InitiateCheckout`
 
-5. **变量配置**
+6. **变量配置**
    创建 Data Layer Variables 来捕获事件参数：
    - 产品相关: `product_id`, `product_name`, `product_price`
    - 表单相关: `industry`, `country`, `has_company`
@@ -159,6 +245,18 @@ Microsoft Clarity 通过 **Google Tag Manager** 自动集成，无需在代码�
 2. `product_buy_click` - 购买意图
 3. `product_contact_click` - 联系意图
 4. `whatsapp_click` - 直接沟通
+
+### 推荐的 Facebook Pixel 转化事件
+
+在 Facebook Events Manager 中将以下事件标记为转化事件：
+
+1. `Lead` - 表单提交（主要转化目标）
+2. `InitiateCheckout` - 开始结账（购买意图）
+
+这些事件可用于：
+- Facebook 广告效果分析
+- 创建自定义受众进行再营销
+- 优化广告投放策略
 
 ## 开发与调试
 
@@ -255,3 +353,7 @@ Microsoft Clarity 通过 **Google Tag Manager** 自动集成，无需在代码�
 - **2024-12**: 集成 Microsoft Clarity
   - 通过 Google Tag Manager 自动集成
   - 无需在代码中手动配置脚本
+- **2025-01**: 集成 Facebook Pixel
+  - Facebook Pixel 基础代码通过 GTM 安装
+  - 代码层面推送 `Lead` 和 `InitiateCheckout` 事件到 dataLayer
+  - 支持 Facebook 广告效果分析和再营销
