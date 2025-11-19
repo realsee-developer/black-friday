@@ -1,5 +1,5 @@
 import { ContactForm } from "@/components/custom/ContactForm";
-import { CountdownSection } from "@/components/custom/CountdownSection";
+// import { CountdownSection } from "@/components/custom/CountdownSection";
 import { DistributionSection } from "@/components/custom/DistributionSection";
 import { FeaturesSection } from "@/components/custom/FeaturesSection";
 import { HeroSection } from "@/components/custom/HeroSection";
@@ -46,7 +46,7 @@ export default async function Home() {
         <HeroSection />
 
         {/* Countdown Section */}
-        <CountdownSection />
+        {/* <CountdownSection /> */}
 
         {/* Black Friday Offers */}
         <ProductOffers />
