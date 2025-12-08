@@ -33,12 +33,12 @@ export function getEventSchema() {
   return {
     "@context": "https://schema.org",
     "@type": "Event",
-    name: "Realsee Black Friday 2025 Event - Galois 3D LiDAR Camera Sale",
+    name: "Realsee Black Friday 2025 Event - Galois 3D LiDAR Camera Sale - Has Ended",
     description:
-      "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Premium Bundle $4,999 (reg. $6,424). Worldwide shipping available. Limited time offer Nov 17 - Dec 7, 2025.",
+      "Realsee Black Friday 2025 event has ended. Thank you for your interest. For more information about our products, please contact us.",
     startDate: "2025-11-17T00:00:00-08:00",
     endDate: "2025-12-07T23:59:59-08:00",
-    eventStatus: "https://schema.org/EventScheduled",
+    eventStatus: "https://schema.org/EventPostponed",
     eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
     location: {
       "@type": "VirtualLocation",
@@ -58,7 +58,7 @@ export function getEventSchema() {
         name: "Realsee Galois Premium Bundle - Black Friday Deal",
         price: "4999",
         priceCurrency: "USD",
-        availability: "https://schema.org/InStock",
+        availability: "https://schema.org/OutOfStock",
         validFrom: "2025-11-17T00:00:00-08:00",
         priceValidUntil: "2025-12-07T23:59:59-08:00",
         url: "https://black-friday.realsee.ai",
@@ -77,7 +77,7 @@ export function getEventSchema() {
         name: "Realsee Galois Standard Kit - Black Friday Deal",
         price: "4599",
         priceCurrency: "USD",
-        availability: "https://schema.org/InStock",
+        availability: "https://schema.org/OutOfStock",
         validFrom: "2025-11-17T00:00:00-08:00",
         priceValidUntil: "2025-12-07T23:59:59-08:00",
         url: "https://black-friday.realsee.ai",
@@ -114,7 +114,7 @@ export function getPremiumBundleProductSchema(): WithContext<Product> {
       "@type": "Offer",
       price: "4999",
       priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
+      availability: "https://schema.org/OutOfStock",
       priceValidUntil: "2025-12-07T23:59:59-08:00",
       itemCondition: "https://schema.org/NewCondition",
       seller: {
@@ -182,7 +182,7 @@ export function getStandardKitProductSchema(): WithContext<Product> {
       "@type": "Offer",
       price: "4599",
       priceCurrency: "USD",
-      availability: "https://schema.org/InStock",
+      availability: "https://schema.org/OutOfStock",
       priceValidUntil: "2025-12-07T23:59:59-08:00",
       itemCondition: "https://schema.org/NewCondition",
       seller: {
@@ -569,7 +569,7 @@ export function getProductListSchema() {
             "@type": "Offer",
             price: "4999",
             priceCurrency: "USD",
-            availability: "https://schema.org/InStock",
+            availability: "https://schema.org/OutOfStock",
             priceValidUntil: "2025-12-07T23:59:59-08:00",
             shippingDetails: [
               {
@@ -622,7 +622,7 @@ export function getProductListSchema() {
             "@type": "Offer",
             price: "4599",
             priceCurrency: "USD",
-            availability: "https://schema.org/InStock",
+            availability: "https://schema.org/OutOfStock",
             priceValidUntil: "2025-12-07T23:59:59-08:00",
             shippingDetails: [
               {

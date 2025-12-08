@@ -54,7 +54,7 @@ export const PRODUCTS: ProductSKU[] = [
     discount: 1425,
     discountPercentage: 22,
     featured: true,
-    image: "/assets/products/galois-premium-bundle.jpg",
+    image: "/assets/products/galois-premium-bundle-blurred.jpg",
     buyUrl: "https://home.realsee.ai/en/store-item/1643646673",
     availableFrom: new Date("2025-11-03T00:00:00-05:00"),
     whatsIncluded: [
@@ -69,17 +69,17 @@ export const PRODUCTS: ProductSKU[] = [
           "Quick Release",
           "More Accessories",
         ],
-        value: "Value at $5499",
+        value: "Value at $????",
       },
       {
         title: "Extra Battery",
         items: ["Extra Battery"],
-        value: "Value at $150",
+        value: "Value at $???",
       },
       {
         title: "Extra Charger",
         items: ["Extra Charger"],
-        value: "Value at $100",
+        value: "Value at $???",
       },
       {
         title: "300 Credits",
@@ -90,7 +90,7 @@ export const PRODUCTS: ProductSKU[] = [
           "OBJ Downloads",
           "E57 Downloads",
         ],
-        value: "Value at $675",
+        value: "Value at $???",
       },
     ],
   },
@@ -104,7 +104,7 @@ export const PRODUCTS: ProductSKU[] = [
     discount: 900,
     discountPercentage: 16,
     featured: false,
-    image: "/assets/products/galois-standard-kit.jpg",
+    image: "/assets/products/galois-standard-kit-blurred.jpg",
     buyUrl: "https://home.realsee.ai/en/store-item/1643646648",
     availableFrom: new Date("2025-11-03T00:00:00-05:00"),
     whatsIncluded: [

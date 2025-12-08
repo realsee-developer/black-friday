@@ -68,6 +68,9 @@ export const EVENT_DATES = {
 
   // 活动结束时间
   EVENT_END: createEasternDate(2025, 12, 7, 23, 59, 59),
+
+  // 活动下线时间（北京时间 2025-12-08 16:00 = UTC 2025-12-08 08:00）
+  EVENT_OFFLINE: new Date("2025-12-08T08:00:00Z"), // UTC 时间
 } as const;
 
 /**
@@ -240,4 +243,30 @@ export function getButtonText(availableFrom: Date): string {
     return "Buy Now";
   }
   return "Contact Us";
+}
+
+/**
+ * 检查是否已到达下线时间
+ * @param currentTime 当前时间，默认为 new Date()
+ * @returns 如果已到达下线时间返回 true
+ */
+export function isEventOffline(currentTime: Date = new Date()): boolean {
+  // 测试模式：可以通过环境变量 FORCE_OFFLINE=true 强制显示下线状态
+  if (typeof window !== "undefined" && window.location.search.includes("offline=true")) {
+    return true;
+  }
+  if (typeof process !== "undefined" && process.env.NEXT_PUBLIC_FORCE_OFFLINE === "true") {
+    return true;
+  }
+  return currentTime >= EVENT_DATES.EVENT_OFFLINE;
+}
+
+/**
+ * 获取距离下线时间的剩余毫秒数
+ * @param currentTime 当前时间，默认为 new Date()
+ * @returns 剩余毫秒数，如果已过期则返回 0
+ */
+export function getTimeUntilOffline(currentTime: Date = new Date()): number {
+  const diff = EVENT_DATES.EVENT_OFFLINE.getTime() - currentTime.getTime();
+  return Math.max(0, diff);
 }

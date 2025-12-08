@@ -63,48 +63,54 @@ export function ProductOffers() {
                   <>
                     {/* Cyberpunk neon scanning light effect - 左上到右下对角线扫光 */}
                     <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none z-10">
-                      <div 
+                      <div
                         className="absolute -inset-[100%]"
                         style={{
-                          background: 'linear-gradient(135deg, transparent 30%, rgba(51,102,255,0.3) 45%, rgba(0,255,255,0.6) 50%, rgba(51,102,255,0.3) 55%, transparent 70%)',
-                          transform: 'translate(-100%, -100%)',
-                          animation: 'cyberpunk-diagonal-scan 3s ease-in-out infinite',
-                          mixBlendMode: 'screen'
+                          background:
+                            "linear-gradient(135deg, transparent 30%, rgba(51,102,255,0.3) 45%, rgba(0,255,255,0.6) 50%, rgba(51,102,255,0.3) 55%, transparent 70%)",
+                          transform: "translate(-100%, -100%)",
+                          animation:
+                            "cyberpunk-diagonal-scan 3s ease-in-out infinite",
+                          mixBlendMode: "screen",
                         }}
                       />
                     </div>
                     {/* Enhanced background glow */}
                     <div className="absolute -inset-1 bg-gradient-to-r from-cyber-brand-500/30 via-cyber-neon-cyan/20 to-cyber-brand-500/30 rounded-xl blur-xl -z-10 animate-pulse" />
-                    
+
                     {/* Featured badge with cyberpunk neon effects */}
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
                       <div className="relative cyber-recommended-badge">
                         {/* Multi-layer glow effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-brand-500 blur-2xl opacity-80 rounded-full animate-pulse" />
                         <div className="absolute inset-0 bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-brand-500 blur-lg opacity-60 rounded-full" />
-                        
+
                         {/* Badge container with scanning light */}
                         <div className="relative overflow-hidden rounded-full">
                           {/* Badge background with gradient animation */}
-                          <div 
+                          <div
                             className="relative bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-brand-500 text-white px-5 py-1.5 text-sm font-bold flex items-center gap-2"
                             style={{
-                              backgroundSize: '200% 100%',
-                              animation: 'neon-gradient-shift 3s ease-in-out infinite',
-                              boxShadow: '0 0 20px rgba(51,102,255,0.8), 0 0 40px rgba(0,255,255,0.6), 0 0 60px rgba(51,102,255,0.4), inset 0 0 10px rgba(255,255,255,0.3)'
+                              backgroundSize: "200% 100%",
+                              animation:
+                                "neon-gradient-shift 3s ease-in-out infinite",
+                              boxShadow:
+                                "0 0 20px rgba(51,102,255,0.8), 0 0 40px rgba(0,255,255,0.6), 0 0 60px rgba(51,102,255,0.4), inset 0 0 10px rgba(255,255,255,0.3)",
                             }}
                           >
                             <Icon
                               icon="lucide:star"
                               className="w-4 h-4 fill-current animate-pulse"
                               style={{
-                                filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.8))'
+                                filter:
+                                  "drop-shadow(0 0 4px rgba(255,255,255,0.8))",
                               }}
                             />
-                            <span 
+                            <span
                               className="tracking-wider cyber-neon-text-strong"
                               style={{
-                                textShadow: '0 0 10px rgba(255,255,255,1), 0 0 20px rgba(0,255,255,0.8), 0 0 30px rgba(51,102,255,0.6), 0 0 40px rgba(0,255,255,0.4)'
+                                textShadow:
+                                  "0 0 10px rgba(255,255,255,1), 0 0 20px rgba(0,255,255,0.8), 0 0 30px rgba(51,102,255,0.6), 0 0 40px rgba(0,255,255,0.4)",
                               }}
                             >
                               RECOMMENDED
@@ -113,17 +119,19 @@ export function ProductOffers() {
                               icon="lucide:star"
                               className="w-4 h-4 fill-current animate-pulse"
                               style={{
-                                filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.8))'
+                                filter:
+                                  "drop-shadow(0 0 4px rgba(255,255,255,0.8))",
                               }}
                             />
                           </div>
-                          
+
                           {/* Scanning light overlay */}
-                          <div 
+                          <div
                             className="absolute inset-0 pointer-events-none"
                             style={{
-                              background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)',
-                              animation: 'neon-scan 2s linear infinite'
+                              background:
+                                "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.8) 50%, transparent 100%)",
+                              animation: "neon-scan 2s linear infinite",
                             }}
                           />
                         </div>
@@ -155,7 +163,10 @@ export function ProductOffers() {
                     >
                       {product.name}
                     </h3>
-                    <p className="text-sm sm:text-base text-cyber-gray-400" itemProp="description">
+                    <p
+                      className="text-sm sm:text-base text-cyber-gray-400"
+                      itemProp="description"
+                    >
                       {product.subtitle}
                     </p>
                   </div>
@@ -177,21 +188,41 @@ export function ProductOffers() {
                       content="https://schema.org/InStock"
                     />
                     <div className="flex items-baseline gap-2 sm:gap-3">
-                      <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-cyber-brand-500">
-                        {formatPrice(product.discountedPrice)}
+                      <span
+                        className="text-2xl sm:text-3xl md:text-4xl font-bold text-cyber-brand-500 select-none"
+                        style={{
+                          filter: "blur(8px)",
+                          userSelect: "none",
+                          WebkitUserSelect: "none"
+                        }}
+                      >
+                        {product.id === 'premium-bundle' ? '$4,999' : '$4,599'}
                       </span>
-                      <span className="text-lg sm:text-xl text-cyber-gray-500 line-through">
-                        {formatPrice(product.originalPrice)}
+                      <span
+                        className="text-lg sm:text-xl text-cyber-gray-500 line-through select-none"
+                        style={{
+                          filter: "blur(8px)",
+                          userSelect: "none",
+                          WebkitUserSelect: "none"
+                        }}
+                      >
+                        {product.id === 'premium-bundle' ? '$6,424' : '$5,499'}
                       </span>
                     </div>
-                    <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full bg-linear-to-r from-cyber-brand-500/20 to-cyber-neon-cyan/20 border border-cyber-brand-500/30">
+                    <div
+                      className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full bg-linear-to-r from-cyber-brand-500/20 to-cyber-neon-cyan/20 border border-cyber-brand-500/30 select-none"
+                      style={{
+                        filter: "blur(8px)",
+                        userSelect: "none",
+                        WebkitUserSelect: "none"
+                      }}
+                    >
                       <Icon
                         icon="lucide:tag"
                         className="w-3 h-3 sm:w-4 sm:h-4 text-cyber-brand-500"
                       />
                       <span className="text-xs sm:text-sm font-semibold text-cyber-brand-500">
-                        Save {formatPrice(product.discount)} (
-                        {product.discountPercentage}% OFF)
+                        {product.id === 'premium-bundle' ? 'Save $1,425 (22% OFF)' : 'Save $900 (16% OFF)'}
                       </span>
                     </div>
                   </div>
@@ -205,7 +236,7 @@ export function ProductOffers() {
                         trackProductDetailsView(
                           product.id,
                           product.name,
-                          isExpanded ? "collapse" : "expand",
+                          isExpanded ? "collapse" : "expand"
                         );
                       }}
                       className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-cyber-gray-300 hover:text-cyber-gray-100 min-h-[44px] touch-none"
@@ -226,15 +257,10 @@ export function ProductOffers() {
                       <div className="mt-4 space-y-4 px-4 py-4 rounded-lg bg-white/5 border border-cyber-brand-500/20">
                         {product.whatsIncluded.map((section) => (
                           <div key={section.title}>
-                            <div className="flex items-center justify-between mb-2">
+                            <div className="mb-2">
                               <h4 className="font-semibold text-cyber-gray-100">
                                 {section.title}
                               </h4>
-                              {section.value && (
-                                <span className="text-sm text-cyber-brand-500">
-                                  {section.value}
-                                </span>
-                              )}
                             </div>
                             <ul className="space-y-1">
                               {section.items.map((item) => (
@@ -265,7 +291,7 @@ export function ProductOffers() {
                         trackProductDetailsView(
                           product.id,
                           product.name,
-                          "expand",
+                          "expand"
                         );
                       }}
                       className="w-full flex items-center justify-between px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors text-cyber-gray-300 hover:text-cyber-gray-100 min-h-[44px] touch-none"
@@ -284,37 +310,12 @@ export function ProductOffers() {
                         trackProductContactClick(
                           product.id,
                           product.name,
-                          product.discountedPrice,
+                          product.discountedPrice
                         )
                       }
                       className="flex-1 flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 hover:scale-105 cyber-btn-secondary min-h-[44px] touch-none"
                     >
                       Contact Us
-                    </a>
-                    <a
-                      href={product.buyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={`Buy ${product.name} - Black Friday Special Offer`}
-                      onClick={() => {
-                        trackProductBuyClick(
-                          product.id,
-                          product.name,
-                          product.discountedPrice,
-                          product.buyUrl,
-                        );
-                        // Track Facebook Pixel InitiateCheckout event
-                        trackFacebookInitiateCheckout(
-                          product.name,
-                          [product.id],
-                          product.discountedPrice,
-                          CURRENCY_USD,
-                          1,
-                        );
-                      }}
-                      className="flex-1 flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 hover:scale-105 cyber-btn-primary min-h-[44px] touch-none"
-                    >
-                      Buy Now
                     </a>
                   </div>
                 </div>
@@ -360,21 +361,16 @@ export function ProductOffers() {
             {/* Content */}
             <div className="space-y-3 sm:space-y-4">
               {PRODUCTS.find(
-                (p) => p.id === showMobileDetails,
+                (p) => p.id === showMobileDetails
               )?.whatsIncluded.map((section) => (
                 <div
                   key={section.title}
                   className="p-3 sm:p-4 rounded-lg bg-white/5 border border-cyber-brand-500/20"
                 >
-                  <div className="flex items-center justify-between mb-2">
+                  <div className="mb-2">
                     <h4 className="text-sm sm:text-base font-semibold text-cyber-gray-100">
                       {section.title}
                     </h4>
-                    {section.value && (
-                      <span className="text-xs sm:text-sm text-cyber-brand-500">
-                        {section.value}
-                      </span>
-                    )}
                   </div>
                   <ul className="space-y-1">
                     {section.items.map((item) => (

@@ -34,11 +34,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://black-friday.realsee.ai"),
   title: {
     default:
-      "Realsee Black Friday 2025 - Galois 3D LiDAR Camera Sale | Save $1,425",
+      "Our Black Friday Has Ended - Realsee Galois 3D LiDAR Camera | Contact Us",
     template: "%s | Realsee Black Friday",
   },
   description:
-    "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Premium Bundle $4,999 (reg. $6,424). Worldwide shipping. Limited offer Nov 17 - Dec 7.",
+    "Our Black Friday 2025 event has ended. Thank you for your interest. For more information about Realsee Galois 3D LiDAR Camera products, please contact us.",
   keywords: [
     "Realsee Black Friday 2025",
     "如视 黑五",
@@ -81,9 +81,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://black-friday.realsee.ai",
     title:
-      "Realsee Black Friday 2025 - Galois 3D LiDAR Camera Sale | Save $1,425",
+      "Our Black Friday Has Ended - Realsee Galois 3D LiDAR Camera | Contact Us",
     description:
-      "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Premium Bundle $4,999 (reg. $6,424). Worldwide shipping. Limited offer Nov 17 - Dec 7.",
+      "Our Black Friday 2025 event has ended. Thank you for your interest. For more information about Realsee Galois 3D LiDAR Camera products, please contact us.",
     siteName: "Realsee Black Friday",
     images: [
       {
@@ -97,9 +97,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Realsee Black Friday 2025 - Galois 3D LiDAR Camera Sale | Save $1,425",
+      "Our Black Friday Has Ended - Realsee Galois 3D LiDAR Camera | Contact Us",
     description:
-      "Realsee Black Friday 2025: Save up to $1,425 on Galois 3D LiDAR Camera. Premium Bundle $4,999. Worldwide shipping. Limited offer Nov 17 - Dec 7!",
+      "Our Black Friday 2025 event has ended. Thank you for your interest. For more information about Realsee Galois 3D LiDAR Camera products, please contact us.",
     images: [
       buildSEOImageUrl("/assets/realsee-black-friday-2025-galois-share.jpg"),
     ],
