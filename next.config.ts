@@ -112,6 +112,34 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  // Domain-based routing for Christmas promotion page
+  async rewrites() {
+    return [
+      // christmas.realsee.ai -> /christmas
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "christmas.realsee.ai",
+          },
+        ],
+        destination: "/christmas/:path*",
+      },
+      // christmas.realsee.dev -> /christmas
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "christmas.realsee.dev",
+          },
+        ],
+        destination: "/christmas/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
