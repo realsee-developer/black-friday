@@ -87,7 +87,9 @@ export const metadata: Metadata = {
     siteName: "Realsee Black Friday",
     images: [
       {
-        url: buildSEOImageUrl("/assets/realsee-black-friday-2025-galois-share.jpg"),
+        url: buildSEOImageUrl(
+          "/assets/realsee-black-friday-2025-galois-share.jpg"
+        ),
         width: 1200,
         height: 1200,
         alt: "Realsee Black Friday 2025 - Galois 3D LiDAR Camera Premium Bundle - Save $1,425",
@@ -138,7 +140,7 @@ export const metadata: Metadata = {
     "content-language": "en",
     "geo.region": "US",
     "geo.position": "global",
-    "ICBM": "global",
+    ICBM: "global",
     // Allow AI crawlers to use content for training and search
     "X-Robots-Tag":
       "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
@@ -164,6 +166,7 @@ export default function RootLayout({
       lang="en"
       data-theme="cyberpunk"
       className={`dark ${inter.variable} ${jetbrainsMono.variable} ${orbitron.variable}`}
+      suppressHydrationWarning
     >
       <body className="bg-cyber-gray-900 text-cyber-gray-200 antialiased">
         {/* Skip to main content link for accessibility */}

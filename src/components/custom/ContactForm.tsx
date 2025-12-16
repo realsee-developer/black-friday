@@ -27,7 +27,7 @@ declare global {
       ready: (callback: () => void) => void;
       execute: (
         siteKey: string,
-        options: { action: string },
+        options: { action: string }
       ) => Promise<string>;
     };
   }
@@ -36,9 +36,14 @@ declare global {
 interface ContactFormProps {
   initialCountryCode?: string;
   hideWhatsApp?: boolean;
+  backgroundBasePath?: string;
 }
 
-export function ContactForm({ initialCountryCode, hideWhatsApp = false }: ContactFormProps = {}) {
+export function ContactForm({
+  initialCountryCode,
+  hideWhatsApp = false,
+  backgroundBasePath = "/assets/contact/contact-bg",
+}: ContactFormProps = {}) {
   const {
     isSubmitting,
     submitSuccess,
@@ -117,7 +122,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
       if (initialCountryCode) {
         const allCountries = getAllCountriesData();
         const countryData = allCountries.find(
-          (c) => c.countryCode === (initialCountryCode as CountryCode),
+          (c) => c.countryCode === (initialCountryCode as CountryCode)
         );
         if (countryData) {
           setFormData((prev) => ({
@@ -188,7 +193,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
     return () => {
       // 清理脚本
       const existingScript = document.querySelector(
-        `script[src^="https://www.google.com/recaptcha/api.js"]`,
+        `script[src^="https://www.google.com/recaptcha/api.js"]`
       );
       if (existingScript) {
         document.head.removeChild(existingScript);
@@ -245,7 +250,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
 
       return "";
     },
-    [],
+    []
   );
 
   const validateForm = (): boolean => {
@@ -334,7 +339,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
         formData.country,
         formData.devicesUsed,
         "yes", // 输入手机号即认为同意联系
-        !!formData.companyName,
+        !!formData.companyName
       );
 
       // Track Facebook Pixel Lead event (only after successful submission)
@@ -342,7 +347,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
         FACEBOOK_LEAD_CONTENT_NAME,
         formData.industry,
         undefined,
-        CURRENCY_USD,
+        CURRENCY_USD
       );
 
       setSubmitSuccess(true);
@@ -373,7 +378,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
         }));
       }
     },
-    [validateField],
+    [validateField]
   );
 
   const handleBlur = useCallback(
@@ -389,7 +394,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
         }));
       }
     },
-    [formData, validateField],
+    [formData, validateField]
   );
 
   const clearForm = useCallback(() => {
@@ -428,7 +433,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
 
       return "border-cyber-gray-600 focus:ring-cyber-brand-500";
     },
-    [fieldStatus, touched, errors],
+    [fieldStatus, touched, errors]
   );
 
   if (submitSuccess) {
@@ -439,7 +444,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
       >
         <div className="absolute inset-0 z-0">
           <ResponsiveBackgroundImage
-            basePath="/assets/contact/contact-bg"
+            basePath={backgroundBasePath}
             alt="Contact Background"
             priority
           />
@@ -480,7 +485,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
     >
       <div className="absolute inset-0 z-0">
         <ResponsiveBackgroundImage
-          basePath="/assets/contact/contact-bg"
+          basePath={backgroundBasePath}
           alt="Contact Background"
           priority
         />
@@ -554,7 +559,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
                       onChange={(e) => handleChange("name", e.target.value)}
                       onBlur={() => handleBlur("name")}
                       className={`w-full px-4 py-3 pr-10 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
-                        "name",
+                        "name"
                       )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-[1.01]`}
                       placeholder="John Doe"
                     />
@@ -592,7 +597,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
                       onChange={(e) => handleChange("email", e.target.value)}
                       onBlur={() => handleBlur("email")}
                       className={`w-full px-4 py-3 pr-10 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
-                        "email",
+                        "email"
                       )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-[1.01]`}
                       placeholder="john.doe@company.com"
                     />
@@ -647,10 +652,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
                 {/* Geo Detection Badge */}
                 {showGeoDetectedBadge && formData.country && (
                   <div className="mt-2 flex items-center gap-2 text-xs text-cyber-brand-400 animate-in slide-in-from-top-2 fade-in duration-300">
-                    <Icon
-                      icon="lucide:map-pin-check"
-                      className="w-4 h-4"
-                    />
+                    <Icon icon="lucide:map-pin-check" className="w-4 h-4" />
                     <span>Location detected automatically</span>
                   </div>
                 )}
@@ -674,7 +676,9 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
                     type="text"
                     id="companyName"
                     value={formData.companyName}
-                    onChange={(e) => handleChange("companyName", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("companyName", e.target.value)
+                    }
                     className="w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-all duration-300"
                     placeholder="Your company name"
                   />
@@ -710,7 +714,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
                       onChange={(e) => handleChange("industry", e.target.value)}
                       onBlur={() => handleBlur("industry")}
                       className={`w-full px-4 py-3 pr-10 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
-                        "industry",
+                        "industry"
                       )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 appearance-none cursor-pointer`}
                     >
                       <option value="">Select your industry</option>
@@ -752,7 +756,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
                       onBlur={() => handleBlur("message")}
                       rows={5}
                       className={`w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
-                        "message",
+                        "message"
                       )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 resize-none`}
                       placeholder="Tell us about your project or inquiry..."
                     />
@@ -789,7 +793,9 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
                     type="text"
                     id="devicesUsed"
                     value={formData.devicesUsed}
-                    onChange={(e) => handleChange("devicesUsed", e.target.value)}
+                    onChange={(e) =>
+                      handleChange("devicesUsed", e.target.value)
+                    }
                     className="w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-all duration-300"
                     placeholder="e.g., Matterport, iGuide, Ricoh Theta"
                   />
@@ -857,10 +863,7 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
               {/* Auto-save indicator */}
               {formProgress > 0 && formProgress < 100 && (
                 <p className="text-xs text-center text-cyber-gray-400 flex items-center justify-center gap-1">
-                  <Icon
-                    icon="lucide:save"
-                    className="w-3 h-3 animate-pulse"
-                  />
+                  <Icon icon="lucide:save" className="w-3 h-3 animate-pulse" />
                   Your progress is automatically saved
                 </p>
               )}
@@ -925,7 +928,9 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
           <div className="w-full md:w-1/2 space-y-6 sm:space-y-8">
             <div className="text-center md:text-left">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cyber-gray-100 mb-3 sm:mb-4">
-                {hideWhatsApp ? "Black Friday: The Deal Event of the Year" : "Contact us"}
+                {hideWhatsApp
+                  ? "Black Friday: The Deal Event of the Year"
+                  : "Contact us"}
               </h2>
               <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300">
                 Please leave your information, we will contact you within 48
@@ -975,7 +980,10 @@ export function ContactForm({ initialCountryCode, hideWhatsApp = false }: Contac
               <div className="cyber-card-neon p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6">
                 <div className="flex items-center gap-4">
                   <div className="relative w-16 h-16 shrink-0 flex items-center justify-center bg-[#25D366] rounded-2xl shadow-lg">
-                    <Icon icon="mdi:whatsapp" className="w-10 h-10 text-white" />
+                    <Icon
+                      icon="mdi:whatsapp"
+                      className="w-10 h-10 text-white"
+                    />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-cyber-gray-100">

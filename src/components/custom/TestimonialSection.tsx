@@ -2,18 +2,30 @@
 
 import { Icon } from "@iconify/react";
 import { useEffect } from "react";
-import { KOL_VIDEOS } from "@/lib/constants";
+import { KOL_VIDEOS, type KOLVideo } from "@/lib/constants";
 import { useTestimonialStore } from "@/store/useTestimonialStore";
 import { Professionals } from "./Professionals";
 import { WorldMap } from "./WorldMap";
 
 interface TestimonialSectionProps {
   className?: string;
+  title?: string;
+  subtitle?: string;
+  videos?: KOLVideo[];
+  hideProfessionals?: boolean;
+  hideWorldMap?: boolean;
 }
 
 const AUTO_PLAY_INTERVAL = 8000; // 8秒自动切换
 
-export function TestimonialSection({ className }: TestimonialSectionProps) {
+export function TestimonialSection({
+  className,
+  title = "What Professionals Say",
+  subtitle = "Trusted by Photographers and 3D Creators Worldwide",
+  videos = KOL_VIDEOS,
+  hideProfessionals = false,
+  hideWorldMap = false,
+}: TestimonialSectionProps) {
   // ✅ 使用 selector 只订阅需要渲染的状态
   const currentPage = useTestimonialStore((state) => state.currentPage);
   const paused = useTestimonialStore((state) => state.paused);
@@ -21,7 +33,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
   const sortedVideos = useTestimonialStore((state) => state.sortedVideos);
   const isLoadingOrder = useTestimonialStore((state) => state.isLoadingOrder);
   const prefersReducedMotion = useTestimonialStore(
-    (state) => state.prefersReducedMotion,
+    (state) => state.prefersReducedMotion
   );
   const touchStart = useTestimonialStore((state) => state.touchStart);
 
@@ -30,10 +42,10 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
   // 初始化
   useEffect(() => {
     const { initialize, cleanup } = useTestimonialStore.getState();
-    initialize(KOL_VIDEOS);
+    initialize(videos);
     return () => cleanup();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [videos]);
 
   // 响应式处理 - 只在客户端挂载后执行
   useEffect(() => {
@@ -49,7 +61,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
     const timer = setTimeout(() => {
       handleResize();
     }, 0);
-    
+
     window.addEventListener("resize", handleResize);
     return () => {
       clearTimeout(timer);
@@ -89,7 +101,7 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
       {
         threshold: [0.5],
         rootMargin: "0px",
-      },
+      }
     );
 
     // 观察所有视频元素
@@ -149,24 +161,19 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
   return (
     <section
       id="testimonial"
-      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 py-12 sm:py-16 md:py-20 lg:py-28${className ? ` ${className}` : ""}`}
+      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 py-12 sm:py-16 md:py-20 lg:py-28${
+        className ? ` ${className}` : ""
+      }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* 标题 */}
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 bg-linear-to-r from-cyber-blue via-cyber-cyan to-cyber-purple bg-clip-text text-transparent">
-            What Professionals Say
-          </h2>
-        </div>
-
         {/* KOL 视频轮播 */}
         <div className="mb-12 sm:mb-16 md:mb-20">
           <div className="text-center mb-6 sm:mb-8">
             <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 text-white">
-              Creator Testimonials
+              {title}
             </h3>
             <p className="text-base sm:text-lg md:text-xl text-gray-300">
-              Trusted by Photographers and 3D Creators Worldwide
+              {subtitle}
             </p>
           </div>
 
@@ -276,10 +283,12 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
                   {/* 移动端：页码显示 */}
                   <div className="md:hidden rounded-full border border-white/20 bg-black/60 px-3.5 py-1.5 shadow-xl shadow-black/40 backdrop-blur-md">
                     <span className="text-xs text-white font-semibold tabular-nums tracking-wider">
-                      {currentPage + 1} <span className="text-white/50 mx-0.5">/</span> {totalPages}
+                      {currentPage + 1}{" "}
+                      <span className="text-white/50 mx-0.5">/</span>{" "}
+                      {totalPages}
                     </span>
                   </div>
-                  
+
                   {/* 平板和桌面：指示点 */}
                   <div className="hidden md:flex gap-2 lg:gap-3">
                     {Array.from({ length: totalPages }).map((_, index) => (
@@ -310,12 +319,14 @@ export function TestimonialSection({ className }: TestimonialSectionProps) {
       </div>
 
       {/* 专业摄影师 */}
-      <Professionals />
+      {!hideProfessionals && <Professionals />}
 
       {/* 全球覆盖地图 */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <WorldMap />
-      </div>
+      {!hideWorldMap && (
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <WorldMap />
+        </div>
+      )}
     </section>
   );
 }

@@ -36,7 +36,7 @@ export const CHRISTMAS_PRODUCTS: ProductSKU[] = [
     discount: 1225,
     discountPercentage: 19,
     featured: true,
-    image: "/assets/products/galois-premium-bundle-blurred.jpg",
+    image: "/assets/christmas/products/galois-premium-bundle.jpg",
     buyUrl: "https://home.realsee.ai/en/store-item/1643646673",
     availableFrom: new Date("2025-12-17T00:00:00-05:00"),
     whatsIncluded: [
@@ -86,7 +86,7 @@ export const CHRISTMAS_PRODUCTS: ProductSKU[] = [
     discount: 700,
     discountPercentage: 12,
     featured: false,
-    image: "/assets/products/galois-standard-kit-blurred.jpg",
+    image: "/assets/christmas/products/galois-standard-kit.jpg",
     buyUrl: "https://home.realsee.ai/en/store-item/1643646648",
     availableFrom: new Date("2025-12-17T00:00:00-05:00"),
     whatsIncluded: [
@@ -249,25 +249,25 @@ export const CHRISTMAS_GLOBAL_STATS: GlobalStat[] = [
 export const CHRISTMAS_SHIPPING_POINTS: ShippingPoint[] = [
   {
     title: "Data Security",
-    icon: "/assets/shipping/data-security.jpg",
+    icon: "/assets/christmas/shipping/data-security.png",
     description:
       "Your data is securely stored on AWS, the world's leading cloud platform. Rest assured, your information is protected with top-tier encryption and compliance standards.",
   },
   {
     title: "1-on-1 Support",
-    icon: "/assets/shipping/support.jpg",
+    icon: "/assets/christmas/shipping/support.png",
     description:
       "Skip the bots. Get personalized assistance from our expert team. From questions to solutions, we're with you every step.",
   },
   {
     title: "Global Delivery",
-    icon: "/assets/shipping/delivery.jpg",
+    icon: "/assets/christmas/shipping/delivery.png",
     description:
       "Shop anywhere, ship everywhere—for free. Fast, reliable delivery to your doorstep, no hidden costs.",
   },
   {
     title: "1-Year Warranty",
-    icon: "/assets/shipping/warranty.jpg",
+    icon: "/assets/christmas/shipping/warranty.png",
     description:
       "Shop with confidence. Enjoy full hardware product protection for a year after purchase, with easy claim processing.",
   },
@@ -281,9 +281,9 @@ export const CHRISTMAS_HERO_CONFIG = {
   subtitle: "Dec 17th - Dec 23rd, 2025 | Worldwide Shipping",
   description: "Experience professional 3D scanning with up to $1225 OFF",
   backgroundImages: {
-    pc: "/assets/hero/christmas-banner-pc.jpg",
-    pad: "/assets/hero/christmas-banner-pad.jpg",
-    mobile: "/assets/hero/christmas-banner-mobile.jpg",
+    pc: "/assets/christmas/hero/banner-pc.jpg",
+    pad: "/assets/christmas/hero/banner-pad.jpg",
+    mobile: "/assets/christmas/hero/banner-mobile.jpg",
   },
   ctaButtons: [
     { label: "Shop Now", href: "#offers", primary: true },
