@@ -20,19 +20,19 @@ export function ChristmasProductOffers() {
     <section
       id="offers"
       aria-label="Christmas Product Offers"
-      className="relative overflow-hidden bg-linear-to-b from-[#1a0a0a] via-[#0a0a0a] to-[#0a0a0a] py-12 sm:py-16 md:py-20 lg:py-28"
+      className="relative overflow-hidden bg-linear-to-b from-[#061818] via-[#082a2a] to-[#061818] py-12 sm:py-16 md:py-20 lg:py-28"
     >
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
         <div className="christmas-grid absolute inset-0 opacity-5" />
-        <div className="absolute top-1/3 left-1/4 h-96 w-96 rounded-full bg-christmas-red/15 blur-[150px]" />
-        <div className="absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full bg-christmas-gold/10 blur-[140px]" />
+        <div className="absolute top-1/3 left-1/4 h-96 w-96 rounded-full bg-christmas-teal/20 blur-[150px]" />
+        <div className="absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full bg-christmas-gold/15 blur-[140px]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6">
         {/* Section header */}
         <div className="text-center mb-12 sm:mb-16 md:mb-20">
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-christmas-red/20 border border-christmas-red/30">
+          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-christmas-teal/30 border border-christmas-gold/30">
             <span className="text-2xl">🎅</span>
             <span className="text-christmas-gold font-semibold">
               Limited Time Offer
@@ -57,9 +57,9 @@ export function ChristmasProductOffers() {
                 key={product.id}
                 itemScope
                 itemType="https://schema.org/Product"
-                className={`relative bg-gradient-to-b from-[#1a0f0f] to-[#0a0505] rounded-2xl border border-christmas-red/20 p-4 sm:p-6 md:p-8 flex flex-col transition-all duration-300 ${
+                className={`relative bg-gradient-to-b from-[#0d3d3d] to-[#061818] rounded-2xl border border-christmas-teal-light/30 p-4 sm:p-6 md:p-8 flex flex-col transition-all duration-300 ${
                   product.featured
-                    ? "ring-4 ring-christmas-red shadow-[0_0_40px_rgba(196,30,58,0.4)]"
+                    ? "ring-4 ring-christmas-gold shadow-[0_0_40px_rgba(212,168,83,0.4)]"
                     : ""
                 }`}
               >
@@ -67,7 +67,7 @@ export function ChristmasProductOffers() {
                 {product.featured && (
                   <>
                     {/* Glow effect */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-christmas-red/30 via-christmas-gold/20 to-christmas-red/30 rounded-2xl blur-xl -z-10 animate-pulse" />
+                    <div className="absolute -inset-1 bg-gradient-to-r from-christmas-gold/30 via-christmas-red/20 to-christmas-gold/30 rounded-2xl blur-xl -z-10 animate-pulse" />
 
                     {/* Featured badge */}
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">

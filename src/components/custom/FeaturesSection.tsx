@@ -6,7 +6,15 @@ import { FEATURES } from "@/lib/constants";
 import { useFeaturesStore } from "@/store/useFeaturesStore";
 import { CyberVideoPlayer } from "./CyberVideoPlayer";
 
-export function FeaturesSection() {
+interface FeaturesSectionProps {
+  title?: string;
+  subtitle?: string;
+}
+
+export function FeaturesSection({
+  title = "LiDAR 3D Solution with Pay-As-You-Go 3D Hosting",
+  subtitle = "Professional-grade features designed for creators",
+}: FeaturesSectionProps) {
   // ✅ 使用 selector 只订阅需要的状态
   const activeFeature = useFeaturesStore((state) => state.activeFeature);
   const setActiveFeature = useFeaturesStore((state) => state.setActiveFeature);
@@ -43,10 +51,10 @@ export function FeaturesSection() {
         {/* Section header */}
         <div className="text-center mb-12 sm:mb-16 md:mb-20">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cyber-gray-100 mb-3 sm:mb-4">
-            LiDAR 3D Solution with Pay-As-You-Go 3D Hosting
+            {title}
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300 max-w-3xl mx-auto">
-            Professional-grade features designed for creators
+            {subtitle}
           </p>
         </div>
 
@@ -107,7 +115,7 @@ export function FeaturesSection() {
               <div className="h-full flex flex-col gap-1 lg:gap-1.5 xl:gap-2">
                 {FEATURES.map((feature, index) => {
                   const isActive = activeFeature === index;
-                  
+
                   return (
                     <div
                       key={feature.id}
@@ -131,7 +139,9 @@ export function FeaturesSection() {
                                 : "bg-cyber-gray-700 text-cyber-gray-400 scale-100"
                             }`}
                           >
-                            <span className="font-bold text-xs">{index + 1}</span>
+                            <span className="font-bold text-xs">
+                              {index + 1}
+                            </span>
                           </div>
                           <h3
                             className={`text-xs lg:text-sm font-semibold transition-colors duration-300 leading-tight ${
@@ -194,7 +204,9 @@ export function FeaturesSection() {
                         : "bg-cyber-gray-700 text-cyber-gray-400 scale-100"
                     }`}
                   >
-                    <span className="font-bold text-sm sm:text-base">{index + 1}</span>
+                    <span className="font-bold text-sm sm:text-base">
+                      {index + 1}
+                    </span>
                   </div>
                   <h3
                     className={`text-sm sm:text-base md:text-lg font-semibold transition-colors duration-300 ${

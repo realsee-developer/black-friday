@@ -3,13 +3,19 @@ import { DISTRIBUTION_FEATURES } from "@/lib/constants";
 
 interface DistributionSectionProps {
   className?: string;
+  title?: string;
 }
 
-export function DistributionSection({ className }: DistributionSectionProps) {
+export function DistributionSection({
+  className,
+  title = "Seamless 3D Virtual Tour Distribution",
+}: DistributionSectionProps) {
   return (
     <section
       id="distribution"
-      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 pt-12 sm:pt-16 md:pt-20 lg:pt-28 pb-12 sm:pb-16 ${className || ""}`}
+      className={`relative overflow-hidden bg-linear-to-b from-cyber-gray-900 via-cyber-gray-800 to-cyber-gray-900 pt-12 sm:pt-16 md:pt-20 lg:pt-28 pb-12 sm:pb-16 ${
+        className || ""
+      }`}
     >
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
@@ -22,7 +28,7 @@ export function DistributionSection({ className }: DistributionSectionProps) {
         {/* Section header */}
         <div className="text-center mb-12 sm:mb-16 md:mb-20">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-cyber-gray-100 mb-3 sm:mb-4">
-            Seamless 3D Virtual Tour Distribution
+            {title}
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-cyber-gray-300 max-w-3xl mx-auto">
             Effortless sharing across platforms and devices for maximum reach.
