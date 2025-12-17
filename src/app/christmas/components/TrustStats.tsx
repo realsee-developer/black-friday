@@ -70,7 +70,7 @@ function AnimatedCounter({ end, duration = 2000, suffix = "" }: CounterProps) {
   return (
     <div
       ref={ref}
-      className="text-3xl sm:text-4xl md:text-5xl font-bold text-cyber-brand-500"
+      className="text-3xl sm:text-4xl md:text-5xl font-bold text-christmas-ice"
     >
       {formatNumber(count)}
       {suffix}
@@ -83,18 +83,21 @@ export function TrustStats() {
     <section
       id="trust-stats"
       aria-label="Global Trust Statistics"
-      className="relative overflow-hidden bg-cyber-gray-900 py-16 sm:py-20 md:py-24"
+      className="relative overflow-hidden bg-christmas-winter-dark py-16 sm:py-20 md:py-24"
     >
+      {/* Divider */}
+      <div className="absolute top-0 inset-x-0 h-32 section-divider-top z-10" />
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-cyber-brand-500/10 blur-[200px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-christmas-ice/5 blur-[200px]" />
+        <div className="absolute inset-0 bg-aurora opacity-40 mix-blend-overlay" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6">
         {/* Section header */}
         <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-3 sm:mb-4">
-            Trusted 3D Tour Solution for Global Business
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-gradient-glacial">
+            Trusted by Industry Leaders
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-2xl mx-auto">
             Join thousands of professionals using Realsee to create stunning 3D
@@ -107,10 +110,10 @@ export function TrustStats() {
           {CHRISTMAS_GLOBAL_STATS.map((stat) => (
             <div
               key={stat.label}
-              className="text-center p-6 sm:p-8 rounded-2xl bg-cyber-gray-700/50 backdrop-blur-sm border border-cyber-gray-600 hover:border-cyber-brand-500 transition-all duration-300 group"
+              className="relative p-6 sm:p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-christmas-ice/10 flex flex-col items-center hover-starlight"
             >
               {/* Icon */}
-              <div className="text-4xl sm:text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="text-4xl sm:text-5xl mb-4 group-hover:scale-110 transition-transform duration-300 text-christmas-ice drop-shadow-lg">
                 {stat.icon}
               </div>
 
@@ -122,7 +125,7 @@ export function TrustStats() {
               />
 
               {/* Label */}
-              <p className="mt-2 text-sm sm:text-base text-cyber-gray-300 font-medium">
+              <p className="mt-2 text-sm sm:text-base text-gray-300 font-medium group-hover:text-christmas-snow transition-colors">
                 {stat.label}
               </p>
             </div>

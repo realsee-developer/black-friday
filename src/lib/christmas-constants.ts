@@ -298,10 +298,10 @@ export const CHRISTMAS_THEME = {
   primary: "#C41E3A", // Christmas Red
   primaryDark: "#8B0000",
   primaryLight: "#DC143C",
-  accent: "#228B22", // Christmas Green
-  accentDark: "#006400",
-  gold: "#FFD700", // Christmas Gold
-  snow: "#FFFAFA",
+  accent: "#b8d4e8", // Ice Blue (Was Green)
+  accentDark: "#1a2540", // Winter Blue
+  gold: "#8ba8c4", // Remapped to Silver
+  snow: "#f0f7fc", // Snow White
 } as const;
 
 /**

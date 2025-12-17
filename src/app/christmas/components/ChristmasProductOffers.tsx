@@ -20,26 +20,28 @@ export function ChristmasProductOffers() {
     <section
       id="offers"
       aria-label="Christmas Product Offers"
-      className="relative overflow-hidden bg-linear-to-b from-[#061818] via-[#082a2a] to-[#061818] py-12 sm:py-16 md:py-20 lg:py-28"
+      className="relative overflow-hidden bg-gradient-to-b from-christmas-winter-dark via-christmas-winter to-christmas-winter-dark py-12 sm:py-16 md:py-20 lg:py-28"
     >
+      {/* Soft gradient divider at top */}
+      <div className="absolute top-0 inset-x-0 h-32 section-divider-top z-10" />
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
         <div className="christmas-grid absolute inset-0 opacity-5" />
-        <div className="absolute top-1/3 left-1/4 h-96 w-96 rounded-full bg-christmas-teal/20 blur-[150px]" />
-        <div className="absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full bg-christmas-gold/15 blur-[140px]" />
+        <div className="absolute top-1/3 left-1/4 h-96 w-96 rounded-full bg-christmas-ice/20 blur-[150px]" />
+        <div className="absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full bg-christmas-ice/15 blur-[140px]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6">
         {/* Section header */}
         <div className="text-center mb-12 sm:mb-16 md:mb-20">
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-christmas-teal/30 border border-christmas-gold/30">
+          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-christmas-winter/30 border border-christmas-ice/30">
             <span className="text-2xl">🎅</span>
-            <span className="text-christmas-gold font-semibold">
+            <span className="text-christmas-ice font-semibold">
               Limited Time Offer
             </span>
             <span className="text-2xl">🎄</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-100 mb-3 sm:mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-gradient-glacial drop-shadow-lg">
             Christmas Exclusive Offers
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
@@ -48,7 +50,7 @@ export function ChristmasProductOffers() {
         </div>
 
         {/* Products grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto animate-fade-up">
           {CHRISTMAS_PRODUCTS.map((product) => {
             const isExpanded = expandedProduct === product.id;
 
@@ -57,47 +59,45 @@ export function ChristmasProductOffers() {
                 key={product.id}
                 itemScope
                 itemType="https://schema.org/Product"
-                className={`relative bg-gradient-to-b from-[#0d3d3d] to-[#061818] rounded-2xl border border-christmas-teal-light/30 p-4 sm:p-6 md:p-8 flex flex-col transition-all duration-300 ${
+                className={`relative glass-card rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col shine-effect premium-shadow ${
                   product.featured
-                    ? "ring-4 ring-christmas-gold shadow-[0_0_40px_rgba(212,168,83,0.4)]"
-                    : ""
+                    ? "gradient-border-animated ring-1 ring-christmas-ice/40"
+                    : "hover-starlight"
                 }`}
               >
                 {/* Featured product badge */}
                 {product.featured && (
                   <>
-                    {/* Glow effect */}
-                    <div className="absolute -inset-1 bg-gradient-to-r from-christmas-gold/30 via-christmas-red/20 to-christmas-gold/30 rounded-2xl blur-xl -z-10 animate-pulse" />
+                    {/* Floating Glow effect */}
+                    <div className="absolute -inset-2 bg-gradient-to-r from-christmas-ice/20 via-christmas-red/10 to-christmas-ice/20 rounded-3xl blur-2xl -z-10 animate-pulse" />
 
-                    {/* Featured badge */}
+                    {/* Featured badge with pulse */}
                     <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                      <div className="relative bg-gradient-to-r from-christmas-red via-christmas-gold to-christmas-red text-white px-5 py-1.5 text-sm font-bold rounded-full flex items-center gap-2 shadow-lg shadow-christmas-red/50">
-                        <Icon
-                          icon="lucide:star"
-                          className="w-4 h-4 fill-current"
-                        />
-                        <span className="tracking-wider">BEST VALUE</span>
-                        <Icon
-                          icon="lucide:star"
-                          className="w-4 h-4 fill-current"
-                        />
+                      <div className="relative bg-gradient-to-r from-christmas-red via-[#ea384d] to-christmas-red text-white px-6 py-2 text-sm font-bold rounded-full flex items-center gap-2 shadow-lg shadow-christmas-red/50 pulse-badge">
+                        <Icon icon="lucide:sparkles" className="w-4 h-4" />
+                        <span className="tracking-widest uppercase">
+                          Best Value
+                        </span>
+                        <Icon icon="lucide:sparkles" className="w-4 h-4" />
                       </div>
                     </div>
                   </>
                 )}
 
-                {/* Product image */}
-                <div className="relative -mx-4 sm:-mx-6 md:-mx-8 -mt-4 sm:-mt-6 md:-mt-8 mb-4 sm:mb-6 overflow-hidden rounded-t-lg bg-[#0a0505]">
+                {/* Product image with hover zoom */}
+                <div className="relative -mx-4 sm:-mx-6 md:-mx-8 -mt-4 sm:-mt-6 md:-mt-8 mb-4 sm:mb-6 overflow-hidden rounded-t-3xl bg-christmas-winter-dark group">
                   <Image
                     src={product.image}
                     alt={`${product.name} - ${product.subtitle} - Christmas Special Offer`}
                     width={800}
                     height={600}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                     priority={product.featured}
                     itemProp="image"
                   />
+                  {/* Image overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-christmas-winter-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
                 {/* Product info */}
@@ -144,9 +144,9 @@ export function ChristmasProductOffers() {
                     <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full bg-christmas-red/20 border border-christmas-red/30">
                       <Icon
                         icon="lucide:tag"
-                        className="w-3 h-3 sm:w-4 sm:h-4 text-christmas-gold"
+                        className="w-3 h-3 sm:w-4 sm:h-4 text-christmas-silver"
                       />
-                      <span className="text-xs sm:text-sm font-semibold text-christmas-gold">
+                      <span className="text-xs sm:text-sm font-semibold text-christmas-silver">
                         Save ${product.discount.toLocaleString()} (
                         {product.discountPercentage}% OFF)
                       </span>
@@ -188,7 +188,7 @@ export function ChristmasProductOffers() {
                                 {section.title}
                               </h4>
                               {section.value && (
-                                <span className="text-xs text-christmas-gold">
+                                <span className="text-xs text-christmas-ice">
                                   {section.value}
                                 </span>
                               )}
@@ -252,7 +252,7 @@ export function ChristmasProductOffers() {
                           CURRENCY_USD
                         );
                       }}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 hover:scale-105 bg-gradient-to-r from-christmas-red to-christmas-red-dark text-white shadow-lg shadow-christmas-red/30 hover:shadow-xl hover:shadow-christmas-red/50 min-h-[44px] touch-none"
+                      className="flex-1 btn-christmas-primary flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-4 min-h-[44px]"
                     >
                       <Icon icon="lucide:shopping-cart" className="w-5 h-5" />
                       Buy Now
@@ -267,7 +267,7 @@ export function ChristmasProductOffers() {
                           product.discountedPrice
                         )
                       }
-                      className="flex-1 flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 hover:scale-105 bg-white/10 text-white border border-christmas-gold/30 hover:bg-white/20 min-h-[44px] touch-none"
+                      className="flex-1 btn-christmas-secondary flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 min-h-[44px]"
                     >
                       Contact Us
                     </a>
@@ -326,7 +326,7 @@ export function ChristmasProductOffers() {
                       {section.title}
                     </h4>
                     {section.value && (
-                      <span className="text-xs text-christmas-gold">
+                      <span className="text-xs text-christmas-ice">
                         {section.value}
                       </span>
                     )}

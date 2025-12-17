@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   title: {
     default:
       "Our Black Friday Has Ended - Realsee Galois 3D LiDAR Camera | Contact Us",
-    template: "%s | Realsee Black Friday",
+    template: "%s | Realsee",
   },
   description:
     "Our Black Friday 2025 event has ended. Thank you for your interest. For more information about Realsee Galois 3D LiDAR Camera products, please contact us.",
