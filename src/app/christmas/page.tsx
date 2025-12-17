@@ -38,7 +38,10 @@ export default async function ChristmasPage() {
         <ToursShowcase />
 
         {/* 3D Tour Distribution - Reuse existing component with Christmas Title */}
-        <DistributionSection title="Seamless Virtual Tour Distribution" />
+        <DistributionSection
+          title="Seamless Virtual Tour Distribution"
+          theme="christmas"
+        />
 
         {/* About Galois - Features - Reuse existing component with Christmas Title */}
         <FeaturesSection

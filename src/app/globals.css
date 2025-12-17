@@ -219,49 +219,288 @@
 }
 
 /* 
- * Winter Wonderland Theme (圣诞冰雪节主题)
- * Ice Blue, Silver, White as primary colors with Christmas Red accents
- * Reduced gold usage for more sophisticated, modern winter feel
- */
-/* 
- * Winter Wonderland Theme (圣诞冰雪节主题) - Enhanced
- * Deep Midnight Blue, Sparking Silver, and Vibrant Frostfire Red
+ * Traditional Christmas Theme (传统圣诞主题)
+ * Red as primary theme color, Green as accent only
+ * Gold for decorative highlights
  */
 .christmas-theme {
-  /* Override Backgrounds (Deep Midnight Winter tones) */
-  --background: oklch(0.15 0.05 260); /* Rich Deep Navy */
+  /* Override Backgrounds (Deep warm tones) */
+  --background: oklch(0.12 0.02 20); /* Deep warm dark */
   --foreground: oklch(0.99 0 0); /* Pure White */
 
-  /* ===== Winter Wonderland Color System (Enhanced) ===== */
+  /* ===== Traditional Christmas Color System ===== */
 
-  /* Background colors - Richer, deeper winter night */
-  --color-christmas-winter-dark: #050b14; /* Midnight Black-Blue */
-  --color-christmas-winter: #0a1120; /* Deep Navy */
-  --color-christmas-winter-light: #15203b; /* Lighter Navy */
+  /* Background colors - Dark warm tones */
+  --color-christmas-bg-dark: #0a0505; /* Deep Black-Red */
+  --color-christmas-bg: #1a0a0a; /* Dark Red-Brown */
+  --color-christmas-bg-light: #2a1515; /* Lighter Red-Brown */
 
-  /* Accents - brighter, punchier */
-  --color-christmas-red: #e61e38; /* Vibrant Crimson */
-  --color-christmas-red-dark: #b30f24;
-  --color-christmas-red-light: #ff4d6a; /* Bright Pinkish-Red Highlight */
+  /* Primary: Christmas Red */
+  --color-christmas-red: #c41e3a; /* Classic Christmas Red */
+  --color-christmas-red-dark: #8b0000; /* Dark Red */
+  --color-christmas-red-light: #dc143c; /* Crimson */
+  --color-christmas-red-bright: #e63946; /* Bright Red for highlights */
 
-  --color-christmas-ice: #d0e8ff; /* Brighter Ice Blue */
-  --color-christmas-ice-dim: #8ab4d4; /* Dimmer Ice for borders */
-  --color-christmas-silver: #c4d7e8; /* Bright Silver */
-  --color-christmas-snow: #ffffff; /* Pure Snow */
+  /* Accent: Christmas Green (使用时需节制,仅作点缀) */
+  --color-christmas-green: #165b33; /* Deep Christmas Green */
+  --color-christmas-green-light: #22863a; /* Forest Green */
+  --color-christmas-green-bright: #2ea44f; /* Bright Green for small accents */
+
+  /* Decorative: Gold */
+  --color-christmas-gold: #d4a853; /* Antique Gold */
+  --color-christmas-gold-light: #ffd700; /* Bright Gold */
+  --color-christmas-gold-dark: #b8860b; /* Dark Goldenrod */
+
+  /* Neutral */
+  --color-christmas-snow: #ffffff; /* Pure White */
 
   /* Mappings for legacy/cyber vars within this theme */
-  --color-cyber-gray-900: var(--color-christmas-winter-dark);
-  --color-cyber-gray-800: var(--color-christmas-winter);
-  --color-cyber-gray-700: var(--color-christmas-winter-light);
+  --color-cyber-gray-900: var(--color-christmas-bg-dark);
+  --color-cyber-gray-800: var(--color-christmas-bg);
+  --color-cyber-gray-700: var(--color-christmas-bg-light);
+  --color-cyber-gray-600: #402020; /* 稍亮的红棕色用于边框 */
+  --color-cyber-gray-500: #8b7878; /* 中性灰 */
+  --color-cyber-gray-400: #a09090;
+  --color-cyber-gray-300: #d0d0d0;
+  --color-cyber-gray-200: #e6e6e6;
+  --color-cyber-gray-100: #f5f5f5;
+
+  /* Cyber brand colors -> Christmas theme colors */
+  --color-cyber-brand-500: var(--color-christmas-red); /* 主品牌色改为圣诞红 */
+  --color-cyber-brand-400: var(--color-christmas-red-light);
+  --color-cyber-brand-600: var(--color-christmas-red-dark);
+
+  /* Cyber neon colors -> Christmas accent colors */
+  --color-cyber-neon-cyan: var(--color-christmas-gold); /* 霓虹青色改为金色 */
+  --color-cyber-neon-magenta: var(
+    --color-christmas-red-light
+  ); /* 霓虹品红改为亮红 */
+  --color-cyber-neon-green: var(--color-christmas-green); /* 霓虹绿改为圣诞绿 */
+  --color-cyber-electric-blue: var(
+    --color-christmas-gold-light
+  ); /* 电光蓝改为亮金 */
+
+  /* Legacy ice/silver mappings (for gradual migration) */
+  --color-christmas-ice: var(--color-christmas-gold); /* Map ice to gold */
+  --color-christmas-silver: var(
+    --color-christmas-gold-light
+  ); /* Map silver to bright gold */
+  --color-christmas-winter-dark: var(--color-christmas-bg-dark);
+  --color-christmas-winter: var(--color-christmas-bg);
+  --color-christmas-winter-light: var(--color-christmas-bg-light);
 
   /* DaisyUI Theme Overrides */
-  --p: 350 90% 60%; /* Primary: Vibrant Red */
+  --p: 355 70% 45%; /* Primary: Christmas Red */
   --pc: 0 0% 100%;
-  --s: 210 60% 80%; /* Secondary: Ice Blue */
-  --sc: 230 50% 10%;
-  --b1: 230 50% 8%; /* Base 1: Midnight */
-  --b2: 230 40% 12%;
+  --s: 145 60% 25%; /* Secondary: Christmas Green */
+  --sc: 0 0% 100%;
+  --b1: 0 40% 5%; /* Base 1: Deep Dark Red */
+  --b2: 0 30% 10%;
   --bc: 0 0% 100%;
+
+  /* ===== Tailwind Utility Class Overrides ===== */
+  /* Force override all bg-cyber-* classes used by reused components */
+  & .bg-cyber-gray-900 {
+    background-color: #0a0505 !important; /* christmas-bg-dark */
+  }
+  & .bg-cyber-gray-800 {
+    background-color: #1a0a0a !important; /* christmas-bg */
+  }
+  & .bg-cyber-gray-700 {
+    background-color: #2a1515 !important; /* christmas-bg-light */
+  }
+  & .bg-cyber-gray-600 {
+    background-color: #402020 !important;
+  }
+  & .bg-cyber-gray-400\/40 {
+    background-color: rgba(160, 144, 144, 0.4) !important;
+  }
+  & .bg-cyber-brand-500 {
+    background-color: #c41e3a !important; /* christmas-red */
+  }
+  & .bg-cyber-brand-500\/10 {
+    background-color: rgba(196, 30, 58, 0.1) !important;
+  }
+  & .bg-cyber-brand-500\/15 {
+    background-color: rgba(196, 30, 58, 0.15) !important;
+  }
+  & .bg-cyber-brand-400 {
+    background-color: #dc143c !important; /* christmas-red-light */
+  }
+  & .bg-cyber-brand-200\/60 {
+    background-color: rgba(220, 20, 60, 0.6) !important;
+  }
+  & .bg-cyber-neon-cyan\/10 {
+    background-color: rgba(212, 168, 83, 0.1) !important; /* gold */
+  }
+
+  /* Border color overrides */
+  & .border-cyber-brand-400\/40 {
+    border-color: rgba(220, 20, 60, 0.4) !important;
+  }
+  & .border-cyber-brand-500 {
+    border-color: #c41e3a !important;
+  }
+
+  /* Text color overrides */
+  & .text-cyber-brand-500 {
+    color: #c41e3a !important;
+  }
+  & .text-cyber-gray-100 {
+    color: #f5f5f5 !important;
+  }
+  & .text-cyber-gray-200 {
+    color: #e6e6e6 !important;
+  }
+  & .text-cyber-gray-300 {
+    color: #d0d0d0 !important;
+  }
+
+  /* Shadow overrides */
+  & .shadow-cyber-brand-500\/\15 {
+    --tw-shadow-color: rgba(196, 30, 58, 0.15) !important;
+  }
+  & .shadow-primary\/50 {
+    --tw-shadow-color: rgba(196, 30, 58, 0.5) !important;
+  }
+
+  /* Gradient backgrounds */
+  & .bg-linear-to-br {
+    background-image: linear-gradient(
+      to bottom right,
+      rgba(196, 30, 58, 0.05),
+      transparent,
+      rgba(212, 168, 83, 0.05)
+    ) !important;
+  }
+
+  /* ===== Comprehensive Visual Effects Overrides ===== */
+
+  /* Button class overrides */
+  & .cyber-btn-primary {
+    background: linear-gradient(
+      135deg,
+      #b91c1c 0%,
+      #dc2626 40%,
+      #ef4444 60%,
+      #dc2626 100%
+    ) !important;
+    border-color: rgba(212, 168, 83, 0.5) !important;
+    box-shadow: 0 0 20px rgba(185, 28, 28, 0.4),
+      0 0 40px rgba(212, 168, 83, 0.2) !important;
+  }
+
+  & .cyber-btn-primary:hover {
+    background: linear-gradient(
+      135deg,
+      #991b1b 0%,
+      #b91c1c 40%,
+      #dc2626 60%,
+      #b91c1c 100%
+    ) !important;
+    box-shadow: 0 0 30px rgba(185, 28, 28, 0.6),
+      0 0 50px rgba(212, 168, 83, 0.3) !important;
+  }
+
+  /* Shimmer/Sweep animations - override cyan with gold */
+  & .cyber-shimmer::before,
+  & .cyber-shimmer::after,
+  & [class*="shimmer"]::before,
+  & [class*="shimmer"]::after {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(212, 168, 83, 0.3) 50%,
+      transparent 100%
+    ) !important;
+  }
+
+  /* Card glow effects */
+  & [class*="glow"]::before,
+  & [class*="glow"]::after {
+    background: radial-gradient(
+      circle at center,
+      rgba(196, 30, 58, 0.15),
+      rgba(212, 168, 83, 0.1),
+      transparent
+    ) !important;
+  }
+
+  /* Hover glow overlays */
+  & .group:hover [class*="glow"],
+  & .group:hover [class*="shine"] {
+    background: radial-gradient(
+      circle at center,
+      rgba(196, 30, 58, 0.2),
+      rgba(212, 168, 83, 0.15),
+      transparent
+    ) !important;
+  }
+
+  /* Border glow effects */
+  & [class*="border-glow"] {
+    box-shadow: 0 0 20px rgba(196, 30, 58, 0.3),
+      0 0 40px rgba(212, 168, 83, 0.2), inset 0 0 20px rgba(196, 30, 58, 0.1) !important;
+  }
+
+  /* Card shadows and glows */
+  & .card,
+  & [class*="card"] {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 40px rgba(196, 30, 58, 0.15) !important;
+  }
+
+  & .card:hover,
+  & [class*="card"]:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 60px rgba(196, 30, 58, 0.25),
+      0 0 80px rgba(212, 168, 83, 0.15) !important;
+  }
+
+  /* Offer cards and product cards specific */
+  & [class*="offer"],
+  & [class*="product"] {
+    border-color: rgba(212, 168, 83, 0.3) !important;
+  }
+
+  & [class*="offer"]:hover,
+  & [class*="product"]:hover {
+    border-color: rgba(212, 168, 83, 0.6) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), 0 0 60px rgba(196, 30, 58, 0.3),
+      0 0 80px rgba(212, 168, 83, 0.2) !important;
+  }
+
+  /* Pulse and gentle pulse animations */
+  & .cyber-gentle-pulse,
+  & [class*="pulse"] {
+    animation: christmas-pulse 3s ease-in-out infinite !important;
+  }
+
+  /* Force all sections within christmas-theme to have dark warm backgrounds */
+  & section {
+    background-color: #000000 !important;
+  }
+
+  & section.bg-cyber-gray-900 {
+    background-color: #000000 !important;
+  }
+
+  /* Override Submit Button Internal Gradient for Christmas Theme */
+  & .cyber-btn-primary > .absolute.animate-gradient-x,
+  & button .animate-gradient-x {
+    background: linear-gradient(to right, #b91c1c, #d4a853, #b91c1c) !important;
+  }
+}
+
+/* Christmas pulse animation - moved outside nesting for CSS compatibility */
+@keyframes christmas-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(196, 30, 58, 0.4),
+      0 0 40px rgba(212, 168, 83, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(196, 30, 58, 0.6),
+      0 0 60px rgba(212, 168, 83, 0.4);
+  }
 }
 
 /* Premium Christmas Button Styles - Traditional Christmas Colors */
@@ -317,52 +556,57 @@
     @apply scale-[0.98] translate-y-0;
   }
 
-  /* Secondary: Elegant Christmas Green with Gold Accents */
+  /* Secondary: Transparent with Gold Border (not green!) */
   .btn-christmas-secondary {
     @apply relative overflow-hidden transition-all duration-300 transform rounded-xl border-2 font-bold backdrop-blur-md touch-none;
-    background: linear-gradient(
-      135deg,
-      rgba(21, 87, 36, 0.8) 0%,
-      rgba(34, 139, 34, 0.6) 100%
-    );
-    border-color: rgba(212, 168, 83, 0.4);
+    background: transparent;
+    border-color: rgba(212, 168, 83, 0.6); /* Gold border */
     color: #fff;
-    box-shadow: 0 0 15px rgba(34, 139, 34, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 10px rgba(212, 168, 83, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
   }
 
   .btn-christmas-secondary:hover {
     @apply -translate-y-1 text-white;
-    background: linear-gradient(
-      135deg,
-      rgba(21, 87, 36, 0.9) 0%,
-      rgba(34, 139, 34, 0.8) 100%
-    );
-    border-color: rgba(212, 168, 83, 0.7);
-    box-shadow: 0 0 25px rgba(34, 139, 34, 0.4),
-      0 0 40px rgba(212, 168, 83, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    background: rgba(196, 30, 58, 0.15); /* Subtle red tint on hover */
+    border-color: rgba(212, 168, 83, 0.9); /* Brighter gold */
+    box-shadow: 0 0 20px rgba(212, 168, 83, 0.3),
+      0 0 30px rgba(196, 30, 58, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
-  /* Special gradient text */
+  .btn-christmas-secondary:active {
+    @apply scale-[0.98] translate-y-0;
+  }
+
+  /* Special gradient text - High contrast gold gradient */
   .text-gradient-christmas {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-christmas-red via-[#ffd700] to-christmas-red;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      90deg,
+      #ffd700 0%,
+      #fff8dc 25%,
+      #ffd700 50%,
+      #fff8dc 75%,
+      #ffd700 100%
+    );
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
   }
 
-  /* Aurora Background */
+  /* Aurora Background - Warm Christmas Glow */
   .bg-aurora {
     background: radial-gradient(
       circle at 50% 0%,
-      #1a2540 0%,
-      #050b14 60%,
-      #02050a 100%
+      #2a1515 0%,
+      #1a0a0a 60%,
+      #0a0505 100%
     );
   }
 
   /* Premium Text Gradients */
-  .text-gradient-glacial {
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-white via-christmas-ice to-christmas-silver;
-    text-shadow: 0 0 30px rgba(208, 232, 255, 0.3);
+  .text-gradient-festive {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-white via-christmas-gold to-christmas-red-light;
+    text-shadow: 0 0 30px rgba(212, 168, 83, 0.3);
   }
 
   .text-gradient-gold {
@@ -374,9 +618,9 @@
     @apply transition-all duration-500 relative;
   }
   .hover-starlight:hover {
-    box-shadow: 0 0 25px rgba(208, 232, 255, 0.15),
-      inset 0 0 15px rgba(208, 232, 255, 0.05); /* Soft inner/outer glow */
-    border-color: rgba(208, 232, 255, 0.4);
+    box-shadow: 0 0 25px rgba(212, 168, 83, 0.15),
+      inset 0 0 15px rgba(212, 168, 83, 0.05); /* Soft gold glow */
+    border-color: rgba(212, 168, 83, 0.4);
   }
   .hover-starlight:after {
     content: "";
@@ -440,29 +684,6 @@
   100% {
     transform: translateX(200%) skewX(-15deg);
   }
-}
-
-.shine-effect {
-  position: relative;
-  overflow: hidden;
-}
-.shine-effect::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
-  transform: translateX(-100%) skewX(-15deg);
-}
-.shine-effect:hover::before {
-  animation: shine-sweep 0.8s ease-in-out;
 }
 
 /* Floating Ambient Glow */
@@ -535,6 +756,21 @@
   border: 1px solid rgba(208, 232, 255, 0.1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05),
     0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* Featured Glass Card - Enhanced visual for main product */
+.glass-card-featured {
+  background: linear-gradient(
+    135deg,
+    rgba(196, 30, 58, 0.15) 0%,
+    rgba(26, 37, 64, 0.8) 30%,
+    rgba(26, 37, 64, 0.8) 70%,
+    rgba(212, 168, 83, 0.1) 100%
+  );
+  backdrop-filter: blur(24px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 10px 40px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s ease;
 }
 
 /* Pulsing Badge */
@@ -3257,6 +3493,81 @@ input.border-green-500:-webkit-autofill:focus {
 
 .animate-snow-fall {
   animation: snow-fall linear infinite;
+}
+
+/* Realistic snowflake falling with sway - left direction */
+@keyframes snowflake-fall-sway-left {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(25vh) translateX(calc(var(--sway-amount, 30px) * -1))
+      rotate(90deg);
+  }
+  50% {
+    transform: translateY(50vh) translateX(calc(var(--sway-amount, 30px) * 0.5))
+      rotate(180deg);
+  }
+  75% {
+    transform: translateY(75vh)
+      translateX(calc(var(--sway-amount, 30px) * -0.8)) rotate(270deg);
+  }
+  95% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(105vh)
+      translateX(calc(var(--sway-amount, 30px) * 0.3)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Realistic snowflake falling with sway - right direction */
+@keyframes snowflake-fall-sway-right {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(25vh) translateX(var(--sway-amount, 30px))
+      rotate(-90deg);
+  }
+  50% {
+    transform: translateY(50vh)
+      translateX(calc(var(--sway-amount, 30px) * -0.5)) rotate(-180deg);
+  }
+  75% {
+    transform: translateY(75vh) translateX(calc(var(--sway-amount, 30px) * 0.8))
+      rotate(-270deg);
+  }
+  95% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(105vh)
+      translateX(calc(var(--sway-amount, 30px) * -0.3)) rotate(-360deg);
+    opacity: 0;
+  }
+}
+
+.snowflake-realistic {
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.snowflake-sway-left {
+  animation: snowflake-fall-sway-left linear infinite;
+}
+
+.snowflake-sway-right {
+  animation: snowflake-fall-sway-right linear infinite;
 }
 
 /* Twinkling lights for Christmas effect */

@@ -1,49 +1,64 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
 import { CHRISTMAS_HERO_CONFIG } from "@/lib/christmas-constants";
 
-// Christmas Hero section with particle effects and parallax
+// Christmas Hero section with realistic snow effects
 interface ChristmasHeroSectionProps {
   className?: string;
 }
 
+// 生成雪花粒子数据
+interface SnowflakeData {
+  id: number;
+  size: "small" | "medium" | "large";
+  left: number;
+  delay: number;
+  duration: number;
+  opacity: number;
+  swayDirection: "left" | "right";
+  swayAmount: number;
+}
+
+function generateSnowflakes(count: number): SnowflakeData[] {
+  return Array.from({ length: count }, (_, i) => {
+    const sizeRand = Math.random();
+    const size: "small" | "medium" | "large" =
+      sizeRand < 0.5 ? "small" : sizeRand < 0.85 ? "medium" : "large";
+
+    return {
+      id: i,
+      size,
+      left: Math.random() * 100,
+      delay: Math.random() * 8,
+      duration:
+        size === "large"
+          ? 18 + Math.random() * 10
+          : size === "medium"
+          ? 14 + Math.random() * 7
+          : 10 + Math.random() * 5,
+      opacity:
+        size === "large"
+          ? 0.8 + Math.random() * 0.2
+          : size === "medium"
+          ? 0.5 + Math.random() * 0.3
+          : 0.3 + Math.random() * 0.3,
+      swayDirection: Math.random() > 0.5 ? "left" : "right",
+      swayAmount: 20 + Math.random() * 40,
+    };
+  });
+}
+
 export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
-  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
-  const [isDesktop, setIsDesktop] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  // 使用 useMemo 保持雪花数据稳定
+  const snowflakes = useMemo(() => generateSnowflakes(50), []);
 
   useEffect(() => {
     setMounted(true);
-    const checkDesktop = () => {
-      setIsDesktop(window.innerWidth >= 1024);
-    };
-    checkDesktop();
-    window.addEventListener("resize", checkDesktop);
-    return () => window.removeEventListener("resize", checkDesktop);
   }, []);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (!isDesktop) return;
-    const { clientX, clientY, currentTarget } = e;
-    const { width, height } = currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: clientX / width,
-      y: clientY / height,
-    });
-  };
-
-  const getParallaxStyle = (depth: number) => {
-    if (!mounted || !isDesktop) return {};
-    const maxOffset = 20 * depth;
-    const offsetX = (mousePosition.x - 0.5) * maxOffset;
-    const offsetY = (mousePosition.y - 0.5) * maxOffset;
-    return {
-      transform: `translate(${offsetX}px, ${offsetY}px)`,
-      transition: "transform 0.3s ease-out",
-    };
-  };
 
   return (
     <section
@@ -52,7 +67,6 @@ export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
       className={`relative min-h-[600px] h-screen max-h-[650px] md:max-h-[900px] lg:max-h-[1000px] overflow-hidden ${
         className || ""
       }`}
-      onMouseMove={handleMouseMove}
     >
       {/* Background Image - Responsive Christmas banners */}
       <div className="absolute inset-0 w-full h-full">
@@ -86,9 +100,9 @@ export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
           sizes="100vw"
           className="object-cover object-center hidden lg:block"
         />
-        {/* Winter Wonderland Overlay - elegant midnight aurora gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-christmas-winter-dark/50 via-christmas-winter/30 to-christmas-winter-dark/95 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-aurora opacity-60 mix-blend-overlay" />
+        {/* Traditional Christmas Overlay - warm red tones */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-aurora opacity-70 mix-blend-overlay" />
       </div>
 
       {/* Animated background effects */}
@@ -96,46 +110,50 @@ export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
         {/* Grid pattern */}
         <div className="christmas-grid absolute inset-0 opacity-[0.02]" />
 
-        {/* Animated gradient orbs - Winter Wonderland ice blue & silver themed */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-christmas-ice/20 blur-[140px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-christmas-silver/15 blur-[130px] animate-pulse animation-delay-1000" />
+        {/* Animated gradient orbs - Christmas red & gold themed */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-christmas-red/10 blur-[140px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-christmas-gold/15 blur-[130px] animate-pulse animation-delay-1000" />
 
-        {/* Snow particle effects */}
+        {/* Realistic Snow particle effects */}
         {mounted && (
-          <div className="absolute inset-0 overflow-hidden">
-            {/* Snowflakes */}
-            {[...Array(30)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute w-1 h-1 bg-white rounded-full animate-snow-fall"
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Realistic Snowflakes */}
+            {snowflakes.map((flake) => (
+              <span
+                key={flake.id}
+                className={`absolute snowflake-realistic select-none ${
+                  flake.swayDirection === "left"
+                    ? "snowflake-sway-left"
+                    : "snowflake-sway-right"
+                }`}
                 style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `-${Math.random() * 20}%`,
-                  animationDelay: `${Math.random() * 5}s`,
-                  animationDuration: `${5 + Math.random() * 5}s`,
-                  opacity: 0.3 + Math.random() * 0.4,
+                  left: `${flake.left}%`,
+                  top: "-20px",
+                  fontSize:
+                    flake.size === "large"
+                      ? "24px"
+                      : flake.size === "medium"
+                      ? "16px"
+                      : "10px",
+                  animationDelay: `${flake.delay}s`,
+                  animationDuration: `${flake.duration}s`,
+                  opacity: flake.opacity,
+                  color: "white",
+                  textShadow:
+                    flake.size === "large"
+                      ? "0 0 8px rgba(255,255,255,0.9), 0 0 15px rgba(200,220,255,0.6)"
+                      : flake.size === "medium"
+                      ? "0 0 5px rgba(255,255,255,0.7)"
+                      : "0 0 3px rgba(255,255,255,0.5)",
+                  ["--sway-amount" as string]: `${flake.swayAmount}px`,
                 }}
-              />
-            ))}
-            {/* Christmas lights glow */}
-            {[...Array(10)].map((_, i) => (
-              <div
-                key={`light-${i}`}
-                className="absolute w-2 h-2 rounded-full blur-sm animate-twinkle"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 3}s`,
-                  animationDuration: `${1 + Math.random() * 2}s`,
-                  opacity: 0.4 + Math.random() * 0.4,
-                  backgroundColor:
-                    i % 3 === 0
-                      ? "#b8d4e8" // Ice blue
-                      : i % 3 === 1
-                      ? "#C41E3A" // Christmas red
-                      : "#8ba8c4", // Silver
-                }}
-              />
+              >
+                {flake.size === "large"
+                  ? "❄"
+                  : flake.size === "medium"
+                  ? "❅"
+                  : "❆"}
+              </span>
             ))}
           </div>
         )}
@@ -145,28 +163,14 @@ export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
       <div className="absolute inset-0 flex justify-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-24 pb-8 sm:pt-0 sm:pb-0 sm:h-full sm:flex sm:items-center md:pt-16">
           <div className="flex flex-col items-center sm:items-start justify-start text-center sm:text-left space-y-5 sm:space-y-4 md:space-y-5 max-w-6xl mx-auto sm:mx-0 sm:max-w-md md:max-w-lg lg:max-w-2xl w-full">
-            {/* Promo badge with pulse effect */}
-            <div
-              className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-christmas-red/20 via-[#ffd700]/10 to-christmas-red/20 border-2 border-[#ffd700]/40 backdrop-blur-md pulse-badge shadow-lg shadow-christmas-red/20"
-              style={getParallaxStyle(0.5)}
-            >
-              <span className="text-[#ffd700] text-2xl animate-bounce">🎄</span>
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-christmas-red/20 via-[#ffd700]/10 to-christmas-red/20 border-2 border-[#ffd700]/40 backdrop-blur-md pulse-badge shadow-lg shadow-christmas-red/20">
               <span className="text-white text-sm font-bold tracking-wide uppercase">
                 {CHRISTMAS_HERO_CONFIG.subtitle}
-              </span>
-              <span
-                className="text-[#ffd700] text-2xl animate-bounce"
-                style={{ animationDelay: "0.2s" }}
-              >
-                🎁
               </span>
             </div>
 
             {/* Main title */}
-            <div
-              className="space-y-4 sm:space-y-3 md:space-y-4"
-              style={getParallaxStyle(1)}
-            >
+            <div className="space-y-4 sm:space-y-3 md:space-y-4">
               <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight">
                 <span className="text-white drop-shadow-[0_2px_15px_rgba(255,255,255,0.3)]">
                   {CHRISTMAS_HERO_CONFIG.title.split(" ").slice(0, 2).join(" ")}
@@ -182,10 +186,7 @@ export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
             </div>
 
             {/* CTA buttons */}
-            <div
-              className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-3 md:pt-4"
-              style={getParallaxStyle(0.3)}
-            >
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-3 md:pt-4">
               {CHRISTMAS_HERO_CONFIG.ctaButtons.map((btn) => (
                 <a
                   key={btn.label}
@@ -207,8 +208,8 @@ export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
 
       {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 rounded-full border-2 border-christmas-ice/50 flex items-start justify-center p-2">
-          <div className="w-1 h-2 rounded-full bg-christmas-ice animate-pulse" />
+        <div className="w-6 h-10 rounded-full border-2 border-white/50 flex items-start justify-center p-2">
+          <div className="w-1 h-2 rounded-full bg-white/90 animate-pulse" />
         </div>
       </div>
     </section>

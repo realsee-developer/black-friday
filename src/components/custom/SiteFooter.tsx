@@ -4,24 +4,24 @@ import Link from "next/link";
 
 export function SiteFooter() {
   return (
-    <footer className="relative bg-linear-to-br from-cyber-gray-900 via-cyber-gray-800 to-cyber-brand-50 border-t border-cyber-brand-300/30">
-      {/* Cyberpunk background patterns */}
+    <footer className="relative bg-gradient-to-br from-gray-900 via-black to-gray-900 border-t border-christmas-gold/30">
+      {/* Christmas background patterns */}
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(circle at 30% 40%, rgb(from var(--cyber-brand-500) r g b / 0.08), transparent 70%), radial-gradient(circle at 80% 20%, rgb(from var(--cyber-neon-cyan) r g b / 0.03), transparent 60%)`,
+          background: `radial-gradient(circle at 30% 40%, rgba(196, 30, 58, 0.08), transparent 70%), radial-gradient(circle at 80% 20%, rgba(212, 168, 83, 0.05), transparent 60%)`,
         }}
       />
       <div
         className="absolute inset-0 opacity-50"
         style={{
-          background: `linear-gradient(90deg, transparent 0%, rgb(from var(--cyber-brand-500) r g b / 0.02) 50%, transparent 100%)`,
+          background: `linear-gradient(90deg, transparent 0%, rgba(196, 30, 58, 0.03) 50%, transparent 100%)`,
         }}
       />
       <div
         className="absolute inset-0 opacity-30"
         style={{
-          background: `conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgb(from var(--cyber-brand-500) r g b / 0.03) 60deg, transparent 120deg)`,
+          background: `conic-gradient(from 180deg at 50% 50%, transparent 0deg, rgba(212, 168, 83, 0.04) 60deg, transparent 120deg)`,
         }}
       />
 
@@ -30,8 +30,8 @@ export function SiteFooter() {
         className="absolute inset-0 opacity-5"
         style={{
           backgroundImage: `
-            linear-gradient(rgb(from var(--cyber-brand-500) r g b / 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgb(from var(--cyber-brand-500) r g b / 0.1) 1px, transparent 1px)
+            linear-gradient(rgba(212, 168, 83, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(212, 168, 83, 0.1) 1px, transparent 1px)
           `,
           backgroundSize: "30px 30px",
         }}
@@ -44,30 +44,30 @@ export function SiteFooter() {
           <div className="mb-12 sm:mb-16 md:mb-20 text-center">
             <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8">
               <div className="relative group">
-                <div className="absolute -inset-2 bg-linear-to-r from-cyber-brand-500/30 via-cyber-neon-cyan/20 to-cyber-brand-500/30 rounded-3xl blur-md group-hover:blur-lg transition-all duration-500" />
+                <div className="absolute -inset-2 bg-gradient-to-r from-christmas-red/30 via-christmas-gold/20 to-christmas-red/30 rounded-3xl blur-md group-hover:blur-lg transition-all duration-500" />
                 <Image
                   src="/assets/brand/realsee-logo.jpeg"
                   alt="Realsee Logo"
                   width={64}
                   height={64}
-                  className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-2xl shadow-2xl ring-2 ring-cyber-brand-500/50 group-hover:ring-cyber-neon-cyan/70 transition-all duration-500"
+                  className="relative w-12 h-12 sm:w-16 sm:h-16 rounded-2xl shadow-2xl transition-all duration-500 p-1"
                   priority
                 />
-                <div className="absolute -bottom-1 -right-1 w-3 h-3 sm:w-5 sm:h-5 bg-linear-to-br from-cyber-brand-500 to-cyber-neon-cyan rounded-full border-2 border-cyber-gray-900 shadow-lg shadow-cyber-neon-cyan/50" />
+                <div className="absolute -bottom-1 -right-1 w-3 h-3 sm:w-5 sm:h-5 bg-gradient-to-br from-christmas-red to-christmas-gold rounded-full border-2 border-gray-900 shadow-lg shadow-christmas-gold/50" />
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-2xl sm:text-3xl md:text-4xl font-bold font-display bg-linear-to-r from-cyber-brand-600 via-cyber-neon-cyan to-cyber-brand-600 bg-clip-text text-transparent">
+                <span className="text-2xl sm:text-3xl md:text-4xl font-bold font-display bg-gradient-to-r from-christmas-red via-christmas-gold to-christmas-red bg-clip-text text-transparent">
                   Realsee
                 </span>
-                <span className="text-cyber-brand-500 text-sm sm:text-base md:text-lg font-semibold -mt-1 tracking-wider">
-                  BLACK FRIDAY
+                <span className="text-christmas-red text-sm sm:text-base md:text-lg font-semibold -mt-1 tracking-wider">
+                  CHRISTMAS SALE
                 </span>
               </div>
             </div>
-            <p className="text-cyber-gray-200 max-w-3xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed px-4">
+            <p className="text-gray-300 max-w-3xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed px-4">
               Professional 3D scanning technology for creators worldwide.
               <br className="hidden sm:block" />
-              Limited time offers on Galois 3D LiDAR Camera.
+              Limited time Christmas offers on Galois 3D LiDAR Camera.
             </p>
           </div>
 
@@ -239,7 +239,7 @@ export function SiteFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-cyber-brand-300/20 bg-linear-to-r from-cyber-gray-900/80 via-cyber-gray-800/60 to-cyber-gray-900/80 backdrop-blur-md">
+        <div className="border-t border-christmas-gold/20 bg-gradient-to-r from-gray-900/80 via-black/60 to-gray-900/80 backdrop-blur-md">
           <div className="container mx-auto px-4 sm:px-6 py-6 sm:py-8">
             <div className="flex flex-col items-center lg:flex-row lg:items-center lg:justify-between gap-8 text-center lg:text-left">
               {/* Copyright */}
