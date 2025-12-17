@@ -6,15 +6,50 @@ import { geolocation } from "@vercel/functions";
  * Vercel Edge Proxy for SEO/GEO optimization (Next.js 16+)
  *
  * Features:
- * 1. Add geo-location headers for better SEO
- * 2. Add security headers
- * 3. Add performance headers
- * 4. Add SEO-friendly headers
+ * 1. Domain-based routing (christmas.realsee.ai -> /christmas)
+ * 2. Add geo-location headers for better SEO
+ * 3. Add security headers
+ * 4. Add performance headers
+ * 5. Add SEO-friendly headers
  *
  * @see https://nextjs.org/docs/app/getting-started/proxy
  * @see https://vercel.com/docs/functions/geolocation
+ * @see https://vercel.com/docs/routing-middleware/api
  */
 export function proxy(request: NextRequest) {
+  const url = request.nextUrl.clone();
+  const hostname = request.headers.get("host") || "";
+
+  // Domain-based routing for Christmas promotion page
+  // This must be done in proxy.ts, not next.config.ts rewrites,
+  // because Vercel doesn't properly support host-based rewrites in next.config.ts
+  if (
+    hostname === "christmas.realsee.ai" ||
+    hostname === "christmas.realsee.dev" ||
+    hostname === "localhost:9999"
+  ) {
+    const pathname = url.pathname;
+    
+    // Skip rewrite for static assets and API routes
+    // Static assets: /assets, /videos, /images, etc.
+    // Also skip if path already starts with /christmas
+    const isStaticAsset =
+      pathname.startsWith("/assets/") ||
+      pathname.startsWith("/videos/") ||
+      pathname.startsWith("/images/") ||
+      pathname.startsWith("/_next/") ||
+      pathname.startsWith("/api/") ||
+      /\.(jpg|jpeg|png|gif|svg|webp|avif|ico|mp4|webm|pdf|txt|xml|json|woff|woff2|ttf|eot)$/i.test(
+        pathname
+      );
+
+    if (!isStaticAsset && !pathname.startsWith("/christmas")) {
+      // Rewrite root path to /christmas, other paths to /christmas/path
+      url.pathname = pathname === "/" ? "/christmas" : `/christmas${pathname}`;
+      return NextResponse.rewrite(url);
+    }
+  }
+
   const response = NextResponse.next();
 
   // Get geo-location from Vercel Functions API
@@ -82,9 +117,12 @@ export const config = {
      * - api (API routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)
+     * - assets, videos, images (static assets)
      * - favicon.ico (favicon file)
-     * - public files (public assets)
+     * - files with static extensions (.txt, .xml, .json, images, fonts, etc.)
+     * 
+     * Note: Using non-capturing groups (?:...) because Next.js matcher doesn't support capturing groups
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.txt|.*\\.xml).*)",
+    "/((?!api|_next/static|_next/image|assets|videos|images|favicon\\.ico|.*\\.(?:txt|xml|json|jpg|jpeg|png|gif|svg|webp|avif|ico|mp4|webm|pdf|woff|woff2|ttf|eot)).*)",
   ],
 };
