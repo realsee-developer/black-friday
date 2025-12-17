@@ -295,13 +295,16 @@ export const CHRISTMAS_HERO_CONFIG = {
  * Christmas 主题色配置
  */
 export const CHRISTMAS_THEME = {
-  primary: "#C41E3A", // Christmas Red
-  primaryDark: "#8B0000",
-  primaryLight: "#DC143C",
-  accent: "#b8d4e8", // Ice Blue (Was Green)
-  accentDark: "#1a2540", // Winter Blue
-  gold: "#8ba8c4", // Remapped to Silver
-  snow: "#f0f7fc", // Snow White
+  primary: "#C41E3A", // Christmas Red - 主题色
+  primaryDark: "#8B0000", // Dark Red
+  primaryLight: "#DC143C", // Crimson
+  accent: "#165B33", // Christmas Green - 点缀色 (use sparingly!)
+  accentLight: "#22863a", // Forest Green
+  gold: "#D4A853", // Antique Gold - 装饰色
+  goldLight: "#FFD700", // Bright Gold
+  snow: "#FFFFFF", // Snow White
+  bgDark: "#0a0505", // Deep Black-Red background
+  bg: "#1a0a0a", // Dark Red-Brown background
 } as const;
 
 /**

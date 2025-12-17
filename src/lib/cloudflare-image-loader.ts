@@ -31,7 +31,7 @@ function loadAssetManifest(): Record<string, string> {
   try {
     // Try to load the manifest file using require (works in Next.js client-side code)
     // The file may not exist during development, so we handle that gracefully
-    const manifest = require('@/data/asset-manifest.json');
+    const manifest = require("@/data/asset-manifest.json");
     assetManifest = manifest as Record<string, string>;
     return assetManifest;
   } catch (error) {
@@ -50,15 +50,17 @@ function loadAssetManifest(): Record<string, string> {
  */
 function resolveAssetPath(originalPath: string): string {
   const manifest = loadAssetManifest();
-  
+
   // Remove leading slash if present for consistency
-  const normalizedPath = originalPath.startsWith('/') ? originalPath.slice(1) : originalPath;
-  
+  const normalizedPath = originalPath.startsWith("/")
+    ? originalPath.slice(1)
+    : originalPath;
+
   // Check if mapping exists
   if (manifest[normalizedPath]) {
     return manifest[normalizedPath];
   }
-  
+
   // Fallback to original path
   return normalizedPath;
 }
@@ -96,7 +98,12 @@ const extractWidthCap = (input: string): number | null => {
 };
 
 const cloudflareImageLoader: ImageLoader = ({ src, width, quality }) => {
-  // 如果没有配置 CDN，直接返回本地路径
+  // SVG files should not go through image CDN - return original path
+  if (src.endsWith(".svg")) {
+    return src.startsWith("/") ? src : `/${src}`;
+  }
+
+  // 如果没有配置 CDN,直接返回本地路径
   if (!base) {
     return src.startsWith("/") ? src : `/${src}`;
   }

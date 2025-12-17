@@ -502,55 +502,12 @@ export function ContactForm({
             <form
               ref={formRef}
               onSubmit={handleSubmit}
-              className="cyber-card-neon p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6"
+              className="cyber-card-neon p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5"
             >
-              {/* 进度条 */}
-              <div className="mb-6">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-cyber-gray-300">
-                    Form Progress
-                  </span>
-                  <span className="text-sm font-bold text-cyber-brand-500">
-                    {formProgress}%
-                  </span>
-                </div>
-                <div className="relative h-2 bg-cyber-gray-700 rounded-full overflow-hidden">
-                  <div
-                    className="absolute top-0 left-0 h-full rounded-full transition-all duration-500 ease-out"
-                    style={{
-                      width: `${formProgress}%`,
-                      background:
-                        "linear-gradient(90deg, #3366ff 0%, #00ffff 100%)",
-                      boxShadow:
-                        formProgress > 0
-                          ? "0 0 10px rgba(51, 102, 255, 0.5)"
-                          : "none",
-                    }}
-                  />
-                </div>
-              </div>
               {/* Personal Information Section */}
               <div className="space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
-                  <span className="text-xs font-semibold text-cyber-gray-400 uppercase tracking-wider">
-                    Personal Information
-                  </span>
-                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
-                </div>
-
                 {/* Name Field */}
                 <div className="group">
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-cyber-gray-200 mb-2 transition-colors group-focus-within:text-cyber-brand-500"
-                  >
-                    <Icon
-                      icon="lucide:user"
-                      className="inline-block w-4 h-4 mr-1"
-                    />
-                    Name <span className="text-red-500">*</span>
-                  </label>
                   <div className="relative">
                     <input
                       type="text"
@@ -561,7 +518,7 @@ export function ContactForm({
                       className={`w-full px-4 py-3 pr-10 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
                         "name"
                       )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-[1.01]`}
-                      placeholder="John Doe"
+                      placeholder="Name *"
                     />
                     {fieldStatus.name === "valid" && touched.name && (
                       <Icon
@@ -579,16 +536,6 @@ export function ContactForm({
 
                 {/* Email Field */}
                 <div className="group">
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-cyber-gray-200 mb-2 transition-colors group-focus-within:text-cyber-brand-500"
-                  >
-                    <Icon
-                      icon="lucide:mail"
-                      className="inline-block w-4 h-4 mr-1"
-                    />
-                    Email <span className="text-red-500">*</span>
-                  </label>
                   <div className="relative">
                     <input
                       type="email"
@@ -599,7 +546,7 @@ export function ContactForm({
                       className={`w-full px-4 py-3 pr-10 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
                         "email"
                       )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 transform focus:scale-[1.01]`}
-                      placeholder="john.doe@company.com"
+                      placeholder="Email *"
                     />
                     {fieldStatus.email === "valid" && touched.email && (
                       <Icon
@@ -618,14 +565,6 @@ export function ContactForm({
 
               {/* Contact Information Section */}
               <div className="space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
-                  <span className="text-xs font-semibold text-cyber-gray-400 uppercase tracking-wider">
-                    Contact Information
-                  </span>
-                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
-                </div>
-
                 {/* Phone Input with Country Selector */}
                 <PhoneInput
                   value={formData.phone}
@@ -659,19 +598,6 @@ export function ContactForm({
 
                 {/* Company Name Field (Optional) */}
                 <div className="group">
-                  <label
-                    htmlFor="companyName"
-                    className="block text-sm font-medium text-cyber-gray-400 mb-2"
-                  >
-                    <Icon
-                      icon="lucide:building"
-                      className="inline-block w-4 h-4 mr-1"
-                    />
-                    Company Name{" "}
-                    <span className="text-xs text-cyber-gray-500">
-                      (Optional)
-                    </span>
-                  </label>
                   <input
                     type="text"
                     id="companyName"
@@ -680,31 +606,19 @@ export function ContactForm({
                       handleChange("companyName", e.target.value)
                     }
                     className="w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-all duration-300"
-                    placeholder="Your company name"
+                    placeholder="Company Name (Optional)"
                   />
                 </div>
               </div>
 
               {/* Business Information Section */}
               <div className="space-y-4">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
-                  <span className="text-xs font-semibold text-cyber-gray-400 uppercase tracking-wider">
-                    Business Information
-                  </span>
-                  <div className="h-px flex-1 bg-gradient-to-r from-transparent via-cyber-brand-500 to-transparent opacity-50" />
-                </div>
-
                 {/* Industry Field */}
                 <div className="group">
                   <label
                     htmlFor="industry"
-                    className="block text-sm font-medium text-cyber-gray-200 mb-2 transition-colors group-focus-within:text-cyber-brand-500"
+                    className="block text-sm font-medium text-cyber-gray-200 mb-2"
                   >
-                    <Icon
-                      icon="lucide:briefcase"
-                      className="inline-block w-4 h-4 mr-1"
-                    />
                     Industry <span className="text-red-500">*</span>
                   </label>
                   <div className="relative">
@@ -717,7 +631,6 @@ export function ContactForm({
                         "industry"
                       )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 appearance-none cursor-pointer`}
                     >
-                      <option value="">Select your industry</option>
                       {industries.map((industry) => (
                         <option key={industry} value={industry}>
                           {industry}
@@ -738,27 +651,17 @@ export function ContactForm({
 
                 {/* Message Field */}
                 <div className="group">
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-cyber-gray-200 mb-2 transition-colors group-focus-within:text-cyber-brand-500"
-                  >
-                    <Icon
-                      icon="lucide:message-square"
-                      className="inline-block w-4 h-4 mr-1"
-                    />
-                    Message <span className="text-red-500">*</span>
-                  </label>
                   <div className="relative">
                     <textarea
                       id="message"
                       value={formData.message}
                       onChange={(e) => handleChange("message", e.target.value)}
                       onBlur={() => handleBlur("message")}
-                      rows={5}
+                      rows={4}
                       className={`w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border ${getInputBorderClass(
                         "message"
                       )} text-cyber-gray-100 focus:outline-none focus:ring-2 transition-all duration-300 resize-none`}
-                      placeholder="Tell us about your project or inquiry..."
+                      placeholder="Message * (Tell us about your project or inquiry...)"
                     />
                     {fieldStatus.message === "valid" && touched.message && (
                       <Icon
@@ -776,19 +679,6 @@ export function ContactForm({
 
                 {/* Devices Used Field (Optional) */}
                 <div className="group">
-                  <label
-                    htmlFor="devicesUsed"
-                    className="block text-sm font-medium text-cyber-gray-400 mb-2"
-                  >
-                    <Icon
-                      icon="lucide:camera"
-                      className="inline-block w-4 h-4 mr-1"
-                    />
-                    Devices or Platforms for 3D Tours{" "}
-                    <span className="text-xs text-cyber-gray-500">
-                      (Optional)
-                    </span>
-                  </label>
                   <input
                     type="text"
                     id="devicesUsed"
@@ -797,7 +687,7 @@ export function ContactForm({
                       handleChange("devicesUsed", e.target.value)
                     }
                     className="w-full px-4 py-3 rounded-lg bg-cyber-gray-800 border border-cyber-gray-600 text-cyber-gray-100 focus:outline-none focus:ring-2 focus:ring-cyber-brand-500 transition-all duration-300"
-                    placeholder="e.g., Matterport, iGuide, Ricoh Theta"
+                    placeholder="3D Devices/Platforms (Optional)"
                   />
                 </div>
               </div>
@@ -855,18 +745,17 @@ export function ContactForm({
                       <Icon icon="lucide:send" className="w-5 h-5" />
                       Submit
                     </span>
-                    <div className="absolute inset-0 -z-10 bg-gradient-to-r from-cyber-brand-500 via-cyber-neon-cyan to-cyber-brand-500 bg-[length:200%_100%] animate-gradient-x opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div
+                      className="absolute inset-0 -z-10 bg-[length:200%_100%] animate-gradient-x opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      style={{
+                        background:
+                          "linear-gradient(to right, #b91c1c, #d4a853, #b91c1c)",
+                        backgroundSize: "200% 100%",
+                      }}
+                    />
                   </>
                 )}
               </button>
-
-              {/* Auto-save indicator */}
-              {formProgress > 0 && formProgress < 100 && (
-                <p className="text-xs text-center text-cyber-gray-400 flex items-center justify-center gap-1">
-                  <Icon icon="lucide:save" className="w-3 h-3 animate-pulse" />
-                  Your progress is automatically saved
-                </p>
-              )}
             </form>
 
             {/* Floating Toolbar (Mobile Only) */}

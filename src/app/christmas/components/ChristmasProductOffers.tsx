@@ -20,28 +20,28 @@ export function ChristmasProductOffers() {
     <section
       id="offers"
       aria-label="Christmas Product Offers"
-      className="relative overflow-hidden bg-gradient-to-b from-christmas-winter-dark via-christmas-winter to-christmas-winter-dark py-12 sm:py-16 md:py-20 lg:py-28"
+      className="relative overflow-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900 py-8 sm:py-10 md:py-12 lg:py-16"
     >
       {/* Soft gradient divider at top */}
-      <div className="absolute top-0 inset-x-0 h-32 section-divider-top z-10" />
+      <div className="absolute top-0 inset-x-0 h-32 section-divider-top" />
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
         <div className="christmas-grid absolute inset-0 opacity-5" />
-        <div className="absolute top-1/3 left-1/4 h-96 w-96 rounded-full bg-christmas-ice/20 blur-[150px]" />
-        <div className="absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full bg-christmas-ice/15 blur-[140px]" />
+        <div className="absolute top-1/3 left-1/4 h-96 w-96 rounded-full bg-christmas-red/10 blur-[150px]" />
+        <div className="absolute bottom-1/3 right-1/4 h-80 w-80 rounded-full bg-christmas-gold/10 blur-[140px]" />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6">
         {/* Section header */}
-        <div className="text-center mb-12 sm:mb-16 md:mb-20">
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-christmas-winter/30 border border-christmas-ice/30">
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-christmas-red/20 border border-christmas-red/40">
             <span className="text-2xl">🎅</span>
-            <span className="text-christmas-ice font-semibold">
+            <span className="text-white/90 font-semibold">
               Limited Time Offer
             </span>
             <span className="text-2xl">🎄</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-gradient-glacial drop-shadow-lg">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-gradient-christmas drop-shadow-lg">
             Christmas Exclusive Offers
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto">
@@ -50,7 +50,7 @@ export function ChristmasProductOffers() {
         </div>
 
         {/* Products grid */}
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto animate-fade-up">
+        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto animate-fade-up pt-10">
           {CHRISTMAS_PRODUCTS.map((product) => {
             const isExpanded = expandedProduct === product.id;
 
@@ -59,20 +59,20 @@ export function ChristmasProductOffers() {
                 key={product.id}
                 itemScope
                 itemType="https://schema.org/Product"
-                className={`relative glass-card rounded-3xl p-4 sm:p-6 md:p-8 flex flex-col shine-effect premium-shadow ${
+                className={`relative rounded-2xl flex flex-col  ${
                   product.featured
-                    ? "gradient-border-animated ring-1 ring-christmas-ice/40"
-                    : "hover-starlight"
+                    ? "glass-card-featured border-2 border-christmas-gold/40 shadow-[0_0_40px_rgba(196,30,58,0.3),0_0_80px_rgba(212,168,83,0.2)] hover:shadow-[0_0_60px_rgba(196,30,58,0.4),0_0_100px_rgba(212,168,83,0.3)] hover:border-christmas-gold/60"
+                    : "glass-card border border-white/10 hover:border-white/20 premium-shadow hover-starlight"
                 }`}
               >
                 {/* Featured product badge */}
                 {product.featured && (
                   <>
                     {/* Floating Glow effect */}
-                    <div className="absolute -inset-2 bg-gradient-to-r from-christmas-ice/20 via-christmas-red/10 to-christmas-ice/20 rounded-3xl blur-2xl -z-10 animate-pulse" />
+                    <div className="absolute -inset-2 bg-gradient-to-r from-christmas-red/20 via-christmas-gold/10 to-christmas-red/20 rounded-3xl blur-2xl -z-10 animate-pulse" />
 
-                    {/* Featured badge with pulse */}
-                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                    {/* Featured badge with pulse - positioned above card */}
+                    <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
                       <div className="relative bg-gradient-to-r from-christmas-red via-[#ea384d] to-christmas-red text-white px-6 py-2 text-sm font-bold rounded-full flex items-center gap-2 shadow-lg shadow-christmas-red/50 pulse-badge">
                         <Icon icon="lucide:sparkles" className="w-4 h-4" />
                         <span className="tracking-widest uppercase">
@@ -84,42 +84,55 @@ export function ChristmasProductOffers() {
                   </>
                 )}
 
-                {/* Product image with hover zoom */}
-                <div className="relative -mx-4 sm:-mx-6 md:-mx-8 -mt-4 sm:-mt-6 md:-mt-8 mb-4 sm:mb-6 overflow-hidden rounded-t-3xl bg-christmas-winter-dark group">
+                {/* Product image - fills top of card */}
+                <div className="relative bg-black overflow-hidden group rounded-t-2xl">
                   <Image
                     src={product.image}
                     alt={`${product.name} - ${product.subtitle} - Christmas Special Offer`}
-                    width={800}
-                    height={600}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    width={1200}
+                    height={900}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
                     className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
                     priority={product.featured}
                     itemProp="image"
                   />
+                  {/* Offer Badge - 促销角标 */}
+                  <div className="absolute top-4 right-4 z-10">
+                    <div className="relative bg-gradient-to-br from-christmas-red via-christmas-red-light to-christmas-red text-white px-4 py-3 rounded-2xl font-bold shadow-2xl shadow-christmas-red/50 transform rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-300">
+                      <div className="text-center">
+                        <div className="text-xs font-semibold uppercase tracking-wider">
+                          SAVE
+                        </div>
+                        <div className="text-2xl font-black leading-none">
+                          ${product.discount}
+                        </div>
+                      </div>
+                      {/* Shine effect */}
+                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-30" />
+                    </div>
+                  </div>
                   {/* Image overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-christmas-winter-dark/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
-                {/* Product info */}
-                <div className="flex-1 space-y-3 sm:space-y-4">
-                  <div>
+                {/* Card content with padding */}
+                <div className="p-6">
+                  {/* Product Title & Subtitle */}
+                  <div className="mb-4">
                     <h3
-                      className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-100 mb-1 sm:mb-2"
+                      className="text-2xl sm:text-3xl font-bold text-white mb-2"
                       itemProp="name"
                     >
                       {product.name}
                     </h3>
-                    <p
-                      className="text-sm sm:text-base text-gray-400"
-                      itemProp="description"
-                    >
+                    <p className="text-base sm:text-lg text-gray-300">
                       {product.subtitle}
                     </p>
                   </div>
 
-                  {/* Pricing */}
+                  {/* Price */}
                   <div
-                    className="space-y-2"
+                    className="mb-6"
                     itemProp="offers"
                     itemScope
                     itemType="https://schema.org/Offer"
@@ -133,22 +146,12 @@ export function ChristmasProductOffers() {
                       itemProp="availability"
                       content="https://schema.org/InStock"
                     />
-                    <div className="flex items-baseline gap-2 sm:gap-3">
-                      <span className="text-2xl sm:text-3xl md:text-4xl font-bold text-christmas-red">
+                    <div className="flex items-baseline gap-3">
+                      <span className="text-4xl sm:text-5xl font-bold text-gradient-christmas">
                         ${product.discountedPrice.toLocaleString()}
                       </span>
-                      <span className="text-lg sm:text-xl text-gray-500 line-through">
+                      <span className="text-xl sm:text-2xl text-gray-500 line-through">
                         ${product.originalPrice.toLocaleString()}
-                      </span>
-                    </div>
-                    <div className="inline-flex items-center gap-2 px-2 sm:px-3 py-1 rounded-full bg-christmas-red/20 border border-christmas-red/30">
-                      <Icon
-                        icon="lucide:tag"
-                        className="w-3 h-3 sm:w-4 sm:h-4 text-christmas-silver"
-                      />
-                      <span className="text-xs sm:text-sm font-semibold text-christmas-silver">
-                        Save ${product.discount.toLocaleString()} (
-                        {product.discountPercentage}% OFF)
                       </span>
                     </div>
                   </div>
@@ -233,7 +236,7 @@ export function ChristmasProductOffers() {
                   </div>
 
                   {/* CTA buttons */}
-                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-6">
                     <a
                       href={product.buyUrl}
                       target="_blank"

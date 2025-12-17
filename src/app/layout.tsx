@@ -168,7 +168,10 @@ export default function RootLayout({
       className={`dark ${inter.variable} ${jetbrainsMono.variable} ${orbitron.variable}`}
       suppressHydrationWarning
     >
-      <body className="bg-cyber-gray-900 text-cyber-gray-200 antialiased">
+      <body
+        className="bg-cyber-gray-900 text-cyber-gray-200 antialiased"
+        suppressHydrationWarning
+      >
         {/* Skip to main content link for accessibility */}
         <a
           href="#hero"

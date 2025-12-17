@@ -4,12 +4,26 @@ import { DISTRIBUTION_FEATURES } from "@/lib/constants";
 interface DistributionSectionProps {
   className?: string;
   title?: string;
+  theme?: "cyber" | "christmas";
 }
 
 export function DistributionSection({
   className,
   title = "Seamless 3D Virtual Tour Distribution",
+  theme = "cyber",
 }: DistributionSectionProps) {
+  const isChristmas = theme === "christmas";
+
+  // 根据主题选择卡片样式
+  const cardClassName = isChristmas
+    ? "group bg-cyber-gray-800 border border-christmas-gold/30 rounded-lg p-0 flex flex-col overflow-hidden hover:scale-105 hover:border-christmas-gold/60 transition-all duration-300 shadow-[0_0_15px_rgba(212,168,83,0.15),inset_0_0_10px_rgba(212,168,83,0.05)]"
+    : "group cyber-card-neon p-0 flex flex-col overflow-hidden hover:scale-105 transition-all duration-300";
+
+  // 根据主题选择标题 hover 颜色
+  const titleHoverClass = isChristmas
+    ? "group-hover:text-christmas-gold"
+    : "group-hover:text-cyber-brand-500";
+
   return (
     <section
       id="distribution"
@@ -20,8 +34,17 @@ export function DistributionSection({
       {/* Background effects */}
       <div className="absolute inset-0 -z-10">
         <div className="cyber-grid absolute inset-0 opacity-5" />
-        <div className="absolute left-1/3 top-1/4 h-96 w-96 rounded-full bg-cyber-brand-500/10 blur-[150px]" />
-        <div className="absolute right-1/3 bottom-1/4 h-80 w-80 rounded-full bg-cyber-neon-cyan/10 blur-[140px]" />
+        {isChristmas ? (
+          <>
+            <div className="absolute left-1/3 top-1/4 h-96 w-96 rounded-full bg-christmas-red/10 blur-[150px]" />
+            <div className="absolute right-1/3 bottom-1/4 h-80 w-80 rounded-full bg-christmas-gold/10 blur-[140px]" />
+          </>
+        ) : (
+          <>
+            <div className="absolute left-1/3 top-1/4 h-96 w-96 rounded-full bg-cyber-brand-500/10 blur-[150px]" />
+            <div className="absolute right-1/3 bottom-1/4 h-80 w-80 rounded-full bg-cyber-neon-cyan/10 blur-[140px]" />
+          </>
+        )}
       </div>
 
       <div className="container mx-auto px-4 sm:px-6">
@@ -38,10 +61,7 @@ export function DistributionSection({
         {/* Features grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {DISTRIBUTION_FEATURES.map((feature) => (
-            <div
-              key={feature.id}
-              className="group cyber-card-neon p-0 flex flex-col overflow-hidden hover:scale-105 transition-all duration-300"
-            >
+            <div key={feature.id} className={cardClassName}>
               {/* Feature image - 贴边显示，与卡片圆角一致 */}
               <div className="relative w-full aspect-[4/3] overflow-hidden bg-cyber-gray-800">
                 <Image
@@ -55,7 +75,9 @@ export function DistributionSection({
 
               {/* Feature info - 添加内边距 */}
               <div className="p-4 sm:p-6 flex flex-col items-center text-center">
-                <h3 className="text-lg sm:text-xl font-semibold text-cyber-gray-100 mb-1 sm:mb-2 group-hover:text-cyber-brand-500 transition-colors">
+                <h3
+                  className={`text-lg sm:text-xl font-semibold text-cyber-gray-100 mb-1 sm:mb-2 ${titleHoverClass} transition-colors`}
+                >
                   {feature.title}
                 </h3>
                 <p className="text-xs sm:text-sm text-cyber-gray-300">

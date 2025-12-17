@@ -43,41 +43,35 @@ export function ChristmasHeader() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "glass-card border-b border-christmas-ice/20"
-          : "bg-gradient-to-b from-christmas-winter-dark/80 to-transparent"
+          ? "glass-card border-b border-christmas-gold/20"
+          : "bg-gradient-to-b from-black/80 to-transparent"
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 sm:h-20">
-          {/* Logo */}
+          {/* Logo with Christmas decoration */}
           <a
             href="https://home.realsee.ai/en/home"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 sm:gap-3 group"
+            className="flex items-center"
+            aria-label="Go to homepage"
           >
-            <div className="relative group floating-glow rounded-2xl">
-              <div className="absolute -inset-3 bg-gradient-to-r from-christmas-ice/30 via-christmas-red/20 to-christmas-ice/30 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <div className="relative h-10 w-auto">
-                <Image
-                  src="/assets/realsee-logo-en-with-brands-wihte.svg"
-                  alt="Realsee Logo"
-                  width={120}
-                  height={40}
-                  className="h-10 w-auto drop-shadow-[0_0_10px_rgba(208,232,255,0.3)]"
-                  priority
-                />
-              </div>
-            </div>
-            <div className="hidden sm:flex flex-col items-start ml-2">
-              <span className="text-christmas-ice text-xs font-bold tracking-widest uppercase pulse-badge px-2 py-0.5 rounded-full bg-christmas-red/20 border border-christmas-red/40">
-                🎄 SALE
-              </span>
+            <div className="relative h-8 w-auto">
+              <Image
+                src="/assets/realsee-logo-en-with-brands-wihte.svg"
+                alt="Realsee Logo"
+                width={100}
+                height={32}
+                className="h-8 w-auto"
+                unoptimized
+                priority
+              />
             </div>
           </a>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-1 bg-white/5 backdrop-blur-sm rounded-full px-2 py-1 border border-christmas-ice/10">
+          <nav className="hidden lg:flex items-center gap-1 bg-white/5 backdrop-blur-sm rounded-full px-2 py-1 border border-christmas-gold/10">
             {CHRISTMAS_NAV_TABS.map((tab) => (
               <a
                 key={tab.id}
@@ -85,7 +79,7 @@ export function ChristmasHeader() {
                 onClick={(e) => handleNavClick(e, tab.href, tab.id)}
                 className={`px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 ${
                   activeSection === tab.id
-                    ? "bg-christmas-ice/20 text-white shadow-[0_0_15px_rgba(208,232,255,0.3)] border border-christmas-ice/30"
+                    ? "bg-christmas-gold/20 text-white shadow-[0_0_15px_rgba(212,168,83,0.3)] border border-christmas-gold/30"
                     : "text-gray-300 hover:text-white hover:bg-white/10"
                 }`}
               >
@@ -113,7 +107,7 @@ export function ChristmasHeader() {
 
       {/* Mobile Menu */}
       <div
-        className={`lg:hidden absolute top-full left-0 right-0 bg-christmas-winter/98 backdrop-blur-lg border-b border-christmas-ice/30 transition-all duration-300 ${
+        className={`lg:hidden absolute top-full left-0 right-0 bg-black/98 backdrop-blur-lg border-b border-christmas-gold/30 transition-all duration-300 ${
           isMobileMenuOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-4 pointer-events-none"
@@ -127,7 +121,7 @@ export function ChristmasHeader() {
               onClick={(e) => handleNavClick(e, tab.href, tab.id)}
               className={`px-4 py-3 rounded-lg font-medium text-sm transition-all duration-200 min-h-[44px] flex items-center touch-none ${
                 activeSection === tab.id
-                  ? "bg-christmas-ice/20 text-white shadow-[0_0_20px_rgba(184,212,232,0.4)]"
+                  ? "bg-christmas-gold/20 text-white shadow-[0_0_20px_rgba(212,168,83,0.4)]"
                   : "text-gray-300 hover:text-gray-100 hover:bg-white/5"
               }`}
             >
