@@ -281,9 +281,7 @@ export const CHRISTMAS_HERO_CONFIG = {
   subtitle: "Dec 17th - Dec 23rd, 2025 | Worldwide Shipping",
   description: "Experience professional 3D scanning with up to $1225 OFF",
   backgroundImages: {
-    pc: "/assets/christmas/hero/banner-pc.jpg",
-    pad: "/assets/christmas/hero/banner-pad.jpg",
-    mobile: "/assets/christmas/hero/banner-mobile.jpg",
+    basePath: "/assets/christmas/hero/banner",
   },
   ctaButtons: [
     { label: "Shop Now", href: "#offers", primary: true },
