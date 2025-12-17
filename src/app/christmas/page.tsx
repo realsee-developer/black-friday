@@ -67,7 +67,7 @@ export default async function ChristmasPage() {
       </main>
 
       {/* Footer - Reuse existing component */}
-      <SiteFooter />
+      <SiteFooter theme="christmas" />
     </div>
   );
 }

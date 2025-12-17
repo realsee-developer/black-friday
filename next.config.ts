@@ -112,7 +112,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-
   // Domain-based routing for Christmas promotion page
   async rewrites() {
     return [
@@ -134,6 +133,17 @@ const nextConfig: NextConfig = {
           {
             type: "host",
             value: "christmas.realsee.dev",
+          },
+        ],
+        destination: "/christmas/:path*",
+      },
+      // Support localhost debugging with PORT 9999 for christmas theme
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "localhost:9999",
           },
         ],
         destination: "/christmas/:path*",

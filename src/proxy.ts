@@ -30,20 +30,20 @@ export function proxy(request: NextRequest) {
   const longitude = geo?.longitude || "";
 
   // Add custom headers for SEO and analytics
-  if(country) {
+  if (country) {
     response.headers.set("X-Geo-Country", country);
   }
-  if(region) {
+  if (region) {
     response.headers.set("X-Geo-Region", region);
   }
-  if(city) {
+  if (city) {
     response.headers.set("X-Geo-City", city);
   }
 
   // Security headers for SEO trust signals
   response.headers.set(
     "Strict-Transport-Security",
-    "max-age=31536000; includeSubDomains",
+    "max-age=31536000; includeSubDomains"
   );
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("X-Frame-Options", "SAMEORIGIN");
@@ -52,11 +52,14 @@ export function proxy(request: NextRequest) {
   // Performance headers
   // Disable caching in development environment
   if (process.env.NODE_ENV === "development") {
-    response.headers.set("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.headers.set(
+      "Cache-Control",
+      "no-cache, no-store, must-revalidate"
+    );
   } else {
     response.headers.set(
       "Cache-Control",
-      "public, s-maxage=3600, stale-while-revalidate=86400",
+      "public, s-maxage=3600, stale-while-revalidate=86400"
     );
   }
 
@@ -85,4 +88,3 @@ export const config = {
     "/((?!api|_next/static|_next/image|favicon.ico|.*\\.txt|.*\\.xml).*)",
   ],
 };
-
