@@ -10,7 +10,6 @@ import { ChristmasHeader } from "./components/ChristmasHeader";
 import { ChristmasHeroSection } from "./components/ChristmasHeroSection";
 import { ChristmasProductOffers } from "./components/ChristmasProductOffers";
 import { ChristmasShippingInfo } from "./components/ChristmasShippingInfo";
-import { TrustStats } from "./components/TrustStats";
 
 import { CHRISTMAS_KOL_VIDEOS } from "@/lib/christmas-constants";
 
@@ -60,9 +59,6 @@ export default async function ChristmasPage() {
 
         {/* Professionals - Reuse existing component */}
         <Professionals />
-
-        {/* Global Trust Stats */}
-        <TrustStats />
 
         {/* Contact Form - Christmas themed */}
         <ChristmasContactForm

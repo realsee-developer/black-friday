@@ -402,6 +402,31 @@
       0 0 50px rgba(212, 168, 83, 0.3) !important;
   }
 
+  /* Override cyber-btn-primary pseudo-elements for Christmas theme */
+  & .cyber-btn-primary::before {
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(212, 168, 83, 0.4) 50%,
+      transparent 70%
+    ) !important;
+  }
+
+  & .cyber-btn-primary::after {
+    background: linear-gradient(
+      45deg,
+      #b91c1c,
+      #d4a853,
+      #dc2626,
+      #d4a853,
+      #b91c1c
+    ) !important;
+  }
+
+  & .cyber-btn-primary:hover::after {
+    opacity: 1;
+  }
+
   /* Shimmer/Sweep animations - override cyan with gold */
   & .cyber-shimmer::before,
   & .cyber-shimmer::after,

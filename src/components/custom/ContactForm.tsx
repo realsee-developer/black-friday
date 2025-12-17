@@ -37,12 +37,14 @@ interface ContactFormProps {
   initialCountryCode?: string;
   hideWhatsApp?: boolean;
   backgroundBasePath?: string;
+  hideBackground?: boolean;
 }
 
 export function ContactForm({
   initialCountryCode,
   hideWhatsApp = false,
   backgroundBasePath = "/assets/contact/contact-bg",
+  hideBackground = false,
 }: ContactFormProps = {}) {
   const {
     isSubmitting,
@@ -443,11 +445,13 @@ export function ContactForm({
         className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-28"
       >
         <div className="absolute inset-0 z-0">
-          <ResponsiveBackgroundImage
-            basePath={backgroundBasePath}
-            alt="Contact Background"
-            priority
-          />
+          {!hideBackground && (
+            <ResponsiveBackgroundImage
+              basePath={backgroundBasePath}
+              alt="Contact Background"
+              priority
+            />
+          )}
         </div>
 
         <div className="container mx-auto px-4 sm:px-6 max-w-3xl relative z-10">
@@ -484,15 +488,19 @@ export function ContactForm({
       className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-28"
     >
       <div className="absolute inset-0 z-0">
-        <ResponsiveBackgroundImage
-          basePath={backgroundBasePath}
-          alt="Contact Background"
-          priority
-        />
+        {!hideBackground && (
+          <ResponsiveBackgroundImage
+            basePath={backgroundBasePath}
+            alt="Contact Background"
+            priority
+          />
+        )}
       </div>
 
       <div className="absolute inset-0 z-0">
-        <div className="cyber-grid absolute inset-0 opacity-5" />
+        {!hideBackground && (
+          <div className="cyber-grid absolute inset-0 opacity-5" />
+        )}
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
