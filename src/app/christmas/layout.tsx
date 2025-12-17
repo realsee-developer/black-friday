@@ -1,4 +1,11 @@
 import type { Metadata } from "next";
+import { buildSEOImageUrl } from "@/lib/seo-utils";
+
+// 使用 CDN 生成小尺寸 4:3 比例的 og:image (800x600)
+const ogImageUrl = buildSEOImageUrl(
+  "/assets/christmas/products/galois-premium-bundle.jpg",
+  { width: 800, quality: 85 }
+);
 
 export const metadata: Metadata = {
   title:
@@ -22,10 +29,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/assets/og/christmas-share.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Galois 3D LiDAR Camera Christmas Promotion",
+        url: ogImageUrl,
+        width: 800,
+        height: 600,
+        alt: "Galois Premium Bundle - Christmas Special Offer",
       },
     ],
   },
@@ -34,7 +41,7 @@ export const metadata: Metadata = {
     title: "Galois 3D LiDAR Camera Christmas Promotion",
     description:
       "Experience professional 3D scanning with up to $1225 OFF. Dec 17-23, 2025.",
-    images: ["/assets/og/christmas-share.jpg"],
+    images: [ogImageUrl],
   },
   robots: {
     index: true,
