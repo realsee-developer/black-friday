@@ -47,6 +47,9 @@ export function ChristmasContactForm({
           sizes="100vw"
           className="object-cover object-center hidden lg:block"
         />
+        {/* Winter Aurora Overlay - Consistent with Hero */}
+        <div className="absolute inset-0 bg-gradient-to-b from-christmas-winter-dark/80 via-christmas-winter/60 to-christmas-winter-dark/95 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-aurora opacity-40 mix-blend-overlay" />
       </div>
 
       {/* Contact Form with transparent background */}

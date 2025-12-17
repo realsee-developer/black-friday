@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Christmas Sale 2025 - Galois 3D LiDAR Camera | Up to $1225 OFF",
+  title:
+    "Christmas Sale 2025 - Galois 3D LiDAR Camera | Up to $1225 OFF | Realsee",
   description:
     "Dec 17-23, 2025. Experience professional 3D scanning with Realsee Galois. Premium Bundle $5199, Standard Kit $4799. Worldwide shipping.",
   keywords: [
