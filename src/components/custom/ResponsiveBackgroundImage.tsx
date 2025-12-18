@@ -31,10 +31,11 @@ export function ResponsiveBackgroundImage({
         fill
         priority={priority}
         quality={95}
-        sizes="100vw"
+        sizes="(max-width: 768px) 100vw, 0vw"
         className={`object-cover object-center block md:hidden ${className}`}
         placeholder="blur"
         blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%231a2332'/%3E%3C/svg%3E"
+        loading={priority ? undefined : "lazy"}
       />
       
       {/* 中等屏幕 (768px - 1536px) */}
@@ -44,10 +45,11 @@ export function ResponsiveBackgroundImage({
         fill
         priority={priority}
         quality={95}
-        sizes="100vw"
+        sizes="(min-width: 768px) and (max-width: 1535px) 100vw, 0vw"
         className={`object-cover object-center hidden md:block 2xl:hidden ${className}`}
         placeholder="blur"
         blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%231a2332'/%3E%3C/svg%3E"
+        loading={priority ? undefined : "lazy"}
       />
       
       {/* 大屏幕 (>= 1536px) */}
@@ -57,10 +59,11 @@ export function ResponsiveBackgroundImage({
         fill
         priority={priority}
         quality={95}
-        sizes="100vw"
+        sizes="(min-width: 1536px) 100vw, 0vw"
         className={`object-cover object-center hidden 2xl:block ${className}`}
         placeholder="blur"
         blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%231a2332'/%3E%3C/svg%3E"
+        loading={priority ? undefined : "lazy"}
       />
     </>
   );
