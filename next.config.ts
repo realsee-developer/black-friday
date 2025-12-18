@@ -112,44 +112,10 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Domain-based routing for Christmas promotion page
-  async rewrites() {
-    return [
-      // christmas.realsee.ai -> /christmas
-      {
-        source: "/:path*",
-        has: [
-          {
-            type: "host",
-            value: "christmas.realsee.ai",
-          },
-        ],
-        destination: "/christmas/:path*",
-      },
-      // christmas.realsee.dev -> /christmas
-      {
-        source: "/:path*",
-        has: [
-          {
-            type: "host",
-            value: "christmas.realsee.dev",
-          },
-        ],
-        destination: "/christmas/:path*",
-      },
-      // Support localhost debugging with PORT 9999 for christmas theme
-      {
-        source: "/:path*",
-        has: [
-          {
-            type: "host",
-            value: "localhost:9999",
-          },
-        ],
-        destination: "/christmas/:path*",
-      },
-    ];
-  },
+  // Note: Domain-based routing is now handled in src/proxy.ts
+  // The rewrites() function in next.config.ts doesn't properly support
+  // host-based rewrites on Vercel. Use Next.js proxy/middleware instead.
+  // See: https://vercel.com/docs/routing-middleware/api
 };
 
 export default nextConfig;

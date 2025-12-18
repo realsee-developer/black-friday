@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import Image from "next/image";
 import { CHRISTMAS_HERO_CONFIG } from "@/lib/christmas-constants";
+import { ResponsiveBackgroundImage } from "@/components/custom/ResponsiveBackgroundImage";
 
 // Christmas Hero section with realistic snow effects
 interface ChristmasHeroSectionProps {
@@ -64,45 +64,19 @@ export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
     <section
       id="hero"
       aria-label="Christmas Sale Hero Section"
-      className={`relative min-h-[600px] h-screen max-h-[650px] md:max-h-[900px] lg:max-h-[1000px] overflow-hidden ${
+      className={`relative overflow-hidden w-full max-w-full min-h-screen
+        aspect-[2202/1800] md:aspect-[2136/1200] 2xl:aspect-[5120/1400] ${
         className || ""
       }`}
     >
       {/* Background Image - Responsive Christmas banners */}
+      {/* Container adapts to background image aspect ratios */}
       <div className="absolute inset-0 w-full h-full">
-        {/* Mobile */}
-        <Image
-          src="/assets/christmas/hero/banner-mobile.jpg"
+        <ResponsiveBackgroundImage
+          basePath="/assets/christmas/hero/banner"
           alt="Galois 3D LiDAR Camera - Christmas Promotion"
-          fill
           priority
-          quality={95}
-          sizes="100vw"
-          className="object-cover object-center block md:hidden"
         />
-        {/* Tablet */}
-        <Image
-          src="/assets/christmas/hero/banner-pad.jpg"
-          alt="Galois 3D LiDAR Camera - Christmas Promotion"
-          fill
-          priority
-          quality={95}
-          sizes="100vw"
-          className="object-cover object-center hidden md:block lg:hidden"
-        />
-        {/* Desktop */}
-        <Image
-          src="/assets/christmas/hero/banner-pc.jpg"
-          alt="Galois 3D LiDAR Camera - Christmas Promotion"
-          fill
-          priority
-          quality={95}
-          sizes="100vw"
-          className="object-cover object-center hidden lg:block"
-        />
-        {/* Traditional Christmas Overlay - warm red tones */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/80 mix-blend-multiply" />
-        <div className="absolute inset-0 bg-aurora opacity-70 mix-blend-overlay" />
       </div>
 
       {/* Animated background effects */}
@@ -160,8 +134,8 @@ export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
       </div>
 
       {/* Content */}
-      <div className="absolute inset-0 flex justify-center">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full pt-24 pb-8 sm:pt-0 sm:pb-0 sm:h-full sm:flex sm:items-center md:pt-16">
+      <div className="absolute inset-0 flex justify-center items-center">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-8 sm:py-12 md:py-16">
           <div className="flex flex-col items-center sm:items-start justify-start text-center sm:text-left space-y-5 sm:space-y-4 md:space-y-5 max-w-6xl mx-auto sm:mx-0 sm:max-w-md md:max-w-lg lg:max-w-2xl w-full">
             <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-christmas-red/20 via-[#ffd700]/10 to-christmas-red/20 border-2 border-[#ffd700]/40 backdrop-blur-md pulse-badge shadow-lg shadow-christmas-red/20">
               <span className="text-white text-sm font-bold tracking-wide uppercase">

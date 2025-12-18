@@ -59,9 +59,9 @@ export function ChristmasProductOffers() {
                 key={product.id}
                 itemScope
                 itemType="https://schema.org/Product"
-                className={`relative rounded-2xl flex flex-col  ${
+                className={`relative rounded-2xl flex flex-col group ${
                   product.featured
-                    ? "glass-card-featured border-2 border-christmas-gold/40 shadow-[0_0_40px_rgba(196,30,58,0.3),0_0_80px_rgba(212,168,83,0.2)] hover:shadow-[0_0_60px_rgba(196,30,58,0.4),0_0_100px_rgba(212,168,83,0.3)] hover:border-christmas-gold/60"
+                    ? "glass-card-featured border-2 border-christmas-gold/40 shadow-[0_0_40px_rgba(196,30,58,0.3),0_0_80px_rgba(212,168,83,0.2)] hover:shadow-[0_0_60px_rgba(196,30,58,0.4),0_0_100px_rgba(212,168,83,0.3)] hover:border-christmas-gold/60 featured-sparkle cursor-[url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"32\" viewBox=\"0 0 32 32\"><text x=\"50%\" y=\"50%\" text-anchor=\"middle\" dominant-baseline=\"central\" font-size=\"24\" fill=\"%23ffd700\">✨</text></svg>'),auto]"
                     : "glass-card border border-white/10 hover:border-white/20 premium-shadow hover-starlight"
                 }`}
               >
@@ -81,6 +81,12 @@ export function ChristmasProductOffers() {
                         <Icon icon="lucide:sparkles" className="w-4 h-4" />
                       </div>
                     </div>
+                    
+                    {/* Sparkle decorations on hover */}
+                    <div className="absolute top-4 left-4 z-10 sparkle-icon opacity-0 group-hover:opacity-100 transition-opacity duration-300">✨</div>
+                    <div className="absolute top-4 right-4 z-10 sparkle-icon opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">✨</div>
+                    <div className="absolute bottom-4 left-4 z-10 sparkle-icon opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-200">✨</div>
+                    <div className="absolute bottom-4 right-4 z-10 sparkle-icon opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-300">✨</div>
                   </>
                 )}
 
@@ -92,7 +98,7 @@ export function ChristmasProductOffers() {
                     width={1200}
                     height={900}
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                    className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-auto object-cover"
                     priority={product.featured}
                     itemProp="image"
                   />
@@ -111,8 +117,6 @@ export function ChristmasProductOffers() {
                       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-30" />
                     </div>
                   </div>
-                  {/* Image overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
 
                 {/* Card content with padding */}

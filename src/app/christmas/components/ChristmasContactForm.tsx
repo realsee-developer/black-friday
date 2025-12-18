@@ -1,68 +1,53 @@
 "use client";
 
-import Image from "next/image";
-import { ContactForm } from "@/components/custom/ContactForm";
+import { ContactFormCore } from "@/components/custom/ContactFormCore";
+import { ContactFormSidebar } from "@/components/custom/ContactFormSidebar";
+import { ResponsiveBackgroundImage } from "@/components/custom/ResponsiveBackgroundImage";
 
 interface ChristmasContactFormProps {
   initialCountryCode?: string;
 }
 
 /**
- * Christmas Contact Form wrapper with Christmas-themed background images
+ * 圣诞主题联系表单
+ * 使用 headless 的 ContactFormCore 和 ContactFormSidebar 组件
+ * 自定义圣诞背景和标题
  */
 export function ChristmasContactForm({
   initialCountryCode,
 }: ChristmasContactFormProps) {
   return (
-    <div className="relative">
-      {/* Christmas Contact Background - Override the default background */}
+    <section
+      id="contact"
+      className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-28"
+    >
+      {/* 圣诞主题背景 */}
       <div className="absolute inset-0 z-0">
-        {/* Mobile */}
-        <Image
-          src="/assets/christmas/contact/contact-bg-mobile.jpg"
+        <ResponsiveBackgroundImage
+          basePath="/assets/christmas/contact/contact-bg"
           alt="Christmas Contact Background"
-          fill
           priority
-          quality={95}
-          sizes="100vw"
-          className="object-cover object-center block md:hidden"
         />
-        {/* Tablet */}
-        <Image
-          src="/assets/christmas/contact/contact-bg-pad.jpg"
-          alt="Christmas Contact Background"
-          fill
-          priority
-          quality={95}
-          sizes="100vw"
-          className="object-cover object-center hidden md:block lg:hidden"
-        />
-        {/* Desktop */}
-        <Image
-          src="/assets/christmas/contact/contact-bg-pc.jpg"
-          alt="Christmas Contact Background"
-          fill
-          priority
-          quality={95}
-          sizes="100vw"
-          className="object-cover object-center hidden lg:block"
-        />
+      </div>
 
-        {/* Winter Aurora Overlay - Positioned over background but under content */}
-        <div className="absolute inset-0 z-10 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-christmas-winter-dark/80 via-christmas-winter/60 to-christmas-winter-dark/95 mix-blend-multiply" />
-          <div className="absolute inset-0 bg-aurora opacity-40 mix-blend-overlay" />
+      {/* 内容 */}
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
+        <div className="flex flex-col-reverse md:flex-row gap-6 md:gap-12 lg:gap-16 items-start">
+          {/* 左侧：表单 (PC在左，Mobile在下) */}
+          <div className="w-full md:w-1/2">
+            <ContactFormCore initialCountryCode={initialCountryCode} />
+          </div>
+
+          {/* 右侧：标题+下载卡片 (PC在右，Mobile在上) */}
+          <div className="w-full md:w-1/2">
+            <ContactFormSidebar
+              title="Christmas Sale: Limited Time Offer"
+              subtitle="Please leave your information, we will contact you within 48 hours. Discover our product, explore pricing options, schedule a demo, find solutions tailored to your needs, and more."
+              showWhatsApp={false}
+            />
+          </div>
         </div>
       </div>
-
-      {/* Contact Form with transparent background */}
-      <div className="relative z-10">
-        <ContactForm
-          initialCountryCode={initialCountryCode}
-          hideWhatsApp={false}
-          hideBackground={true}
-        />
-      </div>
-    </div>
+    </section>
   );
 }
