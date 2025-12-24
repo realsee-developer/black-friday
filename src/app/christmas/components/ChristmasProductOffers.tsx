@@ -6,11 +6,8 @@ import { CHRISTMAS_PRODUCTS } from "@/lib/christmas-constants";
 import { useProductStore } from "@/store/useProductStore";
 import {
   trackProductContactClick,
-  trackProductBuyClick,
   trackProductDetailsView,
-  trackFacebookInitiateCheckout,
 } from "@/lib/analytics/gtm";
-import { CURRENCY_USD } from "@/lib/analytics-constants";
 
 export function ChristmasProductOffers() {
   const expandedProduct = useProductStore((state) => state.expandedProduct);
@@ -102,15 +99,22 @@ export function ChristmasProductOffers() {
                     priority={product.featured}
                     itemProp="image"
                   />
-                  {/* Offer Badge - 促销角标 */}
-                  <div className="absolute top-4 right-4 z-10">
-                    <div className="relative bg-gradient-to-br from-christmas-red via-christmas-red-light to-christmas-red text-white px-4 py-3 rounded-2xl font-bold shadow-2xl shadow-christmas-red/50 transform rotate-6 hover:rotate-0 hover:scale-110 transition-all duration-300">
+                  {/* Offer Badge - 促销角标（活动结束后模糊处理） */}
+                  <div
+                    className="absolute top-4 right-4 z-10 select-none"
+                    style={{
+                      filter: "blur(12px)",
+                      userSelect: "none",
+                      WebkitUserSelect: "none",
+                    }}
+                  >
+                    <div className="relative bg-gradient-to-br from-christmas-red via-christmas-red-light to-christmas-red text-white px-4 py-3 rounded-2xl font-bold shadow-2xl shadow-christmas-red/50 transform rotate-6">
                       <div className="text-center">
                         <div className="text-xs font-semibold uppercase tracking-wider">
                           SAVE
                         </div>
                         <div className="text-2xl font-black leading-none">
-                          ${product.discount}
+                          $????
                         </div>
                       </div>
                       {/* Shine effect */}
@@ -134,7 +138,7 @@ export function ChristmasProductOffers() {
                     </p>
                   </div>
 
-                  {/* Price */}
+                  {/* Price - 活动结束后模糊处理 */}
                   <div
                     className="mb-6"
                     itemProp="offers"
@@ -151,11 +155,25 @@ export function ChristmasProductOffers() {
                       content="https://schema.org/InStock"
                     />
                     <div className="flex items-baseline gap-3">
-                      <span className="text-4xl sm:text-5xl font-bold text-gradient-christmas">
-                        ${product.discountedPrice.toLocaleString()}
+                      <span
+                        className="text-4xl sm:text-5xl font-bold text-gradient-christmas select-none"
+                        style={{
+                          filter: "blur(12px)",
+                          userSelect: "none",
+                          WebkitUserSelect: "none",
+                        }}
+                      >
+                        $?,???
                       </span>
-                      <span className="text-xl sm:text-2xl text-gray-500 line-through">
-                        ${product.originalPrice.toLocaleString()}
+                      <span
+                        className="text-xl sm:text-2xl text-gray-500 line-through select-none"
+                        style={{
+                          filter: "blur(12px)",
+                          userSelect: "none",
+                          WebkitUserSelect: "none",
+                        }}
+                      >
+                        $?,???
                       </span>
                     </div>
                   </div>
@@ -239,31 +257,8 @@ export function ChristmasProductOffers() {
                     </button>
                   </div>
 
-                  {/* CTA buttons */}
+                  {/* CTA buttons - 活动结束后只保留 Contact Us */}
                   <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-6">
-                    <a
-                      href={product.buyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={() => {
-                        trackProductBuyClick(
-                          product.id,
-                          product.name,
-                          product.discountedPrice,
-                          product.buyUrl
-                        );
-                        trackFacebookInitiateCheckout(
-                          product.name,
-                          [product.id],
-                          product.discountedPrice,
-                          CURRENCY_USD
-                        );
-                      }}
-                      className="flex-1 btn-christmas-primary flex items-center justify-center gap-2 px-4 sm:px-6 py-3 sm:py-4 min-h-[44px]"
-                    >
-                      <Icon icon="lucide:shopping-cart" className="w-5 h-5" />
-                      Buy Now
-                    </a>
                     <a
                       href="#contact"
                       title={`Contact us about ${product.name}`}
@@ -274,7 +269,7 @@ export function ChristmasProductOffers() {
                           product.discountedPrice
                         )
                       }
-                      className="flex-1 btn-christmas-secondary flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 min-h-[44px]"
+                      className="flex-1 btn-christmas-primary flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 min-h-[44px]"
                     >
                       Contact Us
                     </a>

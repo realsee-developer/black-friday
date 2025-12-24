@@ -137,20 +137,20 @@ export function ChristmasHeroSection({ className }: ChristmasHeroSectionProps) {
       <div className="absolute inset-0 flex justify-center items-center">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-8 sm:py-12 md:py-16">
           <div className="flex flex-col items-center sm:items-start justify-start text-center sm:text-left space-y-5 sm:space-y-4 md:space-y-5 max-w-6xl mx-auto sm:mx-0 sm:max-w-md md:max-w-lg lg:max-w-2xl w-full">
-            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-christmas-red/20 via-[#ffd700]/10 to-christmas-red/20 border-2 border-[#ffd700]/40 backdrop-blur-md pulse-badge shadow-lg shadow-christmas-red/20">
-              <span className="text-white text-sm font-bold tracking-wide uppercase">
-                {CHRISTMAS_HERO_CONFIG.subtitle}
-              </span>
-            </div>
+            {/* 只在 subtitle 非空时渲染 badge */}
+            {CHRISTMAS_HERO_CONFIG.subtitle && (
+              <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-gradient-to-r from-christmas-red/20 via-[#ffd700]/10 to-christmas-red/20 border-2 border-[#ffd700]/40 backdrop-blur-md pulse-badge shadow-lg shadow-christmas-red/20">
+                <span className="text-white text-sm font-bold tracking-wide uppercase">
+                  {CHRISTMAS_HERO_CONFIG.subtitle}
+                </span>
+              </div>
+            )}
 
-            {/* Main title */}
+            {/* Main title - 简化为单一样式 */}
             <div className="space-y-4 sm:space-y-3 md:space-y-4">
               <h1 className="text-4xl sm:text-3xl md:text-4xl lg:text-6xl xl:text-7xl font-extrabold leading-tight tracking-tight">
-                <span className="text-white drop-shadow-[0_2px_15px_rgba(255,255,255,0.3)]">
-                  {CHRISTMAS_HERO_CONFIG.title.split(" ").slice(0, 2).join(" ")}
-                </span>{" "}
                 <span className="text-gradient-christmas drop-shadow-[0_2px_20px_rgba(212,168,83,0.5)]">
-                  {CHRISTMAS_HERO_CONFIG.title.split(" ").slice(2).join(" ")}
+                  {CHRISTMAS_HERO_CONFIG.title}
                 </span>
               </h1>
 

@@ -36,7 +36,7 @@ export const CHRISTMAS_PRODUCTS: ProductSKU[] = [
     discount: 1225,
     discountPercentage: 19,
     featured: true,
-    image: "/assets/christmas/products/galois-premium-bundle.jpg",
+    image: "/assets/christmas/products/galois-premium-bundle-ended.jpg",
     buyUrl: "https://home.realsee.ai/en/store-item/1643646673",
     availableFrom: new Date("2025-12-17T00:00:00-05:00"),
     whatsIncluded: [
@@ -86,7 +86,7 @@ export const CHRISTMAS_PRODUCTS: ProductSKU[] = [
     discount: 700,
     discountPercentage: 12,
     featured: false,
-    image: "/assets/christmas/products/galois-standard-kit.jpg",
+    image: "/assets/christmas/products/galois-standard-kit-ended.jpg",
     buyUrl: "https://home.realsee.ai/en/store-item/1643646648",
     availableFrom: new Date("2025-12-17T00:00:00-05:00"),
     whatsIncluded: [
@@ -277,15 +277,14 @@ export const CHRISTMAS_SHIPPING_POINTS: ShippingPoint[] = [
  * Christmas Hero Section 配置
  */
 export const CHRISTMAS_HERO_CONFIG = {
-  title: "Galois 3D LiDAR Camera Christmas Promotion",
-  subtitle: "Dec 17th - Dec 23rd, 2025 | Worldwide Shipping",
-  description: "Experience professional 3D scanning with up to $1225 OFF",
+  title: "Our Christmas Promotion Has Ended",
+  subtitle: "", // 活动已结束，移除时间标签
+  description: "If you want more information, please click the button below",
   backgroundImages: {
     basePath: "/assets/christmas/hero/banner",
   },
   ctaButtons: [
-    { label: "Shop Now", href: "#offers", primary: true },
-    { label: "Contact Us", href: "#contact", primary: false },
+    { label: "Contact Us", href: "#contact", primary: true },
   ],
 };
 
