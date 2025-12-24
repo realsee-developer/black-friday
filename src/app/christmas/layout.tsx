@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
 import { buildSEOImageUrl } from "@/lib/seo-utils";
 
-// 使用 CDN 生成小尺寸 4:3 比例的 og:image (800x600)
+// 使用 CDN 生成小尺寸 4:3 比例的 og:image (800x600) - 活动结束图片
 const ogImageUrl = buildSEOImageUrl(
-  "/assets/christmas/products/galois-premium-bundle.jpg",
+  "/assets/christmas/products/galois-premium-bundle-ended.jpg",
   { width: 800, quality: 85 }
 );
 
 export const metadata: Metadata = {
   title:
-    "Christmas Sale 2025 - Galois 3D LiDAR Camera | Up to $1225 OFF | Realsee",
+    "Christmas Sale 2025 Has Ended - Realsee Galois 3D LiDAR Camera | Contact Us",
   description:
-    "Dec 17-23, 2025. Experience professional 3D scanning with Realsee Galois. Premium Bundle $5199, Standard Kit $4799. Worldwide shipping.",
+    "Our Christmas 2025 event has ended. Thank you for your interest. For more information about Realsee Galois 3D LiDAR Camera products, please contact us.",
   keywords: [
     "Galois",
     "3D LiDAR Camera",
@@ -23,32 +23,32 @@ export const metadata: Metadata = {
     "Professional Camera",
   ],
   openGraph: {
-    title: "Galois 3D LiDAR Camera Christmas Promotion",
+    title: "Christmas Sale 2025 Has Ended - Realsee Galois 3D LiDAR Camera",
     description:
-      "Experience professional 3D scanning with up to $1225 OFF. Dec 17-23, 2025.",
+      "Our Christmas 2025 event has ended. Thank you for your interest. Contact us for more information.",
     type: "website",
     images: [
       {
         url: ogImageUrl,
         width: 800,
         height: 600,
-        alt: "Galois Premium Bundle - Christmas Special Offer",
+        alt: "Galois Premium Bundle - Christmas Sale Ended",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Galois 3D LiDAR Camera Christmas Promotion",
+    title: "Christmas Sale 2025 Has Ended - Realsee Galois 3D LiDAR Camera",
     description:
-      "Experience professional 3D scanning with up to $1225 OFF. Dec 17-23, 2025.",
+      "Our Christmas 2025 event has ended. Thank you for your interest. Contact us for more information.",
     images: [ogImageUrl],
   },
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
     googleBot: {
-      index: true,
-      follow: true,
+      index: false,
+      follow: false,
     },
   },
   alternates: {
