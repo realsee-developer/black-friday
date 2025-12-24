@@ -1128,7 +1128,32 @@ a,
   animation-play-state: paused;
 }
 
-/* Professionals marquee animation */
+/* Professionals paginated carousel animation */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.professionals-carousel-page {
+  animation: fadeIn 400ms ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Professionals marquee animation (legacy - kept for fallback) */
 @keyframes marquee {
   0% {
     transform: translateX(0%);
