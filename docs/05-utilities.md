@@ -973,7 +973,7 @@ export const TOUR_CASES: TourCase[] = [
   { id: '1', title: 'Luxury Residential', category: 'Residential', url: 'https://realsee.ai/v4OOR4qm', image: '/assets/tours/luxury-residential.jpg' },
   { id: '2', title: 'Retail Space', category: 'Retail', url: 'https://realsee.ai/jmxxR7qV', image: '/assets/tours/retail.jpg' },
   { id: '3', title: 'Restaurant', category: 'Hospitality', url: 'https://realsee.ai/Ae44XBBg', image: '/assets/tours/restaurant.jpg' },
-  { id: '4', title: 'Museum', category: 'Cultural', url: 'https://realsee.ai/8VRR9e8a', image: '/assets/tours/museum.jpg' },
+  { id: '4', title: 'Museum', category: 'Cultural', url: 'https://realsee.ai/m9aaB57r', image: '/assets/tours/museum.jpg' },
   { id: '5', title: 'Aerial 3D', category: 'Outdoor', url: 'https://realsee.ai/GjVV2lEO', image: '/assets/tours/aerial.jpg' },
   { id: '6', title: 'Industrial', category: 'Industrial', url: 'https://realsee.ai/gL99yxrL', image: '/assets/tours/industrial.jpg' },
   { id: '7', title: 'Construction', category: 'Construction', url: 'https://realsee.ai/p8EEaW6z', image: '/assets/tours/construction.jpg' },
