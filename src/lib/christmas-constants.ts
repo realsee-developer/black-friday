@@ -135,7 +135,7 @@ export const CHRISTMAS_TOUR_CASES: TourCase[] = [
     id: "4",
     title: "Museum",
     category: "Cultural",
-    url: "https://realsee.ai/8VRR9e8a",
+    url: "https://realsee.ai/m9aaB57r",
     image: "/assets/tours/galois-3d-tour-museum.jpg",
   },
   {
