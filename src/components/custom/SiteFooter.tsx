@@ -324,7 +324,7 @@ export function SiteFooter({ theme = "black-friday" }: SiteFooterProps) {
                     {
                       icon: "mdi:whatsapp",
                       label: "WhatsApp",
-                      link: "https://wa.me/message/CGR6XJOODRABC1",
+                      link: "https://wa.me/message/T6HLYUYBCQABB1",
                     },
                     {
                       icon: "simple-icons:x",
